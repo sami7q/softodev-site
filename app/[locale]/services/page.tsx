@@ -76,19 +76,37 @@ export async function generateMetadata({
 
   const title =
     locale === "ar"
-      ? "خدمات SoftoDev | صفحات هبوط، متاجر إلكترونية، وأنظمة إدارة"
+      ? "خدمات SoftoDev | برمجة صفحات هبوط، متاجر إلكترونية، وأنظمة إدارة"
       : "SoftoDev Services | Landing Pages, E-commerce & Management Systems";
 
   const description =
     locale === "ar"
-      ? "استعرض خدمات SoftoDev في برمجة صفحات الهبوط، المتاجر الإلكترونية، وأنظمة إدارة الشركات والعيادات المخصصة لسوق الخليج والعراق."
-      : "Explore SoftoDev services including landing pages, e-commerce stores, and custom management systems for the GCC and Iraq market.";
+      ? "خدمات برمجة مواقع وصفحات هبوط، متاجر إلكترونية، وأنظمة إدارة مخصصة لسوق الخليج والعراق، مع تركيز على السرعة وتجربة المستخدم."
+      : "Web development services for landing pages, e-commerce stores and custom management systems for the GCC and Iraq, focused on speed and UX.";
+
+  const keywords =
+    locale === "ar"
+      ? [
+          "خدمات برمجة مواقع",
+          "برمجة صفحة هبوط",
+          "برمجة متجر إلكتروني",
+          "نظام إدارة عيادات",
+          "تطوير مواقع في الخليج",
+          "تطوير مواقع في العراق",
+        ]
+      : [
+          "web development GCC",
+          "landing page development",
+          "ecommerce store development",
+          "custom management systems",
+        ];
 
   const url = getCanonicalUrl(locale, "/services");
 
   return {
     title,
     description,
+    keywords,
     alternates: {
       canonical: url,
     },

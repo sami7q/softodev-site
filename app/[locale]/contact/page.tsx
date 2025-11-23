@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import type { Locale } from "@/lib/i18n/config";
 import { getCanonicalUrl } from "@/lib/seo";
 import { Container } from "@/components/layout/container";
+import { ContactForm } from "@/components/contact/contact-form";
 
 export async function generateMetadata({
   params,
@@ -63,109 +64,8 @@ export default async function ContactPage({
 
         {/* Layout: form + contact info */}
         <div className="grid gap-6 md:grid-cols-[minmax(0,1.4fr)_minmax(0,1.1fr)]">
-          {/* Form (no JS, no onSubmit) */}
-          <form
-            action="#"
-            method="post"
-            className="rounded-3xl border border-softodev-border/70 bg-softodev-surface/95 p-4 text-sm text-softodev-text"
-          >
-            <div className="grid gap-3 md:grid-cols-2">
-              <div className={align}>
-                <label className="mb-1 block text-xs font-semibold text-softodev-text">
-                  {isArabic ? "الاسم الكامل" : "Full name"}
-                </label>
-                <input
-                  name="name"
-                  type="text"
-                  className="w-full rounded-2xl border border-softodev-border/80 bg-gray-50 px-3 py-2 text-xs outline-none ring-0 focus:border-softodev-primary focus:bg-white"
-                  placeholder={isArabic ? "مثال: أحمد محمد" : "e.g. Ahmed Mohammed"}
-                />
-              </div>
-              <div className={align}>
-                <label className="mb-1 block text-xs font-semibold text-softodev-text">
-                  {isArabic ? "البريد الإلكتروني" : "Email"}
-                </label>
-                <input
-                  name="email"
-                  type="email"
-                  className="w-full rounded-2xl border border-softodev-border/80 bg-gray-50 px-3 py-2 text-xs outline-none ring-0 focus:border-softodev-primary focus:bg-white"
-                  placeholder="you@example.com"
-                />
-              </div>
-            </div>
-
-            <div className={`mt-3 ${align}`}>
-              <label className="mb-1 block text-xs font-semibold text-softodev-text">
-                {isArabic ? "رقم الواتساب (اختياري)" : "WhatsApp number (optional)"}
-              </label>
-              <input
-                name="whatsapp"
-                type="tel"
-                className="w-full rounded-2xl border border-softodev-border/80 bg-gray-50 px-3 py-2 text-xs outline-none ring-0 focus:border-softodev-primary focus:bg-white"
-                placeholder={isArabic ? "+966..." : "+966... or +90..."}
-              />
-            </div>
-
-            <div className={`mt-3 ${align}`}>
-              <label className="mb-1 block text-xs font-semibold text-softodev-text">
-                {isArabic ? "نوع المشروع" : "Project type"}
-              </label>
-              <select
-                name="projectType"
-                className="w-full rounded-2xl border border-softodev-border/80 bg-gray-50 px-3 py-2 text-xs outline-none ring-0 focus:border-softodev-primary focus:bg-white"
-              >
-                <option value="landing">
-                  {isArabic ? "صفحة هبوط" : "Landing page"}
-                </option>
-                <option value="store">
-                  {isArabic ? "متجر إلكتروني" : "Online store"}
-                </option>
-                <option value="system">
-                  {isArabic ? "نظام إدارة" : "Management system"}
-                </option>
-                <option value="other">
-                  {isArabic ? "مشروع آخر" : "Other project"}
-                </option>
-              </select>
-            </div>
-
-            <div className={`mt-3 ${align}`}>
-              <label className="mb-1 block text-xs font-semibold text-softodev-text">
-                {isArabic ? "وصف مختصر للمشروع" : "Short project description"}
-              </label>
-              <textarea
-                name="message"
-                rows={4}
-                className="w-full rounded-2xl border border-softodev-border/80 bg-gray-50 px-3 py-2 text-xs outline-none ring-0 focus:border-softodev-primary focus:bg-white"
-                placeholder={
-                  isArabic
-                    ? "اذكر نوع المشروع، عدد الصفحات تقريباً، وهل لديك أمثلة لمواقع تعجبك..."
-                    : "Include project type, approximate number of pages, and maybe links to sites you like…"
-                }
-              />
-            </div>
-
-            <div className={`mt-4 flex gap-3 text-xs ${isArabic ? "justify-end" : "justify-start"}`}>
-              <button
-                type="submit"
-                className="inline-flex items-center rounded-full bg-softodev-primary px-5 py-2 font-semibold text-white shadow-soft hover:bg-blue-700"
-              >
-                {isArabic ? "إرسال الطلب" : "Send request"}
-              </button>
-              <a
-                href="https://wa.me/905015954826"
-                className="inline-flex items-center rounded-full border border-softodev-border bg-softodev-surface px-5 py-2 font-semibold text-softodev-text hover:bg-softodev-primarySoft/70"
-              >
-                {isArabic ? "أرسل تفاصيلك عبر الواتساب" : "Send details via WhatsApp"}
-              </a>
-            </div>
-
-            <p className={`mt-3 text-[11px] text-softodev-muted ${align}`}>
-              {isArabic
-                ? "لن نستخدم بياناتك في أي شيء خارج التواصل حول مشروعك."
-                : "We will only use your details to communicate about your project."}
-            </p>
-          </form>
+          {/* ✅ Client form that sends to WhatsApp */}
+          <ContactForm locale={locale} />
 
           {/* Contact info / quick options */}
           <div className={`space-y-4 text-sm text-softodev-muted ${align}`}>
@@ -179,6 +79,8 @@ export default async function ContactPage({
                   <a
                     href="https://wa.me/905015954826"
                     className="font-semibold text-softodev-primary hover:underline"
+                    target="_blank"
+                    rel="noreferrer"
                   >
                     +90 501 595 4826
                   </a>

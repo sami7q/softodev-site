@@ -1,33 +1,51 @@
 // app/sitemap.ts
 import type { MetadataRoute } from "next";
-import { siteUrl } from "@/lib/seo";
-import { locales, type Locale } from "@/lib/i18n/config";
-import { getAllServiceSlugs } from "@/lib/services";
+import { locales } from "@/lib/i18n/config";
+import { getCanonicalUrl } from "@/lib/seo";
+
+// نفس السلوغز اللي نستخدمها في صفحات الخدمات
+const serviceSlugs = ["landing-pages", "ecommerce-stores", "management-systems"] as const;
+
+// نفس السلوغز اللي نستخدمها في البورتفوليو
+const projectSlugs = ["clinic-system", "landing-campaign", "store-launch"] as const;
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const routes = ["", "/services", "/pricing", "/contact", "/portfolio", "/about"];
+  const now = new Date();
 
-  const serviceSlugs = getAllServiceSlugs();
+  // الصفحات الثابتة الأساسية (بدون locale)
+  const staticPaths = ["/", "/services", "/pricing", "/portfolio", "/about", "/contact"];
 
   const entries: MetadataRoute.Sitemap = [];
 
-  const now = new Date();
-
-  function add(path: string, locale: Locale) {
-    entries.push({
-      url: new URL(`/${locale}${path}`, siteUrl).toString(),
-      lastModified: now,
-      changeFrequency: "weekly",
-      priority: path === "" ? 1 : 0.7,
-    });
-  }
-
   for (const locale of locales) {
-    for (const route of routes) {
-      add(route || "/", locale);
+    // الصفحات الثابتة
+    for (const path of staticPaths) {
+      entries.push({
+        url: getCanonicalUrl(locale, path),
+        lastModified: now,
+        changeFrequency: "weekly",
+        priority: path === "/" ? 1 : 0.8,
+      });
     }
+
+    // صفحات الخدمات (تفاصيل)
     for (const slug of serviceSlugs) {
-      add(`/services/${slug}`, locale);
+      entries.push({
+        url: getCanonicalUrl(locale, `/services/${slug}`),
+        lastModified: now,
+        changeFrequency: "monthly",
+        priority: 0.85,
+      });
+    }
+
+    // صفحات البورتفوليو (تفاصيل)
+    for (const slug of projectSlugs) {
+      entries.push({
+        url: getCanonicalUrl(locale, `/portfolio/${slug}`),
+        lastModified: now,
+        changeFrequency: "monthly",
+        priority: 0.7,
+      });
     }
   }
 

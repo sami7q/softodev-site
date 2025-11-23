@@ -1,23 +1,34 @@
 // lib/seo.ts
 import type { Locale } from "./i18n/config";
 
-export const siteUrl = "https://softodev.com"; // غيّرها للدومين النهائي
+// الأساس: نقرأ من البيئة، ولو مش موجود نطيح على الدومين الرسمي
+const defaultBaseUrl =
+  process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.softodev.net";
 
-export function getLocalePath(locale: Locale, path: string) {
+/**
+ * يرجع الـ base URL بدون / في النهاية
+ * مثال: https://www.softodev.net
+ */
+export function getBaseUrl(): string {
+  return defaultBaseUrl.replace(/\/+$/, "");
+}
+
+/**
+ * متغيّر siteUrl قديم تستخدمه layout.tsx للـ metadataBase
+ */
+export const siteUrl = getBaseUrl();
+
+/**
+ * يبني canonical URL مثل:
+ * https://www.softodev.net/ar/services/landing-pages
+ */
+export function getCanonicalUrl(locale: Locale, path: string): string {
+  const base = getBaseUrl();
+
   const cleanPath = path.startsWith("/") ? path : `/${path}`;
-  return `/${locale}${cleanPath === "/" ? "" : cleanPath}`;
-}
 
-export function getCanonicalUrl(locale: Locale, path: string) {
-  const url = new URL(getLocalePath(locale, path), siteUrl);
-  return url.toString();
-}
+  // نضيف /ar أو /en في البداية
+  const localizedPath = `/${locale}${cleanPath === "/" ? "" : cleanPath}`;
 
-export function getLocalizedTitle(locale: Locale, base: string) {
-  if (locale === "ar") return base;
-  return base;
-}
-
-export function getLocalizedDesc(locale: Locale, baseAr: string, baseEn: string) {
-  return locale === "ar" ? baseAr : baseEn;
+  return `${base}${localizedPath}`;
 }
