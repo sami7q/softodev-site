@@ -1,6 +1,7 @@
 // components/layout/site-footer.tsx
 import Link from "next/link";
 import type { Locale } from "@/lib/i18n/config";
+import { Container } from "./container";
 
 type SiteFooterProps = {
   locale: Locale;
@@ -10,103 +11,73 @@ export function SiteFooter({ locale }: SiteFooterProps) {
   const isArabic = locale === "ar";
 
   return (
-    <footer
-      style={{
-        borderTop: "1px solid #e5e7eb",
-        marginTop: "3rem",
-        backgroundColor: "#f9fafb",
-      }}
-    >
-      <div
-        style={{
-          maxWidth: 1120,
-          margin: "0 auto",
-          padding: "1.75rem 1.25rem",
-          display: "grid",
-          gap: "1.5rem",
-          gridTemplateColumns: "minmax(0, 2fr) minmax(0, 1.5fr)",
-          fontSize: "0.85rem",
-        }}
-      >
-        {/* Left: About snippet */}
+    <footer className="mt-8 border-t border-softodev-border bg-softodev-surface">
+      <Container className="grid gap-6 py-6 md:grid-cols-[minmax(0,2fr)_minmax(0,1.5fr)] text-sm">
+        {/* About */}
         <div>
-          <div
-            style={{
-              fontSize: "0.95rem",
-              fontWeight: 700,
-              marginBottom: "0.4rem",
-            }}
-          >
+          <div className="text-sm font-semibold text-softodev-text">
             SoftoDev
           </div>
-          <p
-            style={{
-              color: "#6b7280",
-              lineHeight: 1.7,
-              maxWidth: 360,
-            }}
-          >
+          <p className="mt-2 max-w-sm text-softodev-muted">
             {isArabic
               ? "SoftoDev تبني مواقع، متاجر إلكترونية وأنظمة إدارة موجهة لسوق الخليج والعراق مع تركيز كبير على الأداء وتجربة المستخدم."
               : "SoftoDev builds websites, e-commerce stores, and management systems tailored for the GCC and Iraq market with a strong focus on performance and UX."}
           </p>
         </div>
 
-        {/* Right: Links + contact */}
+        {/* Links + contact */}
         <div
-          style={{
-            display: "grid",
-            gap: "0.75rem",
-            justifyContent: isArabic ? "flex-end" : "flex-start",
-            textAlign: isArabic ? "right" : "left",
-          }}
+          className={`flex flex-col items-start gap-3 ${
+            isArabic ? "md:items-end md:text-right" : "md:items-start"
+          }`}
         >
           <div
-            style={{
-              display: "flex",
-              gap: "0.75rem",
-              flexWrap: "wrap",
-              justifyContent: isArabic ? "flex-end" : "flex-start",
-            }}
+            className={`flex flex-wrap gap-3 text-softodev-muted ${
+              isArabic ? "flex-row-reverse" : ""
+            }`}
           >
             <Link
               href={`/${locale}/services`}
-              style={{ textDecoration: "none", color: "#4b5563" }}
+              className="hover:text-softodev-text"
             >
               {isArabic ? "الخدمات" : "Services"}
             </Link>
             <Link
               href={`/${locale}/pricing`}
-              style={{ textDecoration: "none", color: "#4b5563" }}
+              className="hover:text-softodev-text"
             >
               {isArabic ? "الأسعار" : "Pricing"}
             </Link>
             <Link
               href={`/${locale}/portfolio`}
-              style={{ textDecoration: "none", color: "#4b5563" }}
+              className="hover:text-softodev-text"
             >
               {isArabic ? "الأعمال" : "Portfolio"}
             </Link>
             <Link
               href={`/${locale}/about`}
-              style={{ textDecoration: "none", color: "#4b5563" }}
+              className="hover:text-softodev-text"
             >
               {isArabic ? "عن الشركة" : "About"}
             </Link>
             <Link
               href={`/${locale}/contact`}
-              style={{ textDecoration: "none", color: "#4b5563" }}
+              className="hover:text-softodev-text"
             >
               {isArabic ? "تواصل" : "Contact"}
             </Link>
           </div>
 
-          <div style={{ color: "#6b7280" }}>
+          <div
+            className={`space-y-1 text-xs text-softodev-muted ${
+              isArabic ? "text-right" : "text-left"
+            }`}
+          >
             <div>
               {isArabic ? "واتساب:" : "WhatsApp:"}{" "}
               <a
                 href="https://wa.me/905015954826"
-                style={{ color: "#2563eb", textDecoration: "none" }}
+                className="font-medium text-softodev-primary hover:underline"
               >
                 +90 501 595 4826
               </a>
@@ -115,24 +86,16 @@ export function SiteFooter({ locale }: SiteFooterProps) {
               {isArabic ? "البريد الإلكتروني:" : "Email:"}{" "}
               <a
                 href="mailto:sami22eng@gmail.com"
-                style={{ color: "#2563eb", textDecoration: "none" }}
+                className="font-medium text-softodev-primary hover:underline"
               >
                 sami22eng@gmail.com
               </a>
             </div>
           </div>
         </div>
-      </div>
+      </Container>
 
-      <div
-        style={{
-          borderTop: "1px solid #e5e7eb",
-          padding: "0.75rem 1.25rem",
-          fontSize: "0.75rem",
-          color: "#9ca3af",
-          textAlign: "center",
-        }}
-      >
+      <div className="border-t border-softodev-border bg-softodev-bg py-3 text-center text-xs text-softodev-muted">
         © {new Date().getFullYear()} SoftoDev.{" "}
         {isArabic ? "جميع الحقوق محفوظة." : "All rights reserved."}
       </div>

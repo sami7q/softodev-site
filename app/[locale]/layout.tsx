@@ -15,7 +15,6 @@ export default async function LocaleLayout({
   params,
 }: {
   children: ReactNode;
-  // Next.js 16: params is a Promise
   params: Promise<{ locale: Locale }>;
 }) {
   const { locale } = await params;
@@ -30,25 +29,18 @@ export default async function LocaleLayout({
     <div
       dir={dir}
       data-locale={locale}
-      style={{
-        minHeight: "100vh",
-        display: "flex",
-        flexDirection: "column",
-        backgroundColor: "#f3f4f6",
-        color: "#0f172a",
-        fontFamily: "system-ui, -apple-system, BlinkMacSystemFont, sans-serif",
-      }}
+      className="min-h-screen bg-softodev-bg text-softodev-text"
     >
-      <SiteHeader locale={locale} />
-      <main style={{ flex: 1 }}>{children}</main>
-      <SiteFooter locale={locale} />
-
-      {/* Floating WhatsApp + Call */}
-      <FloatingActions
-        locale={locale}
-        whatsappLink="https://wa.me/905015954826"
-        phone="+905015954826"
-      />
+      <div className="flex min-h-screen flex-col">
+        <SiteHeader locale={locale} />
+        <main className="flex-1">{children}</main>
+        <SiteFooter locale={locale} />
+        <FloatingActions
+          locale={locale}
+          whatsappNumber="+905015954826"
+          phoneNumber="+905015954826"
+        />
+      </div>
     </div>
   );
 }

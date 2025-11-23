@@ -1,8 +1,8 @@
 // app/[locale]/contact/page.tsx
 import type { Metadata } from "next";
-import { Container } from "@/components/layout/container";
 import type { Locale } from "@/lib/i18n/config";
 import { getCanonicalUrl } from "@/lib/seo";
+import { Container } from "@/components/layout/container";
 
 export async function generateMetadata({
   params,
@@ -13,31 +13,22 @@ export async function generateMetadata({
 
   const title =
     locale === "ar"
-      ? "تواصل مع SoftoDev | استشارة مجانية لمشروعك"
-      : "Contact SoftoDev | Free Project Consultation";
+      ? "تواصل مع SoftoDev | طلب عرض سعر أو استشارة"
+      : "Contact SoftoDev | Request a quote or consultation";
 
   const description =
     locale === "ar"
-      ? "تواصل مع SoftoDev لمناقشة مشروعك البرمجي أو متجرك الإلكتروني أو نظام الإدارة الخاص بشركتك. استشارة أولية مجانية."
-      : "Contact SoftoDev to discuss your website, e-commerce store, or management system. Initial consultation is free.";
+      ? "تواصل معنا لطلب عرض سعر لموقع، متجر إلكتروني، أو نظام إدارة، أو لحجز استشارة أولية."
+      : "Get in touch to request a quote for a website, store or management system, or to book an initial consultation.";
 
   const url = getCanonicalUrl(locale, "/contact");
 
   return {
     title,
     description,
-    alternates: {
-      canonical: url,
-    },
-    openGraph: {
-      title,
-      description,
-      url,
-    },
-    twitter: {
-      title,
-      description,
-    },
+    alternates: { canonical: url },
+    openGraph: { title, description, url },
+    twitter: { title, description },
   };
 }
 
@@ -48,384 +39,171 @@ export default async function ContactPage({
 }) {
   const { locale } = await params;
   const isArabic = locale === "ar";
-
-  const headingAlign = isArabic ? "right" : "left";
+  const align = isArabic ? "text-right" : "text-left";
 
   return (
-    <section style={{ padding: "4rem 0" }}>
-      <Container>
+    <section className="py-10 md:py-14">
+      <Container className="space-y-8">
         {/* Header */}
-        <div
-          style={{
-            maxWidth: 720,
-            margin: "0 auto 2.5rem auto",
-            textAlign: headingAlign as "left" | "right" | "center",
-          }}
-        >
-          <p
-            style={{
-              fontSize: "0.75rem",
-              textTransform: "uppercase",
-              letterSpacing: "0.2em",
-              color: "#6b7280",
-              marginBottom: "0.75rem",
-            }}
-          >
-            {isArabic ? "تواصل معنا" : "Contact"}
+        <div className={`space-y-3 ${align}`}>
+          <p className="text-[11px] font-semibold uppercase tracking-[0.25em] text-softodev-muted">
+            {isArabic ? "تواصل" : "Contact"}
           </p>
-          <h1
-            style={{
-              fontSize: "2rem",
-              fontWeight: 600,
-              marginBottom: "0.75rem",
-            }}
-          >
+          <h1 className="text-2xl font-semibold tracking-tight text-softodev-text md:text-3xl">
             {isArabic
-              ? "لنناقش فكرة مشروعك أو احتياج شركتك"
-              : "Let’s talk about your project or company needs"}
+              ? "لنبدأ في فهم مشروعك وخيارات التنفيذ المناسبة"
+              : "Let’s understand your project and pick the right approach."}
           </h1>
-          <p
-            style={{
-              fontSize: "0.95rem",
-              lineHeight: 1.7,
-              color: "#4b5563",
-            }}
-          >
+          <p className="max-w-2xl text-sm leading-relaxed text-softodev-muted md:text-[15px]">
             {isArabic
-              ? "املأ النموذج التالي أو تواصل مباشرة عبر الواتساب. سنرد عليك خلال أقل من 24 ساعة بخطة عمل مبدئية وسعر تقريبي."
-              : "Fill out the form below or contact us directly via WhatsApp. We’ll get back to you within 24 hours with an initial plan and estimated pricing."}
+              ? "يمكنك التواصل عبر الفورم أو بشكل مباشر عبر الواتساب. سنعود إليك عادة خلال 24 ساعة عمل."
+              : "You can use the form or contact us directly via WhatsApp. We usually respond within 24 business hours."}
           </p>
         </div>
 
-        {/* Content: form + contact info */}
-        <div
-          style={{
-            display: "grid",
-            gap: "2rem",
-            gridTemplateColumns: "minmax(0, 2.2fr) minmax(0, 1.3fr)",
-          }}
-        >
-          {/* Form */}
-          <div
-            style={{
-              borderRadius: "1.25rem",
-              border: "1px solid #e5e7eb",
-              backgroundColor: "#ffffff",
-              padding: "1.75rem 1.5rem",
-              boxShadow: "0 14px 35px rgba(15, 23, 42, 0.06)",
-            }}
+        {/* Layout: form + contact info */}
+        <div className="grid gap-6 md:grid-cols-[minmax(0,1.4fr)_minmax(0,1.1fr)]">
+          {/* Form (no JS, no onSubmit) */}
+          <form
+            action="#"
+            method="post"
+            className="rounded-3xl border border-softodev-border/70 bg-softodev-surface/95 p-4 text-sm text-softodev-text"
           >
-            {/* لاحقاً نضيف Backend أو خدمة خارجية */}
-            <form
-              method="post"
-              action="#"
-              style={{
-                display: "grid",
-                gap: "1rem",
-              }}
-            >
-              {/* Name */}
-              <div>
-                <label
-                  style={{
-                    display: "block",
-                    fontSize: "0.85rem",
-                    fontWeight: 600,
-                    color: "#111827",
-                    marginBottom: "0.25rem",
-                    textAlign: headingAlign as "left" | "right" | "center",
-                  }}
-                >
+            <div className="grid gap-3 md:grid-cols-2">
+              <div className={align}>
+                <label className="mb-1 block text-xs font-semibold text-softodev-text">
                   {isArabic ? "الاسم الكامل" : "Full name"}
                 </label>
                 <input
-                  type="text"
                   name="name"
-                  placeholder={isArabic ? "اكتب اسمك هنا" : "Enter your name"}
-                  style={{
-                    width: "100%",
-                    padding: "0.6rem 0.8rem",
-                    borderRadius: "0.75rem",
-                    border: "1px solid #e5e7eb",
-                    fontSize: "0.9rem",
-                  }}
-                />
-              </div>
-
-              {/* WhatsApp / Phone */}
-              <div>
-                <label
-                  style={{
-                    display: "block",
-                    fontSize: "0.85rem",
-                    fontWeight: 600,
-                    color: "#111827",
-                    marginBottom: "0.25rem",
-                    textAlign: headingAlign as "left" | "right" | "center",
-                  }}
-                >
-                  {isArabic ? "رقم الواتساب" : "WhatsApp number"}
-                </label>
-                <input
-                  type="tel"
-                  name="whatsapp"
-                  placeholder={
-                    isArabic ? "مثال: +9665..." : "e.g. +9665..., +9715..."
-                  }
-                  style={{
-                    width: "100%",
-                    padding: "0.6rem 0.8rem",
-                    borderRadius: "0.75rem",
-                    border: "1px solid #e5e7eb",
-                    fontSize: "0.9rem",
-                  }}
-                />
-              </div>
-
-              {/* Project type */}
-              <div>
-                <label
-                  style={{
-                    display: "block",
-                    fontSize: "0.85rem",
-                    fontWeight: 600,
-                    color: "#111827",
-                    marginBottom: "0.25rem",
-                    textAlign: headingAlign as "left" | "right" | "center",
-                  }}
-                >
-                  {isArabic ? "نوع المشروع" : "Project type"}
-                </label>
-                <select
-                  name="projectType"
-                  style={{
-                    width: "100%",
-                    padding: "0.6rem 0.8rem",
-                    borderRadius: "0.75rem",
-                    border: "1px solid #e5e7eb",
-                    fontSize: "0.9rem",
-                    backgroundColor: "#ffffff",
-                  }}
-                >
-                  <option value="">
-                    {isArabic
-                      ? "اختر نوع المشروع"
-                      : "Select a project type"}
-                  </option>
-                  <option value="landing">
-                    {isArabic
-                      ? "صفحة هبوط / صفحة تعريفية"
-                      : "Landing page / simple website"}
-                  </option>
-                  <option value="store">
-                    {isArabic ? "متجر إلكتروني" : "E-commerce store"}
-                  </option>
-                  <option value="system">
-                    {isArabic ? "نظام إدارة مخصص" : "Custom management system"}
-                  </option>
-                  <option value="other">
-                    {isArabic ? "أخرى" : "Other"}
-                  </option>
-                </select>
-              </div>
-
-              {/* Budget */}
-              <div>
-                <label
-                  style={{
-                    display: "block",
-                    fontSize: "0.85rem",
-                    fontWeight: 600,
-                    color: "#111827",
-                    marginBottom: "0.25rem",
-                    textAlign: headingAlign as "left" | "right" | "center",
-                  }}
-                >
-                  {isArabic
-                    ? "الميزانية المتوقعة (اختياري)"
-                    : "Estimated budget (optional)"}
-                </label>
-                <input
                   type="text"
-                  name="budget"
-                  placeholder={
-                    isArabic
-                      ? "مثال: من 500$ إلى 2000$"
-                      : "e.g. from $500 to $2000"
-                  }
-                  style={{
-                    width: "100%",
-                    padding: "0.6rem 0.8rem",
-                    borderRadius: "0.75rem",
-                    border: "1px solid #e5e7eb",
-                    fontSize: "0.9rem",
-                  }}
+                  className="w-full rounded-2xl border border-softodev-border/80 bg-gray-50 px-3 py-2 text-xs outline-none ring-0 focus:border-softodev-primary focus:bg-white"
+                  placeholder={isArabic ? "مثال: أحمد محمد" : "e.g. Ahmed Mohammed"}
                 />
               </div>
-
-              {/* Message */}
-              <div>
-                <label
-                  style={{
-                    display: "block",
-                    fontSize: "0.85rem",
-                    fontWeight: 600,
-                    color: "#111827",
-                    marginBottom: "0.25rem",
-                    textAlign: headingAlign as "left" | "right" | "center",
-                  }}
-                >
-                  {isArabic ? "وصف المشروع" : "Project details"}
-                </label>
-                <textarea
-                  name="message"
-                  rows={4}
-                  placeholder={
-                    isArabic
-                      ? "صف فكرتك، نوع النشاط، وعدد الصفحات أو الميزات الأساسية التي تحتاجها..."
-                      : "Describe your idea, business type, and key pages or features you need..."
-                  }
-                  style={{
-                    width: "100%",
-                    padding: "0.6rem 0.8rem",
-                    borderRadius: "0.75rem",
-                    border: "1px solid #e5e7eb",
-                    fontSize: "0.9rem",
-                    resize: "vertical",
-                  }}
-                />
-              </div>
-
-              {/* Submit */}
-              <div
-                style={{
-                  marginTop: "0.5rem",
-                  display: "flex",
-                  justifyContent: isArabic ? "flex-end" : "flex-start",
-                }}
-              >
-                <button
-                  type="submit"
-                  style={{
-                    borderRadius: 9999,
-                    padding: "0.7rem 1.5rem",
-                    fontSize: "0.9rem",
-                    fontWeight: 600,
-                    color: "#ffffff",
-                    backgroundColor: "#111827",
-                    border: "none",
-                    cursor: "pointer",
-                  }}
-                >
-                  {isArabic ? "إرسال الطلب" : "Send request"}
-                </button>
-              </div>
-            </form>
-          </div>
-
-          {/* Contact info panel */}
-          <div
-            style={{
-              borderRadius: "1.25rem",
-              border: "1px solid #e5e7eb",
-              background:
-                "linear-gradient(135deg, #020617, #111827, #020617)",
-              color: "#e5e7eb",
-              padding: "1.75rem 1.5rem",
-            }}
-          >
-            <h2
-              style={{
-                fontSize: "1.1rem",
-                fontWeight: 600,
-                marginBottom: "0.6rem",
-                textAlign: headingAlign as "left" | "right" | "center",
-              }}
-            >
-              {isArabic
-                ? "معلومات التواصل المباشر"
-                : "Direct contact details"}
-            </h2>
-            <p
-              style={{
-                fontSize: "0.9rem",
-                lineHeight: 1.6,
-                marginBottom: "1rem",
-                textAlign: headingAlign as "left" | "right" | "center",
-              }}
-            >
-              {isArabic
-                ? "تستطيع التواصل مباشرة عبر الواتساب أو البريد الإلكتروني إذا كنت تفضّل ذلك على النموذج."
-                : "You can also reach out directly via WhatsApp or email if you prefer that over the form."}
-            </p>
-
-            <div
-              style={{
-                display: "grid",
-                gap: "0.75rem",
-                fontSize: "0.9rem",
-              }}
-            >
-              <div>
-                <div style={{ opacity: 0.8, marginBottom: "0.15rem" }}>
-                  {isArabic ? "واتساب" : "WhatsApp"}
-                </div>
-                <a
-                  href="https://wa.me/905015954826"
-                  style={{
-                    color: "#22c55e",
-                    textDecoration: "none",
-                    fontWeight: 600,
-                  }}
-                >
-                  +90 501 595 4826
-                </a>
-              </div>
-
-              <div>
-                <div style={{ opacity: 0.8, marginBottom: "0.15rem" }}>
-                  {isArabic ? "الهاتف" : "Phone"}
-                </div>
-                <a
-                  href="tel:+905015954826"
-                  style={{
-                    color: "#e5e7eb",
-                    textDecoration: "none",
-                    fontWeight: 600,
-                  }}
-                >
-                  +90 501 595 4826
-                </a>
-              </div>
-
-              <div>
-                <div style={{ opacity: 0.8, marginBottom: "0.15rem" }}>
+              <div className={align}>
+                <label className="mb-1 block text-xs font-semibold text-softodev-text">
                   {isArabic ? "البريد الإلكتروني" : "Email"}
-                </div>
-                <a
-                  href="mailto:sami22eng@gmail.com"
-                  style={{
-                    color: "#e5e7eb",
-                    textDecoration: "none",
-                    fontWeight: 600,
-                  }}
-                >
-                  sami22eng@gmail.com
-                </a>
+                </label>
+                <input
+                  name="email"
+                  type="email"
+                  className="w-full rounded-2xl border border-softodev-border/80 bg-gray-50 px-3 py-2 text-xs outline-none ring-0 focus:border-softodev-primary focus:bg-white"
+                  placeholder="you@example.com"
+                />
               </div>
             </div>
 
-            <div
-              style={{
-                marginTop: "1.25rem",
-                fontSize: "0.8rem",
-                opacity: 0.8,
-                textAlign: headingAlign as "left" | "right" | "center",
-              }}
-            >
+            <div className={`mt-3 ${align}`}>
+              <label className="mb-1 block text-xs font-semibold text-softodev-text">
+                {isArabic ? "رقم الواتساب (اختياري)" : "WhatsApp number (optional)"}
+              </label>
+              <input
+                name="whatsapp"
+                type="tel"
+                className="w-full rounded-2xl border border-softodev-border/80 bg-gray-50 px-3 py-2 text-xs outline-none ring-0 focus:border-softodev-primary focus:bg-white"
+                placeholder={isArabic ? "+966..." : "+966... or +90..."}
+              />
+            </div>
+
+            <div className={`mt-3 ${align}`}>
+              <label className="mb-1 block text-xs font-semibold text-softodev-text">
+                {isArabic ? "نوع المشروع" : "Project type"}
+              </label>
+              <select
+                name="projectType"
+                className="w-full rounded-2xl border border-softodev-border/80 bg-gray-50 px-3 py-2 text-xs outline-none ring-0 focus:border-softodev-primary focus:bg-white"
+              >
+                <option value="landing">
+                  {isArabic ? "صفحة هبوط" : "Landing page"}
+                </option>
+                <option value="store">
+                  {isArabic ? "متجر إلكتروني" : "Online store"}
+                </option>
+                <option value="system">
+                  {isArabic ? "نظام إدارة" : "Management system"}
+                </option>
+                <option value="other">
+                  {isArabic ? "مشروع آخر" : "Other project"}
+                </option>
+              </select>
+            </div>
+
+            <div className={`mt-3 ${align}`}>
+              <label className="mb-1 block text-xs font-semibold text-softodev-text">
+                {isArabic ? "وصف مختصر للمشروع" : "Short project description"}
+              </label>
+              <textarea
+                name="message"
+                rows={4}
+                className="w-full rounded-2xl border border-softodev-border/80 bg-gray-50 px-3 py-2 text-xs outline-none ring-0 focus:border-softodev-primary focus:bg-white"
+                placeholder={
+                  isArabic
+                    ? "اذكر نوع المشروع، عدد الصفحات تقريباً، وهل لديك أمثلة لمواقع تعجبك..."
+                    : "Include project type, approximate number of pages, and maybe links to sites you like…"
+                }
+              />
+            </div>
+
+            <div className={`mt-4 flex gap-3 text-xs ${isArabic ? "justify-end" : "justify-start"}`}>
+              <button
+                type="submit"
+                className="inline-flex items-center rounded-full bg-softodev-primary px-5 py-2 font-semibold text-white shadow-soft hover:bg-blue-700"
+              >
+                {isArabic ? "إرسال الطلب" : "Send request"}
+              </button>
+              <a
+                href="https://wa.me/905015954826"
+                className="inline-flex items-center rounded-full border border-softodev-border bg-softodev-surface px-5 py-2 font-semibold text-softodev-text hover:bg-softodev-primarySoft/70"
+              >
+                {isArabic ? "أرسل تفاصيلك عبر الواتساب" : "Send details via WhatsApp"}
+              </a>
+            </div>
+
+            <p className={`mt-3 text-[11px] text-softodev-muted ${align}`}>
               {isArabic
-                ? "نستهدف بشكل خاص السوق الخليجي (السعودية، الإمارات، قطر، الكويت، البحرين، عمان) بالإضافة إلى العراق."
-                : "We primarily serve the GCC market (Saudi Arabia, UAE, Qatar, Kuwait, Bahrain, Oman) and Iraq."}
+                ? "لن نستخدم بياناتك في أي شيء خارج التواصل حول مشروعك."
+                : "We will only use your details to communicate about your project."}
+            </p>
+          </form>
+
+          {/* Contact info / quick options */}
+          <div className={`space-y-4 text-sm text-softodev-muted ${align}`}>
+            <div className="rounded-3xl border border-softodev-border/70 bg-softodev-surface/95 p-4">
+              <h2 className="text-sm font-semibold text-softodev-text md:text-base">
+                {isArabic ? "تواصل مباشر" : "Direct contact"}
+              </h2>
+              <div className="mt-3 space-y-1 text-xs">
+                <div>
+                  {isArabic ? "واتساب:" : "WhatsApp:"}{" "}
+                  <a
+                    href="https://wa.me/905015954826"
+                    className="font-semibold text-softodev-primary hover:underline"
+                  >
+                    +90 501 595 4826
+                  </a>
+                </div>
+                <div>
+                  {isArabic ? "البريد الإلكتروني:" : "Email:"}{" "}
+                  <a
+                    href="mailto:sami22eng@gmail.com"
+                    className="font-semibold text-softodev-primary hover:underline"
+                  >
+                    sami22eng@gmail.com
+                  </a>
+                </div>
+              </div>
+              <p className="mt-3 text-[11px] text-softodev-muted">
+                {isArabic
+                  ? "إذا كنت تفضّل المحادثة السريعة، الواتساب يكون مناسباً لشرح فكرتك بشكل مبدئي."
+                  : "If you prefer a quick chat, WhatsApp is perfect for sharing your idea initially."}
+              </p>
+            </div>
+
+            <div className="rounded-3xl border border-dashed border-softodev-border/80 bg-softodev-surface/95 p-4 text-xs text-softodev-muted">
+              {isArabic
+                ? "كل مشروع يختلف في التفاصيل، لذلك، حتى لو لم تكن الصورة واضحة 100٪، لا مشكلة – أرسل ما يمكنك الآن ونتكلم في التفاصيل لاحقاً."
+                : "Every project is different, so even if you’re not 100% sure about the details, that’s okay — send what you can now and we’ll refine it together."}
             </div>
           </div>
         </div>

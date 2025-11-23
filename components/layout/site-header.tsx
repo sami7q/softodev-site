@@ -1,6 +1,7 @@
 // components/layout/site-header.tsx
 import Link from "next/link";
 import type { Locale } from "@/lib/i18n/config";
+import { Container } from "./container";
 
 type SiteHeaderProps = {
   locale: Locale;
@@ -37,152 +38,85 @@ export function SiteHeader({ locale }: SiteHeaderProps) {
     },
   ];
 
-  return (
-    <header
-      style={{
-        position: "sticky",
-        top: 0,
-        zIndex: 30,
-        backdropFilter: "blur(10px)",
-        backgroundColor: "rgba(243, 244, 246, 0.85)",
-        borderBottom: "1px solid #e5e7eb",
-      }}
-    >
-      <div
-        style={{
-          maxWidth: 1120,
-          margin: "0 auto",
-          padding: "0.75rem 1.25rem",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          gap: "1rem",
-        }}
+  const langSwitch = (
+    <div className="flex items-center gap-1 rounded-full border border-softodev-border bg-softodev-surface/90 px-2 py-1 text-[11px] shadow-sm">
+      <Link
+        href="/ar"
+        className={`transition-colors ${
+          locale === "ar"
+            ? "font-semibold text-softodev-text"
+            : "text-softodev-muted"
+        }`}
       >
+        AR
+      </Link>
+      <span className="h-3.5 w-px bg-softodev-border" />
+      <Link
+        href="/en"
+        className={`transition-colors ${
+          locale === "en"
+            ? "font-semibold text-softodev-text"
+            : "text-softodev-muted"
+        }`}
+      >
+        EN
+      </Link>
+    </div>
+  );
+
+  return (
+    <header className="sticky top-0 z-30 border-b border-softodev-border/60 bg-softodev-surface/80 backdrop-blur">
+      <div className="pointer-events-none absolute inset-0 -z-10 bg-gradient-to-b from-white/60 via-softodev-bg/80 to-softodev-bg" />
+      <Container className="flex items-center justify-between gap-4 py-3">
         {/* Logo */}
         <Link
           href={`/${locale}`}
-          style={{
-            display: "inline-flex",
-            alignItems: "center",
-            gap: "0.4rem",
-            textDecoration: "none",
-            color: "#0f172a",
-          }}
+          className="flex items-center gap-2 text-softodev-text"
         >
-          <div
-            style={{
-              width: "2rem",
-              height: "2rem",
-              borderRadius: "0.9rem",
-              background:
-                "linear-gradient(135deg, #111827, #1f2937, #111827)",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              color: "#f9fafb",
-              fontWeight: 700,
-              fontSize: "0.9rem",
-            }}
-          >
+          <div className="flex h-9 w-9 items-center justify-center rounded-2xl bg-gradient-to-br from-blue-600 via-indigo-600 to-slate-900 text-sm font-bold text-white shadow-lg shadow-blue-500/40">
             S
           </div>
-          <div>
-            <div
-              style={{
-                fontSize: "0.95rem",
-                fontWeight: 700,
-              }}
-            >
+          <div className={isArabic ? "text-right" : "text-left"}>
+            <div className="text-sm font-semibold tracking-tight">
               SoftoDev
             </div>
-            <div
-              style={{
-                fontSize: "0.75rem",
-                color: "#6b7280",
-              }}
-            >
+            <div className="text-[11px] text-softodev-muted">
               {isArabic
-                ? "شركة برمجيات ومواقع"
-                : "Software & Web Development"}
+                ? "برمجة مواقع، متاجر، وأنظمة"
+                : "Websites, Stores & Systems"}
             </div>
           </div>
         </Link>
 
-        {/* Nav */}
-        <nav
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: "1rem",
-          }}
-        >
-          <div
-            style={{
-              display: "flex",
-              gap: "0.9rem",
-              fontSize: "0.85rem",
-            }}
+        {/* Nav + CTA */}
+        <nav className="flex items-center gap-3">
+          <ul
+            className={`hidden items-center gap-4 text-xs font-medium text-softodev-muted md:flex ${
+              isArabic ? "flex-row-reverse" : ""
+            }`}
           >
             {navItems.map((item) => (
-              <Link
-                key={item.key}
-                href={item.href}
-                style={{
-                  textDecoration: "none",
-                  color: "#4b5563",
-                  fontWeight: 500,
-                }}
-              >
-                {item.label}
-              </Link>
+              <li key={item.key}>
+                <Link
+                  href={item.href}
+                  className="rounded-full px-2 py-1 transition-colors hover:bg-softodev-primarySoft/60 hover:text-softodev-text"
+                >
+                  {item.label}
+                </Link>
+              </li>
             ))}
-          </div>
+          </ul>
 
-          {/* Language switch بسيط */}
-          <div
-            style={{
-              marginInlineStart: "0.75rem",
-              fontSize: "0.8rem",
-              borderRadius: 9999,
-              border: "1px solid #e5e7eb",
-              padding: "0.2rem 0.5rem",
-              display: "flex",
-              alignItems: "center",
-              gap: "0.4rem",
-              backgroundColor: "#ffffff",
-            }}
+          {langSwitch}
+
+          <a
+            href={`/${locale}/contact`}
+            className="hidden items-center gap-1 rounded-full bg-softodev-primary px-3 py-1.5 text-xs font-semibold text-white shadow-soft hover:bg-blue-700 md:inline-flex"
           >
-            <Link
-              href="/ar"
-              style={{
-                textDecoration: "none",
-                color: locale === "ar" ? "#111827" : "#9ca3af",
-                fontWeight: locale === "ar" ? 600 : 400,
-              }}
-            >
-              AR
-            </Link>
-            <span
-              style={{
-                width: "1px",
-                height: "0.9rem",
-                backgroundColor: "#e5e7eb",
-              }}
-            />
-            <Link
-              href="/en"
-              style={{
-                textDecoration: "none",
-                color: locale === "en" ? "#111827" : "#9ca3af",
-                fontWeight: locale === "en" ? 600 : 400,
-              }}
-            >
-              EN
-            </Link>
-          </div>
+            {isArabic ? "احجز استشارة مجانية" : "Free consultation"}
+          </a>
         </nav>
-      </div>
+      </Container>
     </header>
   );
 }
