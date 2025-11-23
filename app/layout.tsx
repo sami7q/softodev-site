@@ -16,15 +16,16 @@ export const metadata: Metadata = {
   },
   description:
     "SoftoDev builds fast, modern websites, e-commerce stores, and management systems tailored for the GCC and Iraq market.",
-  // غيّر الدومين لاحقًا بعد ما تربطه على فيرصل
+  // لما تجهز الدومين الحقيقي غيّره هنا
   metadataBase: new URL("https://softodev.com"),
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
-  // لاحقًا بنحسّن موضوع lang لما نبني i18n كامل، الآن نخليه بسيط
   return (
     <html lang="ar">
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>
+        {children}
+      </body>
     </html>
   );
 }

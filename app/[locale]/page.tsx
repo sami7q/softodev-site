@@ -5,55 +5,166 @@ import type { Locale } from "@/lib/i18n/config";
 export default async function HomePage({
   params,
 }: {
-  // 🔥 هنا أيضًا params صار Promise
+  // في Next.js 16 params صار Promise
   params: Promise<{ locale: Locale }>;
 }) {
-  const { locale } = await params; // ✅ نفك الـ Promise
+  const { locale } = await params;
   const isArabic = locale === "ar";
 
   return (
-    <section className="py-16">
-      <Container className="grid gap-10 md:grid-cols-2 md:items-center">
-        <div className="space-y-6">
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
-            {isArabic ? "شركة برمجة مواقع ومتاجر" : "Web & Software Agency"}
-          </p>
-          <h1 className="text-3xl font-semibold tracking-tight sm:text-4xl lg:text-5xl">
-            {isArabic
-              ? "نبني مواقع ومتاجر إلكترونية سريعة ومخصصة لسوق الخليج والعراق"
-              : "We build fast, modern websites and stores for the GCC & Iraq market."}
-          </h1>
-          <p className="text-sm leading-relaxed text-slate-600 sm:text-base">
-            {isArabic
-              ? "SoftoDev متخصصة في تطوير صفحات هبوط، متاجر إلكترونية، وأنظمة إدارة مخصصة تساعدك على إطلاق مشروعك بسرعة وبجودة عالية."
-              : "SoftoDev specializes in landing pages, e-commerce stores, and custom management systems to help you launch fast with high quality."}
-          </p>
-          <div className="flex flex-wrap gap-3">
-            <a
-              href="https://wa.me/905015954826"
-              className="inline-flex items-center rounded-full bg-slate-900 px-5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-slate-800"
+    <section style={{ padding: "4rem 0" }}>
+      <Container>
+        <div
+          style={{
+            display: "grid",
+            gap: "2.5rem",
+            alignItems: "center",
+          }}
+        >
+          <div style={{ maxWidth: 640 }}>
+            <p
+              style={{
+                fontSize: "0.75rem",
+                textTransform: "uppercase",
+                letterSpacing: "0.2em",
+                color: "#6b7280",
+                marginBottom: "0.75rem",
+              }}
             >
-              {isArabic ? "تواصل عبر الواتساب" : "Chat on WhatsApp"}
-            </a>
-            <a
-              href={isArabic ? "/ar/services" : "/en/services"}
-              className="inline-flex items-center rounded-full border border-slate-300 px-5 py-2.5 text-sm font-semibold text-slate-700 hover:bg-slate-100"
+              {isArabic ? "شركة برمجة مواقع ومتاجر" : "Web & Software Agency"}
+            </p>
+            <h1
+              style={{
+                fontSize: "2rem",
+                fontWeight: 600,
+                lineHeight: 1.2,
+                marginBottom: "1rem",
+              }}
             >
-              {isArabic ? "شاهد خدماتنا" : "View Services"}
-            </a>
+              {isArabic
+                ? "نبني مواقع ومتاجر إلكترونية سريعة ومخصصة لسوق الخليج والعراق"
+                : "We build fast, modern websites and stores for the GCC & Iraq market."}
+            </h1>
+            <p
+              style={{
+                fontSize: "0.95rem",
+                lineHeight: 1.6,
+                color: "#4b5563",
+                marginBottom: "1.5rem",
+              }}
+            >
+              {isArabic
+                ? "SoftoDev متخصصة في تطوير صفحات هبوط، متاجر إلكترونية، وأنظمة إدارة مخصصة تساعدك على إطلاق مشروعك بسرعة وبجودة عالية."
+                : "SoftoDev specializes in landing pages, e-commerce stores, and custom management systems to help you launch fast with high quality."}
+            </p>
+            <div
+              style={{
+                display: "flex",
+                gap: "0.75rem",
+                flexWrap: "wrap",
+              }}
+            >
+              <a
+                href="https://wa.me/905015954826"
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  borderRadius: 9999,
+                  padding: "0.6rem 1.4rem",
+                  fontSize: "0.9rem",
+                  fontWeight: 600,
+                  color: "#ffffff",
+                  backgroundColor: "#111827",
+                  textDecoration: "none",
+                }}
+              >
+                {isArabic ? "تواصل عبر الواتساب" : "Chat on WhatsApp"}
+              </a>
+              <a
+                href={isArabic ? "/ar/services" : "/en/services"}
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  borderRadius: 9999,
+                  padding: "0.6rem 1.4rem",
+                  fontSize: "0.9rem",
+                  fontWeight: 600,
+                  color: "#111827",
+                  border: "1px solid #e5e7eb",
+                  textDecoration: "none",
+                }}
+              >
+                {isArabic ? "شاهد خدماتنا" : "View Services"}
+              </a>
+            </div>
           </div>
-        </div>
 
-        <div className="relative">
-          {/* Placeholder illustration – بنبدله لاحقًا بالديزاين الحقيقي */}
-          <div className="relative overflow-hidden rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-            <div className="mb-4 h-3 w-20 rounded-full bg-slate-200" />
-            <div className="mb-3 h-6 w-40 rounded bg-slate-100" />
-            <div className="mb-6 h-4 w-full rounded bg-slate-100" />
-            <div className="grid gap-3 sm:grid-cols-3">
-              <div className="h-24 rounded-xl bg-slate-100" />
-              <div className="h-24 rounded-xl bg-slate-100" />
-              <div className="h-24 rounded-xl bg-slate-100" />
+          {/* بلوك بسيط كـ placeholder للتصميم */}
+          <div
+            style={{
+              borderRadius: "1.25rem",
+              border: "1px solid #e5e7eb",
+              backgroundColor: "#ffffff",
+              padding: "1.5rem",
+              boxShadow: "0 18px 45px rgba(15, 23, 42, 0.08)",
+              maxWidth: 480,
+            }}
+          >
+            <div
+              style={{
+                height: "0.75rem",
+                width: "5rem",
+                borderRadius: 9999,
+                backgroundColor: "#e5e7eb",
+                marginBottom: "1rem",
+              }}
+            />
+            <div
+              style={{
+                height: "1.25rem",
+                width: "10rem",
+                borderRadius: "0.5rem",
+                backgroundColor: "#f3f4f6",
+                marginBottom: "0.75rem",
+              }}
+            />
+            <div
+              style={{
+                height: "1rem",
+                width: "100%",
+                borderRadius: "0.5rem",
+                backgroundColor: "#f3f4f6",
+                marginBottom: "1.5rem",
+              }}
+            />
+            <div
+              style={{
+                display: "grid",
+                gap: "0.75rem",
+                gridTemplateColumns: "repeat(3, minmax(0, 1fr))",
+              }}
+            >
+              <div
+                style={{
+                  height: "5rem",
+                  borderRadius: "0.75rem",
+                  backgroundColor: "#f3f4f6",
+                }}
+              />
+              <div
+                style={{
+                  height: "5rem",
+                  borderRadius: "0.75rem",
+                  backgroundColor: "#f3f4f6",
+                }}
+              />
+              <div
+                style={{
+                  height: "5rem",
+                  borderRadius: "0.75rem",
+                  backgroundColor: "#f3f4f6",
+                }}
+              />
             </div>
           </div>
         </div>
