@@ -1,23 +1,17 @@
-// app/robots.txt/route.ts
-import { NextResponse } from "next/server";
+// app/robots.ts
+import type { MetadataRoute } from "next";
+import { getBaseUrl } from "@/lib/seo";
 
-const BASE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL ??
-  "https://softodev.com"; // غيّرها لدومينك النهائي إذا حاب
+export default function robots(): MetadataRoute.Robots {
+  const baseUrl = getBaseUrl();
 
-export function GET() {
-  const content = [
-    "User-agent: *",
-    "Allow: /",
-    "",
-    `Sitemap: ${BASE_URL}/sitemap.xml`,
-    "",
-  ].join("\n");
-
-  return new NextResponse(content, {
-    status: 200,
-    headers: {
-      "Content-Type": "text/plain; charset=utf-8",
-    },
-  });
+  return {
+    rules: [
+      {
+        userAgent: "*",
+        allow: "/",
+      },
+    ],
+    sitemap: `${baseUrl}/sitemap.xml`,
+  };
 }
