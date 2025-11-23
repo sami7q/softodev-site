@@ -5,6 +5,7 @@ import { SiteHeader } from "@/components/layout/site-header";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { FloatingActions } from "@/components/layout/floating-actions";
 import { locales, type Locale } from "@/lib/i18n/config";
+import { ChatWidgetShell } from "@/components/chat/chat-widget-shell";
 
 export function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
@@ -41,6 +42,9 @@ export default async function LocaleLayout({
           phoneNumber="+905015954826"
         />
       </div>
+
+      {/* ✅ Chatbot client-only, لكل لغة، بدون SSR */}
+      <ChatWidgetShell mode="hardcoded" />
     </div>
   );
 }
