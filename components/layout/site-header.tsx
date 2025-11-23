@@ -1,88 +1,188 @@
 // components/layout/site-header.tsx
 import Link from "next/link";
-import { Container } from "./container";
 import type { Locale } from "@/lib/i18n/config";
 
 type SiteHeaderProps = {
   locale: Locale;
 };
 
-const navItems: Record<
-  Locale,
-  { href: string; label: string }[]
-> = {
-  ar: [
-    { href: "/ar", label: "الرئيسية" },
-    { href: "/ar/services", label: "الخدمات" },
-    { href: "/ar/pricing", label: "الأسعار" },
-    { href: "/ar/portfolio", label: "الأعمال" },
-    { href: "/ar/about", label: "من نحن" },
-    { href: "/ar/contact", label: "تواصل معنا" },
-  ],
-  en: [
-    { href: "/en", label: "Home" },
-    { href: "/en/services", label: "Services" },
-    { href: "/en/pricing", label: "Pricing" },
-    { href: "/en/portfolio", label: "Portfolio" },
-    { href: "/en/about", label: "About" },
-    { href: "/en/contact", label: "Contact" },
-  ],
-};
-
 export function SiteHeader({ locale }: SiteHeaderProps) {
-  const items = navItems[locale];
+  const isArabic = locale === "ar";
 
-  const switchLocaleHref = locale === "ar" ? "/en" : "/ar";
-  const switchLocaleLabel = locale === "ar" ? "EN" : "عربي";
+  const navItems = [
+    {
+      key: "services",
+      href: `/${locale}/services`,
+      label: isArabic ? "الخدمات" : "Services",
+    },
+    {
+      key: "pricing",
+      href: `/${locale}/pricing`,
+      label: isArabic ? "الأسعار" : "Pricing",
+    },
+    {
+      key: "portfolio",
+      href: `/${locale}/portfolio`,
+      label: isArabic ? "الأعمال" : "Portfolio",
+    },
+    {
+      key: "about",
+      href: `/${locale}/about`,
+      label: isArabic ? "عن الشركة" : "About",
+    },
+    {
+      key: "contact",
+      href: `/${locale}/contact`,
+      label: isArabic ? "تواصل" : "Contact",
+    },
+  ];
 
   return (
-    <header className="sticky top-0 z-30 border-b border-slate-200 bg-white/80 backdrop-blur">
-      <Container className="flex h-16 items-center justify-between gap-4">
-        {/* Logo / Brand */}
+    <header
+      style={{
+        position: "sticky",
+        top: 0,
+        zIndex: 30,
+        backdropFilter: "blur(10px)",
+        backgroundColor: "rgba(243, 244, 246, 0.85)",
+        borderBottom: "1px solid #e5e7eb",
+      }}
+    >
+      <div
+        style={{
+          maxWidth: 1120,
+          margin: "0 auto",
+          padding: "0.75rem 1.25rem",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          gap: "1rem",
+        }}
+      >
+        {/* Logo */}
         <Link
-          href={locale === "ar" ? "/ar" : "/en"}
-          className="flex items-center gap-2"
+          href={`/${locale}`}
+          style={{
+            display: "inline-flex",
+            alignItems: "center",
+            gap: "0.4rem",
+            textDecoration: "none",
+            color: "#0f172a",
+          }}
         >
-          <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-slate-900 text-sm font-semibold text-white">
+          <div
+            style={{
+              width: "2rem",
+              height: "2rem",
+              borderRadius: "0.9rem",
+              background:
+                "linear-gradient(135deg, #111827, #1f2937, #111827)",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              color: "#f9fafb",
+              fontWeight: 700,
+              fontSize: "0.9rem",
+            }}
+          >
             S
-          </span>
-          <span className="text-base font-semibold tracking-tight">
-            SoftoDev
-          </span>
+          </div>
+          <div>
+            <div
+              style={{
+                fontSize: "0.95rem",
+                fontWeight: 700,
+              }}
+            >
+              SoftoDev
+            </div>
+            <div
+              style={{
+                fontSize: "0.75rem",
+                color: "#6b7280",
+              }}
+            >
+              {isArabic
+                ? "شركة برمجيات ومواقع"
+                : "Software & Web Development"}
+            </div>
+          </div>
         </Link>
 
-        {/* Navigation */}
+        {/* Nav */}
         <nav
-          className="hidden items-center gap-6 text-sm font-medium text-slate-700 md:flex"
-          aria-label="Main navigation"
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: "1rem",
+          }}
         >
-          {items.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className="transition hover:text-slate-900"
-            >
-              {item.label}
-            </Link>
-          ))}
-        </nav>
+          <div
+            style={{
+              display: "flex",
+              gap: "0.9rem",
+              fontSize: "0.85rem",
+            }}
+          >
+            {navItems.map((item) => (
+              <Link
+                key={item.key}
+                href={item.href}
+                style={{
+                  textDecoration: "none",
+                  color: "#4b5563",
+                  fontWeight: 500,
+                }}
+              >
+                {item.label}
+              </Link>
+            ))}
+          </div>
 
-        {/* Right side: language switch + main CTA */}
-        <div className="flex items-center gap-3">
-          <Link
-            href={switchLocaleHref}
-            className="rounded-full border border-slate-200 px-3 py-1 text-xs font-medium text-slate-600 hover:border-slate-300 hover:bg-slate-50"
+          {/* Language switch بسيط */}
+          <div
+            style={{
+              marginInlineStart: "0.75rem",
+              fontSize: "0.8rem",
+              borderRadius: 9999,
+              border: "1px solid #e5e7eb",
+              padding: "0.2rem 0.5rem",
+              display: "flex",
+              alignItems: "center",
+              gap: "0.4rem",
+              backgroundColor: "#ffffff",
+            }}
           >
-            {switchLocaleLabel}
-          </Link>
-          <Link
-            href={locale === "ar" ? "/ar/contact" : "/en/contact"}
-            className="hidden rounded-full bg-slate-900 px-4 py-2 text-xs font-semibold text-white shadow-sm hover:bg-slate-800 sm:inline-flex"
-          >
-            {locale === "ar" ? "احجز استشارة مجانية" : "Free Consultation"}
-          </Link>
-        </div>
-      </Container>
+            <Link
+              href="/ar"
+              style={{
+                textDecoration: "none",
+                color: locale === "ar" ? "#111827" : "#9ca3af",
+                fontWeight: locale === "ar" ? 600 : 400,
+              }}
+            >
+              AR
+            </Link>
+            <span
+              style={{
+                width: "1px",
+                height: "0.9rem",
+                backgroundColor: "#e5e7eb",
+              }}
+            />
+            <Link
+              href="/en"
+              style={{
+                textDecoration: "none",
+                color: locale === "en" ? "#111827" : "#9ca3af",
+                fontWeight: locale === "en" ? 600 : 400,
+              }}
+            >
+              EN
+            </Link>
+          </div>
+        </nav>
+      </div>
     </header>
   );
 }

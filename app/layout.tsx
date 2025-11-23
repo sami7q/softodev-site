@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import type { ReactNode } from "react";
 import "./globals.css";
+import { siteUrl } from "@/lib/seo";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -16,16 +17,27 @@ export const metadata: Metadata = {
   },
   description:
     "SoftoDev builds fast, modern websites, e-commerce stores, and management systems tailored for the GCC and Iraq market.",
-  // لما تجهز الدومين الحقيقي غيّره هنا
-  metadataBase: new URL("https://softodev.com"),
+  metadataBase: new URL(siteUrl),
+  openGraph: {
+    type: "website",
+    url: siteUrl,
+    siteName: "SoftoDev",
+    title: "SoftoDev | Software & Web Development Agency",
+    description:
+      "SoftoDev builds fast, modern websites, e-commerce stores, and management systems tailored for the GCC and Iraq market.",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "SoftoDev | Software & Web Development Agency",
+    description:
+      "SoftoDev builds fast, modern websites, e-commerce stores, and management systems tailored for the GCC and Iraq market.",
+  },
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="ar">
-      <body className={inter.className}>
-        {children}
-      </body>
+      <body className={inter.className}>{children}</body>
     </html>
   );
 }

@@ -3,6 +3,7 @@ import type { ReactNode } from "react";
 import { notFound } from "next/navigation";
 import { SiteHeader } from "@/components/layout/site-header";
 import { SiteFooter } from "@/components/layout/site-footer";
+import { FloatingActions } from "@/components/layout/floating-actions";
 import { locales, type Locale } from "@/lib/i18n/config";
 
 export function generateStaticParams() {
@@ -14,10 +15,10 @@ export default async function LocaleLayout({
   params,
 }: {
   children: ReactNode;
-  // 🔥 في Next.js 16 params صار Promise
+  // Next.js 16: params is a Promise
   params: Promise<{ locale: Locale }>;
 }) {
-  const { locale } = await params; // ✅ نفك الـ Promise
+  const { locale } = await params;
 
   if (!locales.includes(locale)) {
     notFound();
@@ -29,11 +30,25 @@ export default async function LocaleLayout({
     <div
       dir={dir}
       data-locale={locale}
-      className="flex min-h-screen flex-col bg-slate-50 text-slate-900 antialiased"
+      style={{
+        minHeight: "100vh",
+        display: "flex",
+        flexDirection: "column",
+        backgroundColor: "#f3f4f6",
+        color: "#0f172a",
+        fontFamily: "system-ui, -apple-system, BlinkMacSystemFont, sans-serif",
+      }}
     >
       <SiteHeader locale={locale} />
-      <main className="flex-1">{children}</main>
+      <main style={{ flex: 1 }}>{children}</main>
       <SiteFooter locale={locale} />
+
+      {/* Floating WhatsApp + Call */}
+      <FloatingActions
+        locale={locale}
+        whatsappLink="https://wa.me/905015954826"
+        phone="+905015954826"
+      />
     </div>
   );
 }
