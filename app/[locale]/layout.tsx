@@ -16,34 +16,37 @@ export default async function LocaleLayout({
   params,
 }: {
   children: ReactNode;
-  params: Promise<{ locale: Locale }>;
+  // 👇 هنا نخليها string عشان ترضي Next.js types
+  params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
 
-  if (!locales.includes(locale)) {
+  // نحولها لـ Locale مع فحص
+  if (!locales.includes(locale as Locale)) {
     notFound();
   }
+  const typedLocale = locale as Locale;
 
-  const dir = locale === "ar" ? "rtl" : "ltr";
+  const dir = typedLocale === "ar" ? "rtl" : "ltr";
 
   return (
     <div
       dir={dir}
-      data-locale={locale}
+      data-locale={typedLocale}
       className="min-h-screen bg-softodev-bg text-softodev-text"
     >
       <div className="flex min-h-screen flex-col">
-        <SiteHeader locale={locale} />
+        <SiteHeader locale={typedLocale} />
         <main className="flex-1">{children}</main>
-        <SiteFooter locale={locale} />
+        <SiteFooter locale={typedLocale} />
         <FloatingActions
-          locale={locale}
+          locale={typedLocale}
           whatsappNumber="+905015954826"
           phoneNumber="+905015954826"
         />
       </div>
 
-      {/* ✅ Chatbot client-only, لكل لغة، بدون SSR */}
+      {/* ✅ Chatbot client-only لكل لغة */}
       <ChatWidgetShell mode="hardcoded" />
     </div>
   );
