@@ -1,4 +1,3 @@
-// components/home/pricing-teaser.tsx
 import Link from "next/link";
 import { Container } from "@/components/layout/container";
 import type { Locale } from "@/lib/i18n/config";
@@ -20,7 +19,7 @@ export function HomePricingTeaser({ locale }: HomePricingTeaserProps) {
         <div className="absolute inset-0 bg-gradient-to-b from-softodev-surface via-softodev-bg to-softodev-surface" />
         {/* glows */}
         <div className="absolute -top-24 left-0 h-96 w-96 rounded-full bg-softodev-primary/12 blur-3xl" />
-        <div className="absolute top-0 right-0 h-[28rem] w-[28rem] rounded-full bg-sky-400/12 blur-3xl" />
+        <div className="absolute top-0 right-0 h-[28rem] w-[28rem] rounded-full bg-softodev-primary/10 blur-3xl" />
         {/* subtle texture */}
         <div className="absolute inset-0 opacity-[0.05] bg-[radial-gradient(#000_1px,transparent_1px)] [background-size:18px_18px]" />
         {/* top divider */}
@@ -60,7 +59,7 @@ export function HomePricingTeaser({ locale }: HomePricingTeaserProps) {
               className="group relative rounded-2xl border border-softodev-border bg-softodev-surface/90 p-6 shadow-soft h-full transition hover:-translate-y-1 hover:shadow-lg hover:border-softodev-primary/30"
             >
               {/* hover glow */}
-              <div className="pointer-events-none absolute -inset-2 -z-10 rounded-3xl bg-gradient-to-br from-softodev-primarySoft via-white/60 to-sky-100/60 opacity-0 blur-xl transition-opacity group-hover:opacity-100" />
+              <div className="pointer-events-none absolute -inset-2 -z-10 rounded-3xl bg-gradient-to-br from-softodev-primarySoft via-softodev-surfaceStrong/70 to-softodev-bg/80 opacity-0 blur-xl transition-opacity group-hover:opacity-100" />
 
               <h3
                 className={[
@@ -96,7 +95,7 @@ export function HomePricingTeaser({ locale }: HomePricingTeaserProps) {
         <div className="mt-8 flex justify-center">
           <Link
             href={`/${locale}/pricing`}
-            className="inline-flex items-center rounded-full px-6 py-3 text-sm font-bold text-white bg-gradient-to-r from-softodev-primary to-blue-700 shadow-soft hover:opacity-95 transition active:scale-[0.98]"
+            className="inline-flex items-center rounded-full px-6 py-3 text-sm font-bold text-white bg-gradient-to-r from-softodev-primary to-softodev-primaryDark shadow-soft hover:opacity-95 transition active:scale-[0.98]"
           >
             {isArabic ? "شاهد تفاصيل الأسعار كاملة" : "View full pricing details"}
           </Link>

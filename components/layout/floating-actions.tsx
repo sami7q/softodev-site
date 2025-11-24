@@ -28,16 +28,17 @@ export function FloatingActions({
       dir={isRTL ? "rtl" : "ltr"}
       className={[
         "fixed z-[70] bottom-5",
-        // keep behavior: Arabic right, English left
+        // Arabic right, English left
         isRTL ? "right-5" : "left-5",
         "flex flex-col gap-2",
       ].join(" ")}
     >
+      {/* WhatsApp – يبقى أخضر كبراند قوي وواضح */}
       <Link
         href={waHref}
         target="_blank"
         rel="noopener noreferrer"
-        className="group flex items-center gap-2 rounded-2xl bg-green-600 text-white px-4 py-3 shadow-soft hover:opacity-95 transition"
+        className="group flex items-center gap-2 rounded-2xl bg-green-600 text-white px-4 py-3 shadow-soft hover:bg-green-500 transition"
         aria-label="WhatsApp"
       >
         <span className="text-sm font-semibold">
@@ -45,9 +46,10 @@ export function FloatingActions({
         </span>
       </Link>
 
+      {/* Call – الآن بألوان SoftoDev (أزرق) بدل كرت فاتح */}
       <Link
         href={callHref}
-        className="group flex items-center gap-2 rounded-2xl bg-softodev-surface border border-softodev-border text-softodev-text px-4 py-3 shadow-soft hover:border-softodev-primary/40 transition"
+        className="group flex items-center gap-2 rounded-2xl bg-softodev-primary text-white px-4 py-3 shadow-soft hover:bg-softodev-primaryDark transition"
         aria-label="Call"
       >
         <span className="text-sm font-semibold">

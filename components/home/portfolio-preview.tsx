@@ -1,4 +1,3 @@
-// components/home/portfolio-preview.tsx
 import Link from "next/link";
 import { Container } from "@/components/layout/container";
 import type { Locale } from "@/lib/i18n/config";
@@ -18,9 +17,9 @@ export function HomePortfolioPreview({ locale }: HomePortfolioPreviewProps) {
       <div className="pointer-events-none absolute inset-0 -z-10">
         {/* base gradient */}
         <div className="absolute inset-0 bg-gradient-to-b from-softodev-surface via-softodev-bg to-softodev-surface" />
-        {/* glows */}
+        {/* glows (كلها من primary) */}
         <div className="absolute -top-24 left-0 h-96 w-96 rounded-full bg-softodev-primary/12 blur-3xl" />
-        <div className="absolute top-0 right-0 h-[28rem] w-[28rem] rounded-full bg-sky-400/12 blur-3xl" />
+        <div className="absolute top-0 right-0 h-[28rem] w-[28rem] rounded-full bg-softodev-primary/10 blur-3xl" />
         {/* subtle texture */}
         <div className="absolute inset-0 opacity-[0.05] bg-[radial-gradient(#000_1px,transparent_1px)] [background-size:18px_18px]" />
         {/* top divider */}
@@ -63,9 +62,8 @@ export function HomePortfolioPreview({ locale }: HomePortfolioPreviewProps) {
               className="group"
             >
               <div className="relative rounded-2xl border border-softodev-border bg-softodev-surface/90 p-5 shadow-soft h-full transition hover:-translate-y-1 hover:shadow-lg hover:border-softodev-primary/30">
-                
                 {/* subtle hover glow */}
-                <div className="pointer-events-none absolute -inset-2 -z-10 rounded-3xl bg-gradient-to-br from-softodev-primarySoft via-white/60 to-sky-100/60 opacity-0 blur-xl transition-opacity group-hover:opacity-100" />
+                <div className="pointer-events-none absolute -inset-2 -z-10 rounded-3xl bg-gradient-to-br from-softodev-primarySoft via-softodev-surfaceStrong/70 to-softodev-bg/80 opacity-0 blur-xl transition-opacity group-hover:opacity-100" />
 
                 {/* Mock cover */}
                 <div className="rounded-xl border border-softodev-border bg-softodev-bg/70 p-3 mb-4">
@@ -106,7 +104,9 @@ export function HomePortfolioPreview({ locale }: HomePortfolioPreviewProps) {
                   ].join(" ")}
                 >
                   {isArabic ? "عرض تفاصيل المشروع" : "View project"}
-                  <span className="transition-transform group-hover:translate-x-1">→</span>
+                  <span className="transition-transform group-hover:translate-x-1">
+                    →
+                  </span>
                 </div>
               </div>
             </Link>

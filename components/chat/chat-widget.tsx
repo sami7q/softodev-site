@@ -139,7 +139,7 @@ const COPY = {
     fallback:
       "أقدر أساعدك بالخدمات والأسعار والتوجيه. اسأل عن صفحات الهبوط، المواقع، المتاجر، أنظمة الإدارة، أو اكتب “تواصل”.",
   },
-};
+} as const;
 
 // ---------- Hardcoded Intents (v1) ----------
 function detectIntent(q: string) {
@@ -364,11 +364,11 @@ export default function ChatWidget({ mode = "hardcoded" }: { mode?: ChatMode }) 
   const isRTL = locale === "ar";
   const t = isRTL ? COPY.ar : COPY.en;
 
-  // ✅ flip side: EN left, AR right
-// ✅ always left for both locales
-const floatingSideClass = "left-5";
-const panelSideClass = "left-5";
-
+  // ✅ أماكن الـ chatbot بالنسبة للواتساب:
+  // - الواتساب:  AR => right-5 / EN => left-5  (من FloatingActions)
+  // - الـ chatbot: AR => left-5  / EN => right-5  (هنا)
+  const floatingSideClass = isRTL ? "left-5" : "right-5";
+  const panelSideClass = floatingSideClass;
 
   const [open, setOpen] = useState(false);
   const [input, setInput] = useState("");
@@ -514,8 +514,8 @@ const panelSideClass = "left-5";
         className={[
           "fixed bottom-5",
           floatingSideClass,
-          "h-14 w-14 rounded-full shadow-lg",
-          "bg-blue-600 text-white hover:bg-blue-700",
+          "h-14 w-14 rounded-full shadow-soft",
+          "bg-softodev-primary text-white hover:bg-softodev-primaryDark",
           "flex items-center justify-center",
           "transition-all active:scale-95",
           unread > 0 ? "animate-pulse" : "",
@@ -556,7 +556,7 @@ const panelSideClass = "left-5";
           panelSideClass,
           "w-[330px] sm:w-[360px]",
           "h-[480px] max-h-[70vh]",
-          "bg-white rounded-2xl shadow-2xl border border-slate-200",
+          "bg-softodev-surface rounded-2xl shadow-2xl border border-softodev-border",
           "flex flex-col overflow-hidden",
           "transition-all duration-200 ease-out",
           open
@@ -566,20 +566,20 @@ const panelSideClass = "left-5";
         aria-hidden={!open}
       >
         {/* Header */}
-        <div className="flex items-center justify-between px-4 py-3 bg-slate-50 border-b">
-          <div className="font-semibold text-slate-900">{t.title}</div>
+        <div className="flex items-center justify-between px-4 py-3 bg-softodev-surfaceStrong border-b border-softodev-border">
+          <div className="font-semibold text-softodev-text">{t.title}</div>
           <button
             aria-label="Close chat"
             onClick={() => setOpen(false)}
-            className="text-slate-500 hover:text-slate-800"
+            className="text-softodev-muted hover:text-softodev-text"
           >
             ✕
           </button>
         </div>
 
         {/* Quick FAQ buttons */}
-        <div className="px-3 py-2 border-b bg-white">
-          <div className="text-xs font-medium text-slate-500 mb-2">
+        <div className="px-3 py-2 border-b border-softodev-border bg-softodev-surface">
+          <div className="text-xs font-medium text-softodev-muted mb-2">
             {t.quickTitle}
           </div>
           <div className="flex flex-wrap gap-2">
@@ -587,7 +587,7 @@ const panelSideClass = "left-5";
               <button
                 key={f.id}
                 onClick={() => handleSend(f.userText)}
-                className="text-xs px-3 py-1.5 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-800 transition"
+                className="text-xs px-3 py-1.5 rounded-full bg-softodev-bg hover:bg-softodev-surfaceStrong text-softodev-text border border-softodev-border/60 transition"
               >
                 {f.label}
               </button>
@@ -598,7 +598,7 @@ const panelSideClass = "left-5";
         {/* Messages */}
         <div
           ref={scrollRef}
-          className="flex-1 overflow-y-auto px-3 py-3 space-y-3 bg-white"
+          className="flex-1 overflow-y-auto px-3 py-3 space-y-3 bg-softodev-surface"
         >
           {messages.map((m) => {
             const isUser = m.role === "user";
@@ -620,8 +620,8 @@ const panelSideClass = "left-5";
                   className={[
                     "max-w-[85%] rounded-2xl px-3 py-2 text-sm leading-relaxed",
                     isUser
-                      ? "bg-blue-600 text-white"
-                      : "bg-slate-100 text-slate-900",
+                      ? "bg-softodev-primary text-white"
+                      : "bg-softodev-bg text-softodev-text border border-softodev-border/70",
                   ].join(" ")}
                 >
                   <div className="whitespace-pre-wrap">{m.content}</div>
@@ -636,7 +636,7 @@ const panelSideClass = "left-5";
                             "text-xs px-2.5 py-1 rounded-full",
                             a.kind === "whatsapp"
                               ? "bg-green-600 text-white hover:bg-green-700"
-                              : "bg-white border border-slate-300 text-slate-800 hover:bg-slate-50",
+                              : "bg-softodev-surface text-softodev-text border border-softodev-border hover:bg-softodev-bg",
                           ].join(" ")}
                         >
                           {a.label}
@@ -656,7 +656,7 @@ const panelSideClass = "left-5";
                 isRTL ? "justify-end" : "justify-start",
               ].join(" ")}
             >
-              <div className="bg-slate-100 text-slate-700 rounded-2xl px-3 py-2 text-sm">
+              <div className="bg-softodev-bg text-softodev-muted rounded-2xl px-3 py-2 text-sm border border-softodev-border/70">
                 {isRTL ? "يكتب..." : "Typing..."}
               </div>
             </div>
@@ -664,14 +664,14 @@ const panelSideClass = "left-5";
         </div>
 
         {/* Input */}
-        <div className="p-3 border-t bg-white">
+        <div className="p-3 border-t border-softodev-border bg-softodev-surface">
           <div className="flex items-center gap-2">
             <input
               ref={inputRef}
               value={input}
               onChange={(e) => setInput(e.target.value)}
               placeholder={t.placeholder}
-              className="flex-1 h-10 rounded-xl border border-slate-300 px-3 text-sm outline-none focus:ring-2 focus:ring-blue-200"
+              className="flex-1 h-10 rounded-xl border border-softodev-border px-3 text-sm outline-none focus:ring-2 focus:ring-softodev-primarySoft"
               onKeyDown={(e) => {
                 if (e.key === "Enter") {
                   e.preventDefault();
@@ -683,13 +683,13 @@ const panelSideClass = "left-5";
             <button
               onClick={() => handleSend()}
               disabled={!input.trim() || isSending}
-              className="h-10 px-4 rounded-xl bg-blue-600 text-white text-sm font-medium disabled:opacity-50 hover:bg-blue-700 transition"
+              className="h-10 px-4 rounded-xl bg-softodev-primary text-white text-sm font-medium disabled:opacity-50 hover:bg-softodev-primaryDark transition"
             >
               {t.send}
             </button>
           </div>
 
-          <div className="mt-1 text-[11px] text-slate-400">
+          <div className="mt-1 text-[11px] text-softodev-muted">
             {mode === "ai"
               ? isRTL
                 ? "الإجابات مولّدة بالذكاء الاصطناعي وقد تحتاج لتأكيد."

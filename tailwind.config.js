@@ -17,28 +17,28 @@ module.exports = {
       },
       colors: {
         softodev: {
-          // ✅ background becomes deeper blue-gray (less white)
+          // خلفية عامة للموقع
           bg: "#E6ECF7",
 
-          // ✅ surface for cards/nav becomes light gray-blue (not pure white)
+          // سطح للكروت / النافبار
           surface: "#F1F5FD",
 
-          // ✅ richer primary
+          // اللون الأساسي
           primary: "#1E5AEF",
 
-          // ✅ soft tint for chips/hover
+          // لون ناعم للhover / الـchips
           primarySoft: "#D7E4FF",
 
-          // ✅ stronger border for depth
+          // لون الحدود
           border: "#C9D4EA",
 
-          // ✅ deep text stays clean
+          // لون النص الرئيسي
           text: "#0B1220",
 
-          // ✅ muted a bit darker for readability
+          // لون النص الهادئ
           muted: "#465772",
-          
-          // (optional extras — safe to add)
+
+          // درجات إضافية (اختيارية)
           surfaceStrong: "#EAF0FB",
           primaryDark: "#1747C8",
         },

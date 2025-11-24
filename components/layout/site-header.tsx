@@ -38,7 +38,7 @@ export function SiteHeader({ locale }: { locale: Locale }) {
         {/* soft gradients / side glows */}
         <div className="pointer-events-none absolute inset-0 -z-10">
           <div className="absolute -top-24 left-0 h-56 w-56 rounded-full bg-softodev-primary/15 blur-3xl" />
-          <div className="absolute -top-28 right-10 h-64 w-64 rounded-full bg-sky-400/10 blur-3xl" />
+          <div className="absolute -top-28 right-10 h-64 w-64 rounded-full bg-softodev-primary/10 blur-3xl" />
           <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-softodev-primary/40 to-transparent" />
         </div>
 
@@ -50,7 +50,7 @@ export function SiteHeader({ locale }: { locale: Locale }) {
               className="group flex items-center gap-3"
               aria-label="SoftoDev Home"
             >
-              <div className="relative h-10 w-10 rounded-2xl bg-gradient-to-br from-softodev-primary to-blue-700 text-white grid place-items-center shadow-soft">
+              <div className="relative h-10 w-10 rounded-2xl bg-gradient-to-br from-softodev-primary to-softodev-primaryDark text-white grid place-items-center shadow-soft">
                 <span className="font-black tracking-wide">S</span>
                 {/* tiny glow */}
                 <div className="absolute -inset-1 rounded-2xl bg-softodev-primary/30 blur-md -z-10 opacity-0 group-hover:opacity-100 transition" />
@@ -102,7 +102,7 @@ export function SiteHeader({ locale }: { locale: Locale }) {
               {/* CTA */}
               <Link
                 href={`/${locale}/contact`}
-                className="px-4 py-2.5 rounded-xl bg-gradient-to-r from-softodev-primary to-blue-700 text-white text-sm font-bold shadow-soft hover:opacity-95 transition"
+                className="px-4 py-2.5 rounded-xl bg-gradient-to-r from-softodev-primary to-softodev-primaryDark text-white text-sm font-bold shadow-soft hover:opacity-95 transition"
               >
                 {isRTL ? "استشارة مجانية" : "Free consultation"}
               </Link>
@@ -158,7 +158,7 @@ export function SiteHeader({ locale }: { locale: Locale }) {
           <div className="relative p-4 border-b border-softodev-border bg-softodev-surface/70">
             <div className="pointer-events-none absolute inset-0 -z-10">
               <div className="absolute -top-10 left-4 h-28 w-28 rounded-full bg-softodev-primary/15 blur-2xl" />
-              <div className="absolute -bottom-10 right-4 h-28 w-28 rounded-full bg-sky-400/10 blur-2xl" />
+              <div className="absolute -bottom-10 right-4 h-28 w-28 rounded-full bg-softodev-primary/10 blur-2xl" />
             </div>
 
             <div className="flex items-center justify-between">
@@ -205,7 +205,7 @@ export function SiteHeader({ locale }: { locale: Locale }) {
 
             <Link
               href={`/${locale}/contact`}
-              className="block text-center px-3 py-2.5 rounded-xl bg-gradient-to-r from-softodev-primary to-blue-700 text-white font-bold shadow-soft"
+              className="block text-center px-3 py-2.5 rounded-xl bg-gradient-to-r from-softodev-primary to-softodev-primaryDark text-white font-bold shadow-soft"
             >
               {isRTL ? "استشارة مجانية" : "Free consultation"}
             </Link>

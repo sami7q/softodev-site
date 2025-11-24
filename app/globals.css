@@ -2,13 +2,26 @@
 @tailwind components;
 @tailwind utilities;
 
-html, body { height: 100%; }
+html,
+body {
+  height: 100%;
+}
 
 body {
-  @apply text-softodev-text antialiased;
+  /* نخلي الأساس من الـ palette */
+  @apply bg-softodev-bg text-softodev-text antialiased;
 
+  /* glow خفيف فوق الخلفية، تقدر تعدله أو تحذفه */
   background:
-    radial-gradient(600px circle at 0% -10%, rgba(30, 90, 239, 0.10), transparent 60%),
-    radial-gradient(600px circle at 100% 0%, rgba(56, 189, 248, 0.08), transparent 55%),
-    linear-gradient(#EEF3FB, #EEF3FB);
+    radial-gradient(
+      600px circle at 0% -10%,
+      rgba(30, 90, 239, 0.06),
+      transparent 60%
+    ),
+    radial-gradient(
+      600px circle at 100% 0%,
+      rgba(30, 90, 239, 0.04),
+      transparent 55%
+    ),
+    linear-gradient(#e6ecf7, #e6ecf7);
 }

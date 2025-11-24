@@ -1,4 +1,3 @@
-// components/layout/container.tsx
 import type { ReactNode } from "react";
 
 type ContainerProps = {
@@ -7,9 +6,5 @@ type ContainerProps = {
 };
 
 export function Container({ children, className }: ContainerProps) {
-  return (
-    <div className={`container ${className ?? ""}`}>
-      {children}
-    </div>
-  );
+  return <div className={`container ${className ?? ""}`}>{children}</div>;
 }

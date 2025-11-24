@@ -1,4 +1,3 @@
-// components/home/services-section.tsx
 import Link from "next/link";
 import { Container } from "@/components/layout/container";
 import type { Locale } from "@/lib/i18n/config";
@@ -12,17 +11,20 @@ const services = {
     {
       slug: "landing-pages",
       title: "صفحات هبوط احترافية",
-      description: "صفحات تسويقية سريعة ومصممة لزيادة التحويلات لحملة معينة أو منتج واحد.",
+      description:
+        "صفحات تسويقية سريعة ومصممة لزيادة التحويلات لحملة معينة أو منتج واحد.",
     },
     {
       slug: "ecommerce-stores",
       title: "متاجر إلكترونية متكاملة",
-      description: "متاجر مهيّأة للدفع الإلكتروني، سريعة ومتوافقة مع محركات البحث وسوق الخليج.",
+      description:
+        "متاجر مهيّأة للدفع الإلكتروني، سريعة ومتوافقة مع محركات البحث وسوق الخليج.",
     },
     {
       slug: "management-systems",
       title: "أنظمة إدارة مخصصة",
-      description: "أنظمة إدارة للشركات والعيادات مبنية خصيصًا لاحتياجك، مع واجهة سهلة الاستخدام.",
+      description:
+        "أنظمة إدارة للشركات والعيادات مبنية خصيصًا لاحتياجك، مع واجهة سهلة الاستخدام.",
     },
   ],
   en: [
@@ -60,7 +62,7 @@ export function HomeServicesSection({ locale }: HomeServicesSectionProps) {
         <div className="absolute inset-0 bg-gradient-to-b from-softodev-surface via-softodev-bg to-softodev-surface" />
         {/* glows */}
         <div className="absolute -top-24 left-0 h-96 w-96 rounded-full bg-softodev-primary/12 blur-3xl" />
-        <div className="absolute top-0 right-0 h-[28rem] w-[28rem] rounded-full bg-sky-400/12 blur-3xl" />
+        <div className="absolute top-0 right-0 h-[28rem] w-[28rem] rounded-full bg-softodev-primary/10 blur-3xl" />
         {/* subtle texture */}
         <div className="absolute inset-0 opacity-[0.05] bg-[radial-gradient(#000_1px,transparent_1px)] [background-size:18px_18px]" />
         {/* top divider */}
@@ -100,7 +102,7 @@ export function HomeServicesSection({ locale }: HomeServicesSectionProps) {
               className={`group relative flex h-full flex-col rounded-2xl border border-softodev-border bg-softodev-surface/90 p-6 shadow-soft transition hover:-translate-y-1 hover:shadow-lg hover:border-softodev-primary/30 ${align}`}
             >
               {/* hover glow */}
-              <div className="pointer-events-none absolute -inset-2 -z-10 rounded-3xl bg-gradient-to-br from-softodev-primarySoft via-white/60 to-sky-100/60 opacity-0 blur-xl transition-opacity group-hover:opacity-100" />
+              <div className="pointer-events-none absolute -inset-2 -z-10 rounded-3xl bg-gradient-to-br from-softodev-primarySoft via-softodev-surfaceStrong/70 to-softodev-bg/80 opacity-0 blur-xl transition-opacity group-hover:opacity-100" />
 
               <div className="mb-4 inline-flex w-fit rounded-full bg-softodev-primarySoft/90 px-3 py-1 text-xs font-bold text-softodev-primary border border-softodev-border">
                 {isArabic ? "خدمة" : "Service"}
@@ -120,7 +122,9 @@ export function HomeServicesSection({ locale }: HomeServicesSectionProps) {
                   className="inline-flex items-center text-sm font-bold text-softodev-primary hover:opacity-80"
                 >
                   {isArabic ? "تفاصيل الخدمة" : "View details"}
-                  <span className="ms-1 transition-transform group-hover:translate-x-1">→</span>
+                  <span className="ms-1 transition-transform group-hover:translate-x-1">
+                    →
+                  </span>
                 </Link>
               </div>
             </div>

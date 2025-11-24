@@ -9,8 +9,8 @@ export function HomeHero({ locale }: { locale: "ar" | "en" }) {
       <div className="pointer-events-none absolute inset-0 -z-10">
         {/* base gradient */}
         <div className="absolute inset-0 bg-gradient-to-br from-softodev-primarySoft via-softodev-bg to-softodev-surface" />
-        {/* radial glows */}
-        <div className="absolute inset-0 opacity-70 bg-[radial-gradient(circle_at_15%_10%,rgba(30,90,239,0.18),transparent_45%),radial-gradient(circle_at_85%_0%,rgba(56,189,248,0.14),transparent_50%)]" />
+        {/* radial glows (كلها على الأزرق الأساسي) */}
+        <div className="absolute inset-0 opacity-70 bg-[radial-gradient(circle_at_15%_10%,rgba(30,90,239,0.18),transparent_45%),radial-gradient(circle_at_85%_0%,rgba(30,90,239,0.14),transparent_50%)]" />
         {/* subtle grid */}
         <div className="absolute inset-0 opacity-[0.08] bg-[linear-gradient(to_right,#000_1px,transparent_1px),linear-gradient(to_bottom,#000_1px,transparent_1px)] bg-[size:36px_36px]" />
         {/* top divider */}
@@ -43,7 +43,7 @@ export function HomeHero({ locale }: { locale: "ar" | "en" }) {
             <div className="mt-6 flex flex-col sm:flex-row gap-3">
               <Link
                 href={`/${locale}/contact`}
-                className="inline-flex w-full sm:w-auto justify-center items-center rounded-xl bg-gradient-to-r from-softodev-primary to-blue-700 text-white px-5 py-3 font-bold shadow-soft hover:opacity-95 transition active:scale-[0.98]"
+                className="inline-flex w-full sm:w-auto justify-center items-center rounded-xl bg-gradient-to-r from-softodev-primary to-softodev-primaryDark text-white px-5 py-3 font-bold shadow-soft hover:opacity-95 transition active:scale-[0.98]"
               >
                 {isRTL ? "ابدأ على واتساب" : "Start on WhatsApp"}
               </Link>
@@ -93,7 +93,7 @@ export function HomeHero({ locale }: { locale: "ar" | "en" }) {
           <div className="relative">
             <div className="rounded-3xl bg-softodev-surface/95 border border-softodev-border shadow-soft p-6">
               <div className="relative aspect-[4/3] rounded-2xl bg-gradient-to-br from-softodev-primarySoft to-softodev-bg border border-softodev-border overflow-hidden">
-                <div className="absolute inset-0 opacity-50 bg-[radial-gradient(circle_at_20%_10%,rgba(30,90,239,0.22),transparent_40%),radial-gradient(circle_at_80%_0%,rgba(56,189,248,0.16),transparent_45%)]" />
+                <div className="absolute inset-0 opacity-50 bg-[radial-gradient(circle_at_20%_10%,rgba(30,90,239,0.22),transparent_40%),radial-gradient(circle_at_80%_0%,rgba(30,90,239,0.16),transparent_45%)]" />
                 <div className="absolute inset-6 rounded-xl bg-softodev-surface border border-softodev-border shadow-soft" />
                 <div className="absolute bottom-6 left-6 right-6 h-12 rounded-lg bg-softodev-bg border border-softodev-border" />
               </div>
