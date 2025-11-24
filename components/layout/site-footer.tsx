@@ -1,103 +1,116 @@
-// components/layout/site-footer.tsx
 import Link from "next/link";
-import type { Locale } from "@/lib/i18n/config";
-import { Container } from "./container";
 
-type SiteFooterProps = {
-  locale: Locale;
-};
+type Locale = "ar" | "en" | string;
 
-export function SiteFooter({ locale }: SiteFooterProps) {
-  const isArabic = locale === "ar";
+export function SiteFooter({ locale }: { locale: Locale }) {
+  const isRTL = locale === "ar";
+
+  const cols = [
+    {
+      title: isRTL ? "الخدمات" : "Services",
+      items: [
+        { label: isRTL ? "صفحات الهبوط" : "Landing Pages", href: `/${locale}/services` },
+        { label: isRTL ? "المواقع" : "Websites", href: `/${locale}/services` },
+        { label: isRTL ? "المتاجر" : "E-Commerce Stores", href: `/${locale}/services` },
+        { label: isRTL ? "أنظمة الإدارة" : "Management Systems", href: `/${locale}/services` },
+        { label: "MVP", href: `/${locale}/services` },
+      ],
+    },
+    {
+      title: isRTL ? "الشركة" : "Company",
+      items: [
+        { label: isRTL ? "من نحن" : "About", href: `/${locale}/about` },
+        { label: isRTL ? "الأعمال" : "Portfolio", href: `/${locale}/portfolio` },
+        { label: isRTL ? "الأسعار" : "Pricing", href: `/${locale}/pricing` },
+        { label: isRTL ? "تواصل" : "Contact", href: `/${locale}/contact` },
+      ],
+    },
+    {
+      title: isRTL ? "تواصل سريع" : "Quick Contact",
+      items: [
+        {
+          label: isRTL ? "واتساب" : "WhatsApp",
+          href: "https://wa.me/905015954826",
+          external: true,
+        },
+        {
+          label: isRTL ? "اتصال" : "Call",
+          href: "tel:+905015954826",
+          external: true,
+        },
+        {
+          label: "softodev.net",
+          href: "https://www.softodev.net",
+          external: true,
+        },
+      ] as any,
+    },
+  ];
 
   return (
-    <footer className="mt-8 border-t border-softodev-border bg-softodev-surface">
-      <Container className="grid gap-6 py-6 md:grid-cols-[minmax(0,2fr)_minmax(0,1.5fr)] text-sm">
-        {/* About */}
-        <div>
-          <div className="text-sm font-semibold text-softodev-text">
-            SoftoDev
+    <footer className="border-t border-softodev-border bg-softodev-bg">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+          {/* Brand */}
+          <div>
+            <div className="flex items-center gap-2 font-bold text-softodev-text">
+              <div className="h-9 w-9 rounded-xl bg-softodev-primary text-white grid place-items-center shadow-soft">
+                S
+              </div>
+              SoftoDev
+            </div>
+            <p className="mt-3 text-sm text-softodev-muted leading-relaxed">
+              {isRTL
+                ? "نطوّر مواقع ومتاجر وأنظمة إدارة عالية الأداء للسوق الخليجي والعراقي."
+                : "We build high-performance websites, stores, and management systems for GCC & Iraq."}
+            </p>
           </div>
-          <p className="mt-2 max-w-sm text-softodev-muted">
-            {isArabic
-              ? "SoftoDev تبني مواقع، متاجر إلكترونية وأنظمة إدارة موجهة لسوق الخليج والعراق مع تركيز كبير على الأداء وتجربة المستخدم."
-              : "SoftoDev builds websites, e-commerce stores, and management systems tailored for the GCC and Iraq market with a strong focus on performance and UX."}
-          </p>
+
+          {/* Columns */}
+          {cols.map((col) => (
+            <div key={col.title}>
+              <div className="text-sm font-semibold text-softodev-text">
+                {col.title}
+              </div>
+              <ul className="mt-3 space-y-2">
+                {col.items.map((it: any) => (
+                  <li key={it.label}>
+                    <Link
+                      href={it.href}
+                      target={it.external ? "_blank" : undefined}
+                      rel={it.external ? "noopener noreferrer" : undefined}
+                      className="text-sm text-softodev-muted hover:text-softodev-text transition"
+                    >
+                      {it.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
         </div>
 
-        {/* Links + contact */}
-        <div
-          className={`flex flex-col items-start gap-3 ${
-            isArabic ? "md:items-end md:text-right" : "md:items-start"
-          }`}
-        >
-          <div
-            className={`flex flex-wrap gap-3 text-softodev-muted ${
-              isArabic ? "flex-row-reverse" : ""
-            }`}
-          >
-            <Link
-              href={`/${locale}/services`}
-              className="hover:text-softodev-text"
-            >
-              {isArabic ? "الخدمات" : "Services"}
-            </Link>
-            <Link
-              href={`/${locale}/pricing`}
-              className="hover:text-softodev-text"
-            >
-              {isArabic ? "الأسعار" : "Pricing"}
-            </Link>
-            <Link
-              href={`/${locale}/portfolio`}
-              className="hover:text-softodev-text"
-            >
-              {isArabic ? "الأعمال" : "Portfolio"}
-            </Link>
-            <Link
-              href={`/${locale}/about`}
-              className="hover:text-softodev-text"
-            >
-              {isArabic ? "عن الشركة" : "About"}
-            </Link>
-            <Link
-              href={`/${locale}/contact`}
-              className="hover:text-softodev-text"
-            >
-              {isArabic ? "تواصل" : "Contact"}
-            </Link>
+        <div className="mt-10 pt-6 border-t border-softodev-border flex flex-col sm:flex-row items-center justify-between gap-3">
+          <div className="text-xs text-softodev-muted">
+            © {new Date().getFullYear()} SoftoDev. {isRTL ? "كل الحقوق محفوظة." : "All rights reserved."}
           </div>
 
-          <div
-            className={`space-y-1 text-xs text-softodev-muted ${
-              isArabic ? "text-right" : "text-left"
-            }`}
-          >
-            <div>
-              {isArabic ? "واتساب:" : "WhatsApp:"}{" "}
-              <a
-                href="https://wa.me/905015954826"
-                className="font-medium text-softodev-primary hover:underline"
-              >
-                +90 501 595 4826
-              </a>
-            </div>
-            <div>
-              {isArabic ? "البريد الإلكتروني:" : "Email:"}{" "}
-              <a
-                href="mailto:sami22eng@gmail.com"
-                className="font-medium text-softodev-primary hover:underline"
-              >
-                sami22eng@gmail.com
-              </a>
-            </div>
+          <div className="flex items-center gap-2 text-xs text-softodev-muted">
+            <Link
+              href={`/${locale}/privacy`}
+              className="hover:text-softodev-text transition"
+            >
+              {isRTL ? "الخصوصية" : "Privacy"}
+            </Link>
+            <span>•</span>
+            <Link
+              href={`/${locale}/terms`}
+              className="hover:text-softodev-text transition"
+            >
+              {isRTL ? "الشروط" : "Terms"}
+            </Link>
           </div>
         </div>
-      </Container>
-
-      <div className="border-t border-softodev-border bg-softodev-bg py-3 text-center text-xs text-softodev-muted">
-        © {new Date().getFullYear()} SoftoDev.{" "}
-        {isArabic ? "جميع الحقوق محفوظة." : "All rights reserved."}
       </div>
     </footer>
   );

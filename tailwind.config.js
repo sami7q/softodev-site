@@ -17,13 +17,30 @@ module.exports = {
       },
       colors: {
         softodev: {
-          bg: "#f3f4f6", // خلفية عامة فاتحة
-          surface: "#ffffff",
-          primary: "#1d4ed8", // تقدر تغيّرها لاحقاً حسب هوية SoftoDev
-          primarySoft: "#dbeafe",
-          border: "#e5e7eb",
-          text: "#0f172a",
-          muted: "#6b7280",
+          // ✅ background becomes deeper blue-gray (less white)
+          bg: "#E6ECF7",
+
+          // ✅ surface for cards/nav becomes light gray-blue (not pure white)
+          surface: "#F1F5FD",
+
+          // ✅ richer primary
+          primary: "#1E5AEF",
+
+          // ✅ soft tint for chips/hover
+          primarySoft: "#D7E4FF",
+
+          // ✅ stronger border for depth
+          border: "#C9D4EA",
+
+          // ✅ deep text stays clean
+          text: "#0B1220",
+
+          // ✅ muted a bit darker for readability
+          muted: "#465772",
+          
+          // (optional extras — safe to add)
+          surfaceStrong: "#EAF0FB",
+          primaryDark: "#1747C8",
         },
       },
       boxShadow: {

@@ -8,54 +8,46 @@ type HomePortfolioPreviewProps = {
   locale: Locale;
 };
 
-export function HomePortfolioPreview({
-  locale,
-}: HomePortfolioPreviewProps) {
+export function HomePortfolioPreview({ locale }: HomePortfolioPreviewProps) {
   const isArabic = locale === "ar";
-  const headingAlign = isArabic ? "right" : "left";
-
-  const projects = getProjectsForLocale(locale).slice(0, 3); // أول 3 فقط
+  const projects = getProjectsForLocale(locale).slice(0, 3);
 
   return (
-    <section style={{ padding: "3.5rem 0" }}>
-      <Container>
+    <section className="relative isolate py-16 sm:py-20 bg-softodev-bg/60 overflow-hidden">
+      {/* Stronger premium background */}
+      <div className="pointer-events-none absolute inset-0 -z-10">
+        {/* base gradient */}
+        <div className="absolute inset-0 bg-gradient-to-b from-softodev-surface via-softodev-bg to-softodev-surface" />
+        {/* glows */}
+        <div className="absolute -top-24 left-0 h-96 w-96 rounded-full bg-softodev-primary/12 blur-3xl" />
+        <div className="absolute top-0 right-0 h-[28rem] w-[28rem] rounded-full bg-sky-400/12 blur-3xl" />
+        {/* subtle texture */}
+        <div className="absolute inset-0 opacity-[0.05] bg-[radial-gradient(#000_1px,transparent_1px)] [background-size:18px_18px]" />
+        {/* top divider */}
+        <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-softodev-primary/40 to-transparent" />
+        {/* bottom divider */}
+        <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-softodev-primary/30 to-transparent" />
+      </div>
+
+      <Container className="relative z-10">
         {/* Header */}
         <div
-          style={{
-            maxWidth: 720,
-            margin: "0 auto 2rem auto",
-            textAlign: headingAlign as "left" | "right" | "center",
-          }}
+          className={[
+            "max-w-2xl mx-auto mb-10 sm:mb-12",
+            isArabic ? "text-right" : "text-left",
+          ].join(" ")}
         >
-          <p
-            style={{
-              fontSize: "0.75rem",
-              textTransform: "uppercase",
-              letterSpacing: "0.2em",
-              color: "#6b7280",
-              marginBottom: "0.5rem",
-            }}
-          >
+          <p className="text-xs uppercase tracking-[0.25em] text-softodev-muted font-semibold mb-2">
             {isArabic ? "نماذج أعمال" : "Selected work"}
           </p>
-          <h2
-            style={{
-              fontSize: "1.6rem",
-              fontWeight: 600,
-              marginBottom: "0.5rem",
-            }}
-          >
+
+          <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-softodev-text mb-3">
             {isArabic
               ? "مشاريع نفذناها لعملاء حقيقيين"
               : "Projects we’ve delivered for real clients"}
           </h2>
-          <p
-            style={{
-              fontSize: "0.9rem",
-              lineHeight: 1.7,
-              color: "#4b5563",
-            }}
-          >
+
+          <p className="text-base sm:text-lg text-softodev-muted leading-relaxed">
             {isArabic
               ? "هذه أمثلة سريعة، يمكنك استعراض التفاصيل الكاملة من صفحة الأعمال لمشاهدة طريقة عرض المشاريع."
               : "These are quick examples. You can see full details on the portfolio page to better understand our approach."}
@@ -63,137 +55,71 @@ export function HomePortfolioPreview({
         </div>
 
         {/* Projects grid */}
-        <div
-          style={{
-            display: "grid",
-            gap: "1.5rem",
-            gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
-          }}
-        >
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {projects.map((project) => (
             <Link
               key={project.slug}
               href={`/${locale}/portfolio/${project.slug}`}
-              style={{
-                textDecoration: "none",
-                color: "inherit",
-              }}
+              className="group"
             >
-              <div
-                style={{
-                  borderRadius: "1.1rem",
-                  border: "1px solid #e5e7eb",
-                  backgroundColor: "#ffffff",
-                  padding: "1.25rem",
-                  boxShadow: "0 12px 30px rgba(15, 23, 42, 0.06)",
-                  height: "100%",
-                }}
-              >
-                <div
-                  style={{
-                    borderRadius: "0.8rem",
-                    border: "1px solid #e5e7eb",
-                    backgroundColor: "#f9fafb",
-                    padding: "0.6rem",
-                    marginBottom: "0.9rem",
-                  }}
-                >
+              <div className="relative rounded-2xl border border-softodev-border bg-softodev-surface/90 p-5 shadow-soft h-full transition hover:-translate-y-1 hover:shadow-lg hover:border-softodev-primary/30">
+                
+                {/* subtle hover glow */}
+                <div className="pointer-events-none absolute -inset-2 -z-10 rounded-3xl bg-gradient-to-br from-softodev-primarySoft via-white/60 to-sky-100/60 opacity-0 blur-xl transition-opacity group-hover:opacity-100" />
+
+                {/* Mock cover */}
+                <div className="rounded-xl border border-softodev-border bg-softodev-bg/70 p-3 mb-4">
+                  <div className="h-24 rounded-lg bg-softodev-primarySoft/70 border border-softodev-border mb-3" />
                   <div
-                    style={{
-                      height: "80px",
-                      borderRadius: "0.6rem",
-                      backgroundColor: "#e5e7eb",
-                      marginBottom: "0.4rem",
-                    }}
-                  />
-                  <div
-                    style={{
-                      display: "flex",
-                      gap: "0.4rem",
-                      justifyContent: isArabic ? "flex-end" : "flex-start",
-                    }}
+                    className={[
+                      "flex gap-2",
+                      isArabic ? "justify-end" : "justify-start",
+                    ].join(" ")}
                   >
-                    <div
-                      style={{
-                        width: "70px",
-                        height: "50px",
-                        borderRadius: "0.5rem",
-                        backgroundColor: "#e5e7eb",
-                      }}
-                    />
-                    <div
-                      style={{
-                        width: "35px",
-                        height: "50px",
-                        borderRadius: "0.5rem",
-                        backgroundColor: "#e5e7eb",
-                      }}
-                    />
+                    <div className="w-20 h-14 rounded-lg bg-softodev-primarySoft/70 border border-softodev-border" />
+                    <div className="w-10 h-14 rounded-lg bg-softodev-primarySoft/70 border border-softodev-border" />
                   </div>
                 </div>
 
                 <h3
-                  style={{
-                    fontSize: "1rem",
-                    fontWeight: 600,
-                    marginBottom: "0.3rem",
-                    textAlign: headingAlign as "left" | "right" | "center",
-                  }}
+                  className={[
+                    "text-base font-extrabold text-softodev-text mb-1",
+                    isArabic ? "text-right" : "text-left",
+                  ].join(" ")}
                 >
                   {project.name}
                 </h3>
+
                 <p
-                  style={{
-                    fontSize: "0.85rem",
-                    lineHeight: 1.6,
-                    color: "#4b5563",
-                    marginBottom: "0.3rem",
-                    textAlign: headingAlign as "left" | "right" | "center",
-                  }}
+                  className={[
+                    "text-sm text-softodev-muted leading-relaxed mb-3",
+                    isArabic ? "text-right" : "text-left",
+                  ].join(" ")}
                 >
                   {project.short}
                 </p>
-                <p
-                  style={{
-                    fontSize: "0.8rem",
-                    color: "#2563eb",
-                    fontWeight: 600,
-                    textAlign: headingAlign as "left" | "right" | "center",
-                  }}
+
+                <div
+                  className={[
+                    "text-sm font-bold text-softodev-primary inline-flex items-center gap-1",
+                    isArabic ? "text-right justify-end" : "text-left justify-start",
+                  ].join(" ")}
                 >
-                  {isArabic
-                    ? "عرض تفاصيل المشروع →"
-                    : "View project →"}
-                </p>
+                  {isArabic ? "عرض تفاصيل المشروع" : "View project"}
+                  <span className="transition-transform group-hover:translate-x-1">→</span>
+                </div>
               </div>
             </Link>
           ))}
         </div>
 
         {/* Link to full portfolio */}
-        <div
-          style={{
-            marginTop: "1.75rem",
-            textAlign: "center",
-          }}
-        >
+        <div className="mt-8 flex justify-center">
           <Link
             href={`/${locale}/portfolio`}
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              borderRadius: 9999,
-              padding: "0.6rem 1.5rem",
-              fontSize: "0.9rem",
-              fontWeight: 600,
-              color: "#111827",
-              border: "1px solid #e5e7eb",
-              textDecoration: "none",
-            }}
+            className="inline-flex items-center rounded-full px-5 py-2.5 text-sm font-extrabold text-softodev-text bg-softodev-surface/95 border border-softodev-border shadow-soft hover:border-softodev-primary/40 transition"
           >
-            {isArabic
-              ? "مشاهدة جميع الأعمال"
-              : "View full portfolio"}
+            {isArabic ? "مشاهدة جميع الأعمال" : "View full portfolio"}
           </Link>
         </div>
       </Container>

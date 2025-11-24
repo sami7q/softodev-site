@@ -1,39 +1,59 @@
-// components/layout/floating-actions.tsx
-import type { Locale } from "@/lib/i18n/config";
+"use client";
 
-type FloatingActionsProps = {
-  locale: Locale;
-  whatsappNumber: string;
-  phoneNumber: string;
-};
+import Link from "next/link";
+
+type Locale = "ar" | "en" | string;
 
 export function FloatingActions({
   locale,
   whatsappNumber,
   phoneNumber,
-}: FloatingActionsProps) {
-  const isArabic = locale === "ar";
+}: {
+  locale: Locale;
+  whatsappNumber: string;
+  phoneNumber: string;
+}) {
+  const isRTL = locale === "ar";
+
+  const waHref = `https://wa.me/${whatsappNumber.replace("+", "")}?text=${encodeURIComponent(
+    isRTL
+      ? "مرحباً SoftoDev، أريد استشارة بخصوص مشروع."
+      : "Hi SoftoDev, I want a consultation about a project."
+  )}`;
+
+  const callHref = `tel:${phoneNumber}`;
 
   return (
     <div
-      className={`fixed bottom-4 right-4 z-40 flex flex-col gap-2 ${
-        isArabic ? "md:right-4" : "md:right-4"
-      }`}
+      dir={isRTL ? "rtl" : "ltr"}
+      className={[
+        "fixed z-[70] bottom-5",
+        // keep behavior: Arabic right, English left
+        isRTL ? "right-5" : "left-5",
+        "flex flex-col gap-2",
+      ].join(" ")}
     >
-      <a
-        href={`https://wa.me/${whatsappNumber.replace(/[^\d]/g, "")}`}
+      <Link
+        href={waHref}
         target="_blank"
-        rel="noreferrer"
-        className="flex items-center gap-2 rounded-full bg-green-500 px-3 py-2 text-xs font-semibold text-white shadow-lg shadow-green-500/30 hover:bg-green-600"
+        rel="noopener noreferrer"
+        className="group flex items-center gap-2 rounded-2xl bg-green-600 text-white px-4 py-3 shadow-soft hover:opacity-95 transition"
+        aria-label="WhatsApp"
       >
-        <span>WhatsApp</span>
-      </a>
-      <a
-        href={`tel:${phoneNumber}`}
-        className="flex items-center gap-2 rounded-full bg-softodev-surface px-3 py-2 text-xs font-semibold text-softodev-text shadow-lg shadow-slate-900/10 hover:bg-softodev-primarySoft"
+        <span className="text-sm font-semibold">
+          {isRTL ? "واتساب" : "WhatsApp"}
+        </span>
+      </Link>
+
+      <Link
+        href={callHref}
+        className="group flex items-center gap-2 rounded-2xl bg-softodev-surface border border-softodev-border text-softodev-text px-4 py-3 shadow-soft hover:border-softodev-primary/40 transition"
+        aria-label="Call"
       >
-        <span>{isArabic ? "اتصال" : "Call"}</span>
-      </a>
+        <span className="text-sm font-semibold">
+          {isRTL ? "اتصال" : "Call"}
+        </span>
+      </Link>
     </div>
   );
 }

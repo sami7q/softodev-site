@@ -10,103 +10,81 @@ type HomePricingTeaserProps = {
 
 export function HomePricingTeaser({ locale }: HomePricingTeaserProps) {
   const isArabic = locale === "ar";
-  const headingAlign = isArabic ? "right" : "left";
-
   const plans = getPricingForLocale(locale);
 
   return (
-    <section style={{ padding: "3.5rem 0" }}>
-      <Container>
+    <section className="relative isolate py-16 sm:py-20 bg-softodev-bg/60 overflow-hidden">
+      {/* Premium background layers */}
+      <div className="pointer-events-none absolute inset-0 -z-10">
+        {/* base gradient */}
+        <div className="absolute inset-0 bg-gradient-to-b from-softodev-surface via-softodev-bg to-softodev-surface" />
+        {/* glows */}
+        <div className="absolute -top-24 left-0 h-96 w-96 rounded-full bg-softodev-primary/12 blur-3xl" />
+        <div className="absolute top-0 right-0 h-[28rem] w-[28rem] rounded-full bg-sky-400/12 blur-3xl" />
+        {/* subtle texture */}
+        <div className="absolute inset-0 opacity-[0.05] bg-[radial-gradient(#000_1px,transparent_1px)] [background-size:18px_18px]" />
+        {/* top divider */}
+        <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-softodev-primary/40 to-transparent" />
+      </div>
+
+      <Container className="relative z-10">
         {/* Header */}
         <div
-          style={{
-            maxWidth: 720,
-            margin: "0 auto 2rem auto",
-            textAlign: headingAlign as "left" | "right" | "center",
-          }}
+          className={[
+            "max-w-2xl mx-auto mb-10 sm:mb-12",
+            isArabic ? "text-right" : "text-left",
+          ].join(" ")}
         >
-          <p
-            style={{
-              fontSize: "0.75rem",
-              textTransform: "uppercase",
-              letterSpacing: "0.2em",
-              color: "#6b7280",
-              marginBottom: "0.5rem",
-            }}
-          >
+          <p className="text-xs uppercase tracking-[0.25em] text-softodev-muted font-semibold mb-2">
             {isArabic ? "الأسعار" : "Pricing"}
           </p>
-          <h2
-            style={{
-              fontSize: "1.6rem",
-              fontWeight: 600,
-              marginBottom: "0.5rem",
-            }}
-          >
+
+          <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-softodev-text mb-3">
             {isArabic
               ? "باقات تبدأ من 199$ وتصل حتى مشاريع مخصصة للشركات"
               : "Plans from $199 up to fully custom company systems"}
           </h2>
-          <p
-            style={{
-              fontSize: "0.9rem",
-              lineHeight: 1.7,
-              color: "#4b5563",
-            }}
-          >
+
+          <p className="text-base sm:text-lg text-softodev-muted leading-relaxed">
             {isArabic
               ? "الأسعار تختلف حسب تفاصيل المشروع، لكن هذه نظرة سريعة على الباقات الرئيسية التي نقدمها."
               : "Prices vary based on your project details, but here’s a quick overview of our main plans."}
           </p>
         </div>
 
-        {/* Plans row (مختصر) */}
-        <div
-          style={{
-            display: "grid",
-            gap: "1.25rem",
-            gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
-          }}
-        >
+        {/* Plans grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {plans.map((plan) => (
             <div
               key={plan.id}
-              style={{
-                borderRadius: "1.1rem",
-                border: "1px solid #e5e7eb",
-                backgroundColor: "#ffffff",
-                padding: "1.25rem",
-                boxShadow: "0 10px 25px rgba(15, 23, 42, 0.05)",
-              }}
+              className="group relative rounded-2xl border border-softodev-border bg-softodev-surface/90 p-6 shadow-soft h-full transition hover:-translate-y-1 hover:shadow-lg hover:border-softodev-primary/30"
             >
+              {/* hover glow */}
+              <div className="pointer-events-none absolute -inset-2 -z-10 rounded-3xl bg-gradient-to-br from-softodev-primarySoft via-white/60 to-sky-100/60 opacity-0 blur-xl transition-opacity group-hover:opacity-100" />
+
               <h3
-                style={{
-                  fontSize: "1rem",
-                  fontWeight: 600,
-                  marginBottom: "0.25rem",
-                  textAlign: headingAlign as "left" | "right" | "center",
-                }}
+                className={[
+                  "text-base font-bold text-softodev-text mb-1",
+                  isArabic ? "text-right" : "text-left",
+                ].join(" ")}
               >
                 {plan.name}
               </h3>
+
               <p
-                style={{
-                  fontSize: "0.9rem",
-                  fontWeight: 600,
-                  color: "#111827",
-                  marginBottom: "0.3rem",
-                  textAlign: headingAlign as "left" | "right" | "center",
-                }}
+                className={[
+                  "text-xl font-extrabold text-softodev-text mb-2",
+                  isArabic ? "text-right" : "text-left",
+                ].join(" ")}
               >
                 {plan.priceLabel}
               </p>
+
               <p
-                style={{
-                  fontSize: "0.85rem",
-                  lineHeight: 1.6,
-                  color: "#4b5563",
-                  textAlign: headingAlign as "left" | "right" | "center",
-                }}
+                className={[
+                  "text-sm text-softodev-muted leading-relaxed",
+                  isArabic ? "text-right" : "text-left",
+                ].join(" ")}
               >
                 {plan.description}
               </p>
@@ -115,29 +93,12 @@ export function HomePricingTeaser({ locale }: HomePricingTeaserProps) {
         </div>
 
         {/* CTA to full pricing */}
-        <div
-          style={{
-            marginTop: "1.75rem",
-            textAlign: "center",
-          }}
-        >
+        <div className="mt-8 flex justify-center">
           <Link
             href={`/${locale}/pricing`}
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              borderRadius: 9999,
-              padding: "0.6rem 1.5rem",
-              fontSize: "0.9rem",
-              fontWeight: 600,
-              color: "#ffffff",
-              backgroundColor: "#111827",
-              textDecoration: "none",
-            }}
+            className="inline-flex items-center rounded-full px-6 py-3 text-sm font-bold text-white bg-gradient-to-r from-softodev-primary to-blue-700 shadow-soft hover:opacity-95 transition active:scale-[0.98]"
           >
-            {isArabic
-              ? "شاهد تفاصيل الأسعار كاملة"
-              : "View full pricing details"}
+            {isArabic ? "شاهد تفاصيل الأسعار كاملة" : "View full pricing details"}
           </Link>
         </div>
       </Container>

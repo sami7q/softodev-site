@@ -103,9 +103,7 @@ export async function generateMetadata({
   const { locale } = await params;
 
   const title =
-    locale === "ar"
-      ? "باقات الأسعار | SoftoDev"
-      : "Pricing Plans | SoftoDev";
+    locale === "ar" ? "باقات الأسعار | SoftoDev" : "Pricing Plans | SoftoDev";
 
   const description =
     locale === "ar"
@@ -134,19 +132,28 @@ export default async function PricingPage({
   const justify = isArabic ? "justify-end" : "justify-start";
 
   return (
-    <section className="py-10 md:py-14">
-      <Container className="space-y-8">
+    <section className="relative isolate py-12 md:py-16 bg-softodev-bg/60 backdrop-blur-sm overflow-hidden">
+      {/* Background glows */}
+      <div className="pointer-events-none absolute inset-0 z-0">
+        <div className="absolute -top-24 left-0 h-80 w-80 rounded-full bg-softodev-primary/12 blur-3xl" />
+        <div className="absolute top-0 right-0 h-96 w-96 rounded-full bg-sky-400/12 blur-3xl" />
+        <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-softodev-primary/40 to-transparent" />
+      </div>
+
+      <Container className="relative z-10 space-y-10 md:space-y-12">
         {/* Header */}
         <div className={`space-y-3 ${align}`}>
           <p className="text-[11px] font-semibold uppercase tracking-[0.25em] text-softodev-muted">
             {isArabic ? "الأسعار" : "Pricing"}
           </p>
-          <h1 className="text-2xl font-semibold tracking-tight text-softodev-text md:text-3xl">
+
+          <h1 className="text-2xl md:text-3xl lg:text-4xl font-extrabold tracking-tight text-softodev-text leading-tight">
             {isArabic
               ? "باقات مرنة تبدأ من 199$ وتصل إلى أنظمة مخصصة بالكامل"
               : "Flexible plans from $199 up to fully custom systems."}
           </h1>
-          <p className="max-w-2xl text-sm leading-relaxed text-softodev-muted md:text-[15px]">
+
+          <p className="max-w-2xl text-base md:text-[15px] leading-relaxed text-softodev-muted">
             {isArabic
               ? "الهدف هو تقديم عرض سعر واضح قدر الإمكان من البداية، مع ترك مساحة للتعديلات بناءً على تفاصيل مشروعك."
               : "We aim to give you a clear starting price while leaving room for adjustments based on your project details."}
@@ -154,60 +161,82 @@ export default async function PricingPage({
         </div>
 
         {/* Cards */}
-        <div className="grid gap-5 md:grid-cols-3 md:gap-6">
+        <div className="grid gap-5 md:grid-cols-3 md:gap-6 items-stretch">
           {plans.map((plan) => {
             const isHighlight = plan.highlight;
+
             return (
               <div
                 key={plan.id}
-                className={`flex flex-col rounded-3xl border bg-softodev-surface/95 p-4 text-sm shadow-soft ${
+                className={[
+                  "relative flex flex-col rounded-3xl border p-5 md:p-6 text-sm shadow-soft transition",
+                  "bg-softodev-surface/90",
                   isHighlight
-                    ? "border-softodev-primary/70 ring-2 ring-softodev-primary/20"
-                    : "border-softodev-border/70"
-                }`}
+                    ? "border-softodev-primary/70 ring-2 ring-softodev-primary/20 scale-[1.02] md:scale-105"
+                    : "border-softodev-border hover:-translate-y-0.5 hover:shadow-lg hover:border-softodev-primary/30",
+                ].join(" ")}
               >
+                {/* Highlight glow */}
+                {isHighlight && (
+                  <div className="pointer-events-none absolute -inset-2 -z-10 rounded-3xl bg-gradient-to-br from-softodev-primarySoft via-white/60 to-sky-100/60 blur-xl" />
+                )}
+
                 <div className={align}>
                   {plan.badge && (
-                    <div className="mb-2 inline-flex rounded-full bg-softodev-primarySoft/80 px-3 py-1 text-[11px] font-semibold text-softodev-primary">
+                    <div
+                      className={[
+                        "mb-3 inline-flex w-fit rounded-full px-3 py-1 text-[11px] font-bold border",
+                        isHighlight
+                          ? "bg-softodev-primarySoft/90 text-softodev-primary border-softodev-primary/20"
+                          : "bg-softodev-primarySoft/70 text-softodev-primary border-softodev-border",
+                      ].join(" ")}
+                    >
                       {plan.badge[locale]}
                     </div>
                   )}
-                  <div className="text-base font-semibold text-softodev-text">
+
+                  <div className="text-lg font-extrabold text-softodev-text">
                     {plan.name[locale]}
                   </div>
-                  <div className="mt-1 text-lg font-bold text-softodev-text">
+
+                  <div className="mt-1 text-2xl font-extrabold tracking-tight text-softodev-text">
                     {plan.price[locale]}
                   </div>
-                  <p className="mt-1 text-xs text-softodev-muted">
+
+                  <p className="mt-2 text-sm text-softodev-muted leading-relaxed">
                     {plan.description[locale]}
                   </p>
                 </div>
 
-                <div className={`mt-3 flex-1 space-y-1.5 ${align}`}>
+                {/* Features */}
+                <div className={`mt-5 flex-1 space-y-2.5 ${align}`}>
                   {plan.features[locale].map((f, idx) => (
-                    <div key={idx} className="flex items-start gap-2">
-                      <span className="mt-1 h-1.5 w-1.5 flex-none rounded-full bg-softodev-primary" />
-                      <p className="text-xs text-softodev-muted leading-relaxed">
+                    <div key={idx} className="flex items-start gap-2.5">
+                      <span className="mt-1.5 h-2 w-2 flex-none rounded-full bg-softodev-primary" />
+                      <p className="text-sm text-softodev-muted leading-relaxed">
                         {f}
                       </p>
                     </div>
                   ))}
                 </div>
 
-                <div className={`mt-4 flex gap-3 text-xs ${justify}`}>
+                {/* Actions */}
+                <div className={`mt-6 flex flex-wrap gap-3 text-sm ${justify}`}>
                   <Link
                     href={isArabic ? "/ar/contact" : "/en/contact"}
-                    className={`inline-flex items-center rounded-full px-4 py-1.5 font-semibold ${
+                    className={[
+                      "inline-flex items-center rounded-full px-5 py-2 font-bold shadow-soft transition active:scale-[0.98]",
                       isHighlight
-                        ? "bg-softodev-primary text-white hover:bg-blue-700"
-                        : "border border-softodev-border bg-softodev-surface hover:bg-softodev-primarySoft/70 text-softodev-text"
-                    }`}
+                        ? "bg-gradient-to-r from-softodev-primary to-blue-700 text-white hover:opacity-95"
+                        : "border border-softodev-border bg-softodev-surface text-softodev-text hover:border-softodev-primary/40",
+                    ].join(" ")}
                   >
                     {isArabic ? "احصل على عرض سعر" : "Get a quote"}
                   </Link>
+
                   <Link
                     href={isArabic ? "/ar/services" : "/en/services"}
-                    className="inline-flex items-center rounded-full border border-dashed border-softodev-border px-4 py-1.5 font-semibold text-softodev-muted hover:bg-softodev-primarySoft/40"
+                    className="inline-flex items-center rounded-full border border-dashed border-softodev-border px-5 py-2 font-bold text-softodev-muted hover:bg-softodev-primarySoft/40 transition"
                   >
                     {isArabic ? "قارن مع الخدمات" : "Compare with services"}
                   </Link>
@@ -217,7 +246,7 @@ export default async function PricingPage({
           })}
         </div>
 
-        <p className={`text-[11px] text-softodev-muted ${align}`}>
+        <p className={`text-xs text-softodev-muted ${align}`}>
           {isArabic
             ? "الأسعار المذكورة تقريبية وتعتمد على تفاصيل مشروعك النهائي، لكنّها تعطيك تصورًا واضحًا عن مستوى الاستثمار المطلوب."
             : "Prices are starting points and depend on your final scope, but they give you a realistic idea of the required investment."}

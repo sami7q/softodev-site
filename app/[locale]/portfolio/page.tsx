@@ -98,22 +98,30 @@ export default async function PortfolioPage({
   const { locale } = await params;
   const isArabic = locale === "ar";
   const align = isArabic ? "text-right" : "text-left";
-  const justify = isArabic ? "justify-end" : "justify-start";
 
   return (
-    <section className="py-10 md:py-14">
-      <Container className="space-y-8">
+    <section className="relative isolate py-12 md:py-16 bg-softodev-bg/60 backdrop-blur-sm overflow-hidden">
+      {/* Background glows */}
+      <div className="pointer-events-none absolute inset-0 z-0">
+        <div className="absolute -top-24 left-0 h-80 w-80 rounded-full bg-softodev-primary/12 blur-3xl" />
+        <div className="absolute top-0 right-0 h-96 w-96 rounded-full bg-sky-400/12 blur-3xl" />
+        <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-softodev-primary/40 to-transparent" />
+      </div>
+
+      <Container className="relative z-10 space-y-10 md:space-y-12">
         {/* Header */}
         <div className={`space-y-3 ${align}`}>
           <p className="text-[11px] font-semibold uppercase tracking-[0.25em] text-softodev-muted">
             {isArabic ? "الأعمال" : "Portfolio"}
           </p>
-          <h1 className="text-2xl font-semibold tracking-tight text-softodev-text md:text-3xl">
+
+          <h1 className="text-2xl md:text-3xl lg:text-4xl font-extrabold tracking-tight text-softodev-text leading-tight">
             {isArabic
               ? "نماذج من مشاريع تم تنفيذها لسوق الخليج والعراق"
               : "Sample projects delivered for the GCC & Iraq market."}
           </h1>
-          <p className="max-w-2xl text-sm leading-relaxed text-softodev-muted md:text-[15px]">
+
+          <p className="max-w-2xl text-base md:text-[15px] leading-relaxed text-softodev-muted">
             {isArabic
               ? "هذه أمثلة توضح طريقة التفكير، الهيكلة، والتركيز على تجربة المستخدم. يمكن بناء مشروعك بأسلوب مشابه ومخصص لهويتك."
               : "These examples show how we think about structure, UX, and performance. Your project can be built with the same care, tailored to your brand."}
@@ -121,17 +129,17 @@ export default async function PortfolioPage({
         </div>
 
         {/* Grid */}
-        <div className="grid gap-6 md:grid-cols-3">
+        <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
           {projects.map((project) => (
             <Link
               key={project.slug}
               href={`/${locale}/portfolio/${project.slug}`}
-              className="group flex flex-col rounded-3xl border border-softodev-border/70 bg-softodev-surface/95 p-4 shadow-soft transition-transform hover:-translate-y-1 hover:shadow-lg"
+              className="group flex flex-col rounded-3xl border border-softodev-border bg-softodev-surface/90 p-5 shadow-soft transition hover:-translate-y-0.5 hover:shadow-lg hover:border-softodev-primary/30"
             >
               {/* Mockup block */}
               <div className="relative mb-4">
-                <div className="absolute -inset-2 -z-10 rounded-2xl bg-gradient-to-br from-blue-200/40 via-indigo-100/40 to-sky-100/40 opacity-0 blur-xl transition-opacity group-hover:opacity-100" />
-                <div className="rounded-2xl border border-softodev-border/70 bg-gray-50 p-2">
+                <div className="absolute -inset-3 -z-10 rounded-2xl bg-gradient-to-br from-blue-200/50 via-indigo-100/50 to-sky-100/50 opacity-0 blur-xl transition-opacity group-hover:opacity-100" />
+                <div className="rounded-2xl border border-softodev-border bg-softodev-bg/70 p-3">
                   <div className="mb-2 flex items-center justify-between gap-2">
                     <div className="flex gap-1.5">
                       <span className="h-2 w-2 rounded-full bg-red-400" />
@@ -143,13 +151,13 @@ export default async function PortfolioPage({
                   <div className="grid gap-2 sm:grid-cols-[minmax(0,1.8fr)_minmax(0,1.1fr)]">
                     <div className="space-y-2">
                       <div className="h-6 w-3/4 rounded-lg bg-softodev-primarySoft" />
-                      <div className="h-3 w-full rounded-lg bg-gray-100" />
-                      <div className="h-3 w-5/6 rounded-lg bg-gray-100" />
-                      <div className="h-12 rounded-lg bg-gray-100" />
+                      <div className="h-3 w-full rounded-lg bg-softodev-surface" />
+                      <div className="h-3 w-5/6 rounded-lg bg-softodev-surface" />
+                      <div className="h-12 rounded-lg bg-softodev-surface" />
                     </div>
                     <div className="space-y-2">
-                      <div className="h-10 rounded-lg bg-gray-100" />
-                      <div className="h-10 rounded-lg bg-gray-100" />
+                      <div className="h-10 rounded-lg bg-softodev-surface" />
+                      <div className="h-10 rounded-lg bg-softodev-surface" />
                     </div>
                   </div>
                 </div>
@@ -157,35 +165,37 @@ export default async function PortfolioPage({
 
               {/* Content */}
               <div className={align}>
-                <div className="mb-2 inline-flex rounded-full bg-softodev-primarySoft/80 px-3 py-1 text-[11px] font-semibold text-softodev-primary">
+                <div className="mb-2 inline-flex w-fit rounded-full bg-softodev-primarySoft/90 px-3 py-1 text-[11px] font-bold text-softodev-primary border border-softodev-border">
                   {project.tag[locale]}
                 </div>
-                <h2 className="text-sm font-semibold text-softodev-text md:text-base">
+
+                <h2 className="text-base font-bold text-softodev-text">
                   {project.title[locale]}
                 </h2>
-                <p className="mt-1 text-xs leading-relaxed text-softodev-muted">
+
+                <p className="mt-2 text-sm leading-relaxed text-softodev-muted">
                   {project.summary[locale]}
                 </p>
               </div>
 
               {/* Meta */}
               <div
-                className={`mt-3 flex items-center justify-between text-[11px] text-softodev-muted ${isArabic ? "flex-row-reverse" : ""}`}
+                className={`mt-4 flex items-center justify-between text-[11px] text-softodev-muted ${
+                  isArabic ? "flex-row-reverse" : ""
+                }`}
               >
                 <span>{project.industry[locale]}</span>
                 <span>{project.region[locale]}</span>
               </div>
 
-              <div
-                className={`mt-3 text-[11px] font-semibold text-softodev-primary ${align}`}
-              >
+              <div className={`mt-3 text-sm font-bold text-softodev-primary ${align}`}>
                 {isArabic ? "عرض تفاصيل المشروع →" : "View case study →"}
               </div>
             </Link>
           ))}
         </div>
 
-        <p className={`text-[11px] text-softodev-muted ${align}`}>
+        <p className={`text-xs text-softodev-muted ${align}`}>
           {isArabic
             ? "هذه أمثلة مبسطة توضح نوعية العمل. يمكن تكييف نفس الأفكار لتناسب مشروعك سواء كان متجرًا، نظام إدارة، أو صفحة هبوط."
             : "These are simplified examples to illustrate our work. We can adapt the same ideas for your store, system, or landing page."}
