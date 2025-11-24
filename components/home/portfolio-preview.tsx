@@ -1,4 +1,6 @@
+// components/home/portfolio-preview.tsx
 import Link from "next/link";
+import Image from "next/image";
 import { Container } from "@/components/layout/container";
 import type { Locale } from "@/lib/i18n/config";
 import { getProjectsForLocale } from "@/lib/portfolio";
@@ -61,22 +63,19 @@ export function HomePortfolioPreview({ locale }: HomePortfolioPreviewProps) {
               href={`/${locale}/portfolio/${project.slug}`}
               className="group"
             >
-              <div className="relative rounded-2xl border border-softodev-border bg-softodev-surface/90 p-5 shadow-soft h-full transition hover:-translate-y-1 hover:shadow-lg hover:border-softodev-primary/30">
+              <div className="relative rounded-2xl border border-softodev-border bg-softodev-surface/90 p-4 shadow-soft h-full transition hover:-translate-y-1 hover:shadow-lg hover:border-softodev-primary/30">
                 {/* subtle hover glow */}
                 <div className="pointer-events-none absolute -inset-2 -z-10 rounded-3xl bg-gradient-to-br from-softodev-primarySoft via-softodev-surfaceStrong/70 to-softodev-bg/80 opacity-0 blur-xl transition-opacity group-hover:opacity-100" />
 
-                {/* Mock cover */}
-                <div className="rounded-xl border border-softodev-border bg-softodev-bg/70 p-3 mb-4">
-                  <div className="h-24 rounded-lg bg-softodev-primarySoft/70 border border-softodev-border mb-3" />
-                  <div
-                    className={[
-                      "flex gap-2",
-                      isArabic ? "justify-end" : "justify-start",
-                    ].join(" ")}
-                  >
-                    <div className="w-20 h-14 rounded-lg bg-softodev-primarySoft/70 border border-softodev-border" />
-                    <div className="w-10 h-14 rounded-lg bg-softodev-primarySoft/70 border border-softodev-border" />
-                  </div>
+                {/* Real screenshot instead of mock */}
+                <div className="mb-4 overflow-hidden rounded-xl border border-softodev-border bg-softodev-bg/70">
+                  <Image
+                    src={`/portfolio/${project.slug}.jpg`}
+                    alt={project.name}
+                    width={800}
+                    height={500}
+                    className="h-32 sm:h-40 w-full object-cover transition-transform duration-300 group-hover:scale-[1.03]"
+                  />
                 </div>
 
                 <h3
