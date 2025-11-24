@@ -1,66 +1,11 @@
 // app/[locale]/portfolio/page.tsx
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import type { Locale } from "@/lib/i18n/config";
 import { getCanonicalUrl } from "@/lib/seo";
 import { Container } from "@/components/layout/container";
-
-const projectSlugs = ["clinic-system", "landing-campaign", "store-launch"] as const;
-type ProjectSlug = (typeof projectSlugs)[number];
-
-type ProjectCard = {
-  slug: ProjectSlug;
-  tag: { ar: string; en: string };
-  title: { ar: string; en: string };
-  summary: { ar: string; en: string };
-  industry: { ar: string; en: string };
-  region: { ar: string; en: string };
-};
-
-const projects: ProjectCard[] = [
-  {
-    slug: "clinic-system",
-    tag: { ar: "نظام إدارة عيادة", en: "Clinic Management System" },
-    title: {
-      ar: "نظام إدارة عيادة يربط الاستقبال مع الطبيب والفواتير",
-      en: "Clinic system connecting reception, doctor, and billing",
-    },
-    summary: {
-      ar: "نظام متكامل لإدارة المرضى، المواعيد، والفواتير مع واجهة سهلة وسريعة.",
-      en: "A complete system to manage patients, appointments, and invoices with a fast, clean UI.",
-    },
-    industry: { ar: "القطاع الطبي", en: "Healthcare" },
-    region: { ar: "العراق", en: "Iraq" },
-  },
-  {
-    slug: "landing-campaign",
-    tag: { ar: "صفحة هبوط", en: "Landing Page" },
-    title: {
-      ar: "صفحة هبوط لحملة إعلانات في الخليج",
-      en: "Landing page for GCC ad campaign",
-    },
-    summary: {
-      ar: "صفحة هبوط مخصصة لحملة مدفوعة على سناب وإنستغرام مع تركيز على التحويل.",
-      en: "Custom landing page for a paid campaign on Snapchat and Instagram, optimized for conversions.",
-    },
-    industry: { ar: "تسويق رقمي", en: "Digital marketing" },
-    region: { ar: "السعودية", en: "KSA" },
-  },
-  {
-    slug: "store-launch",
-    tag: { ar: "متجر إلكتروني", en: "Online Store" },
-    title: {
-      ar: "إطلاق متجر إلكتروني لبراند ناشئ",
-      en: "Launching an online store for a new brand",
-    },
-    summary: {
-      ar: "متجر بسيط وعملي مع تجربة شراء سلسة وربط بسيط مع نموذج الطلب.",
-      en: "Simple, practical store with a smooth checkout and basic order flow.",
-    },
-    industry: { ar: "تجارة إلكترونية", en: "E-commerce" },
-    region: { ar: "الإمارات", en: "UAE" },
-  },
-];
+import { getProjectsForLocale } from "@/lib/portfolio";
 
 export async function generateMetadata({
   params,
@@ -76,8 +21,8 @@ export async function generateMetadata({
 
   const description =
     locale === "ar"
-      ? "استعرض بعض النماذج من أعمال SoftoDev في تطوير صفحات الهبوط، المتاجر الإلكترونية، وأنظمة الإدارة."
-      : "Browse sample work from SoftoDev including landing pages, online stores, and management systems.";
+      ? "استعرض نماذج من أعمال SoftoDev في تطوير المتاجر الإلكترونية، المنصّات التعليمية، ومنصّات العقارات."
+      : "Browse real work from SoftoDev including e-commerce, e-learning and real-estate platforms.";
 
   const url = getCanonicalUrl(locale, "/portfolio");
 
@@ -99,6 +44,8 @@ export default async function PortfolioPage({
   const isArabic = locale === "ar";
   const align = isArabic ? "text-right" : "text-left";
 
+  const projects = getProjectsForLocale(locale);
+
   return (
     <section className="relative isolate py-12 md:py-16 bg-softodev-bg/60 backdrop-blur-sm overflow-hidden">
       {/* Background glows */}
@@ -117,14 +64,14 @@ export default async function PortfolioPage({
 
           <h1 className="text-2xl md:text-3xl lg:text-4xl font-extrabold tracking-tight text-softodev-text leading-tight">
             {isArabic
-              ? "نماذج من مشاريع تم تنفيذها لسوق الخليج والعراق"
-              : "Sample projects delivered for the GCC & Iraq market."}
+              ? "منصّات ومتاجر حقيقية تم تنفيذها لعملاء في العراق والمنطقة"
+              : "Real platforms and stores delivered for clients in Iraq and the region."}
           </h1>
 
           <p className="max-w-2xl text-base md:text-[15px] leading-relaxed text-softodev-muted">
             {isArabic
-              ? "هذه أمثلة توضح طريقة التفكير، الهيكلة، والتركيز على تجربة المستخدم. يمكن بناء مشروعك بأسلوب مشابه ومخصص لهويتك."
-              : "These examples show how we think about structure, UX, and performance. Your project can be built with the same care, tailored to your brand."}
+              ? "هذه المشاريع توضح طريقة عمل SoftoDev في بناء متاجر إلكترونية، منصّات تعليمية ومنصّات عقارات مع تركيز على الأداء وتجربة المستخدم."
+              : "These projects show how SoftoDev builds e-commerce, e-learning and real-estate platforms with a focus on performance and UX."}
           </p>
         </div>
 
@@ -134,47 +81,31 @@ export default async function PortfolioPage({
             <Link
               key={project.slug}
               href={`/${locale}/portfolio/${project.slug}`}
-              className="group flex flex-col rounded-3xl border border-softodev-border bg-softodev-surface/90 p-5 shadow-soft transition hover:-translate-y-0.5 hover:shadow-lg hover:border-softodev-primary/30"
+              className="group flex flex-col rounded-3xl border border-softodev-border bg-softodev-surface/90 p-4 shadow-soft transition hover:-translate-y-0.5 hover:shadow-lg hover:border-softodev-primary/30"
             >
-              {/* Mockup block */}
-              <div className="relative mb-4">
-                <div className="absolute -inset-3 -z-10 rounded-2xl bg-gradient-to-br from-blue-200/50 via-indigo-100/50 to-sky-100/50 opacity-0 blur-xl transition-opacity group-hover:opacity-100" />
-                <div className="rounded-2xl border border-softodev-border bg-softodev-bg/70 p-3">
-                  <div className="mb-2 flex items-center justify-between gap-2">
-                    <div className="flex gap-1.5">
-                      <span className="h-2 w-2 rounded-full bg-red-400" />
-                      <span className="h-2 w-2 rounded-full bg-yellow-300" />
-                      <span className="h-2 w-2 rounded-full bg-green-400" />
-                    </div>
-                    <div className="h-2 w-16 rounded-full bg-softodev-primarySoft" />
-                  </div>
-                  <div className="grid gap-2 sm:grid-cols-[minmax(0,1.8fr)_minmax(0,1.1fr)]">
-                    <div className="space-y-2">
-                      <div className="h-6 w-3/4 rounded-lg bg-softodev-primarySoft" />
-                      <div className="h-3 w-full rounded-lg bg-softodev-surface" />
-                      <div className="h-3 w-5/6 rounded-lg bg-softodev-surface" />
-                      <div className="h-12 rounded-lg bg-softodev-surface" />
-                    </div>
-                    <div className="space-y-2">
-                      <div className="h-10 rounded-lg bg-softodev-surface" />
-                      <div className="h-10 rounded-lg bg-softodev-surface" />
-                    </div>
-                  </div>
-                </div>
+              {/* Screenshot */}
+              <div className="relative mb-4 overflow-hidden rounded-2xl border border-softodev-border bg-softodev-bg/80">
+                <Image
+                  src={`/portfolio/${project.slug}.jpg`}
+                  alt={project.name}
+                  width={800}
+                  height={500}
+                  className="h-40 w-full object-cover transition-transform duration-300 group-hover:scale-[1.03]"
+                />
               </div>
 
               {/* Content */}
               <div className={align}>
                 <div className="mb-2 inline-flex w-fit rounded-full bg-softodev-primarySoft/90 px-3 py-1 text-[11px] font-bold text-softodev-primary border border-softodev-border">
-                  {project.tag[locale]}
+                  {project.tag}
                 </div>
 
                 <h2 className="text-base font-bold text-softodev-text">
-                  {project.title[locale]}
+                  {project.name}
                 </h2>
 
                 <p className="mt-2 text-sm leading-relaxed text-softodev-muted">
-                  {project.summary[locale]}
+                  {project.short}
                 </p>
               </div>
 
@@ -184,8 +115,8 @@ export default async function PortfolioPage({
                   isArabic ? "flex-row-reverse" : ""
                 }`}
               >
-                <span>{project.industry[locale]}</span>
-                <span>{project.region[locale]}</span>
+                <span>{project.industry}</span>
+                <span>{project.region}</span>
               </div>
 
               <div className={`mt-3 text-sm font-bold text-softodev-primary ${align}`}>
@@ -197,8 +128,8 @@ export default async function PortfolioPage({
 
         <p className={`text-xs text-softodev-muted ${align}`}>
           {isArabic
-            ? "هذه أمثلة مبسطة توضح نوعية العمل. يمكن تكييف نفس الأفكار لتناسب مشروعك سواء كان متجرًا، نظام إدارة، أو صفحة هبوط."
-            : "These are simplified examples to illustrate our work. We can adapt the same ideas for your store, system, or landing page."}
+            ? "يمكن تنفيذ مشروع جديد بأسلوب مشابه لهذه المشاريع، مع تخصيص الهوية البصرية، اللغة، وطريقة العمل حسب نشاطك."
+            : "We can build a new project similar to these, fully customized to your brand, language and workflow."}
         </p>
       </Container>
     </section>

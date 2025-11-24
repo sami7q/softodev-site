@@ -5,114 +5,14 @@ import type { Locale } from "@/lib/i18n/config";
 import { getCanonicalUrl } from "@/lib/seo";
 import { Container } from "@/components/layout/container";
 import Link from "next/link";
-
-const projectSlugs = ["clinic-system", "landing-campaign", "store-launch"] as const;
-type ProjectSlug = (typeof projectSlugs)[number];
-
-type LocalizedProject = {
-  slug: ProjectSlug;
-  name: { ar: string; en: string };
-  shortDescription: { ar: string; en: string };
-  industry: { ar: string; en: string };
-  region: { ar: string; en: string };
-  stack: { ar: string; en: string };
-  context: { ar: string; en: string };
-  solution: { ar: string; en: string };
-  results: { ar: string; en: string };
-};
-
-const projects: Record<ProjectSlug, LocalizedProject> = {
-  "clinic-system": {
-    slug: "clinic-system",
-    name: {
-      ar: "نظام إدارة عيادة متكامل",
-      en: "Complete Clinic Management System",
-    },
-    shortDescription: {
-      ar: "نظام لإدارة المرضى، المواعيد، الفواتير، والتقارير في عيادة واحدة.",
-      en: "A system to manage patients, appointments, invoices, and reports for a single clinic.",
-    },
-    industry: { ar: "القطاع الطبي", en: "Healthcare" },
-    region: { ar: "العراق", en: "Iraq" },
-    stack: {
-      ar: "Django / PostgreSQL / Tailwind / HTMX",
-      en: "Django / PostgreSQL / Tailwind / HTMX",
-    },
-    context: {
-      ar: "العيادة كانت تعتمد على الإكسل والورق لمتابعة المواعيد والفواتير، مما سبب فوضى وتأخير في خدمة المرضى.",
-      en: "The clinic relied on spreadsheets and paper to track appointments and invoices, causing confusion and slow service.",
-    },
-    solution: {
-      ar: "قمنا ببناء نظام عيادة متكامل يربط الاستقبال مع الطبيب والفواتير والتقارير، مع واجهة بسيطة وسهلة للموظفين.",
-      en: "We developed a complete clinic system connecting reception, doctor, billing, and reports in one simple interface.",
-    },
-    results: {
-      ar: "انخفض وقت تسجيل المريض الجديد، أصبح الاطلاع على التاريخ الطبي أسهل، وتم تنظيم الفواتير والتقارير اليومية.",
-      en: "New patient registration time decreased, medical history became easier to access, and billing/reporting were organized.",
-    },
-  },
-  "landing-campaign": {
-    slug: "landing-campaign",
-    name: {
-      ar: "صفحة هبوط لحملة إعلانات",
-      en: "Landing page for ad campaign",
-    },
-    shortDescription: {
-      ar: "صفحة هبوط مخصصة لحملة مدفوعة تستهدف جمهور الخليج.",
-      en: "Custom landing page for a paid campaign targeting GCC users.",
-    },
-    industry: { ar: "تسويق رقمي", en: "Digital marketing" },
-    region: { ar: "السعودية", en: "KSA" },
-    stack: {
-      ar: "Next.js / TailwindCSS",
-      en: "Next.js / TailwindCSS",
-    },
-    context: {
-      ar: "العميل أراد صفحة واحدة واضحة ومباشرة لحملة إعلانات على سناب وإنستغرام، مع تركيز على جمع الطلبات عبر الواتساب.",
-      en: "The client needed a single clear page for Snapchat and Instagram ads, focused on collecting orders through WhatsApp.",
-    },
-    solution: {
-      ar: "تم تصميم صفحة هبوط خفيفة وسريعة مع أقسام مرتبة (العرض، الفوائد، آراء العملاء، أسئلة شائعة، CTA واضح للواتساب).",
-      en: "We designed a fast, lightweight landing page with structured sections (offer, benefits, social proof, FAQ, clear WhatsApp CTA).",
-    },
-    results: {
-      ar: "تم تحسين نسبة النقر إلى الواتساب، وأصبح العميل يدير الحملة بشكل أوضح مع صفحة واحدة مخصصة.",
-      en: "Click-through to WhatsApp improved, and the client managed the campaign more clearly around a single focused page.",
-    },
-  },
-  "store-launch": {
-    slug: "store-launch",
-    name: {
-      ar: "إطلاق متجر إلكتروني لبراند ناشئ",
-      en: "Launching an online store for a new brand",
-    },
-    shortDescription: {
-      ar: "متجر بسيط لبيع المنتجات في الخليج مع إمكانية التوسع مستقبلاً.",
-      en: "Simple online store for selling products across the GCC with room to grow.",
-    },
-    industry: { ar: "تجارة إلكترونية", en: "E-commerce" },
-    region: { ar: "الإمارات", en: "UAE" },
-    stack: {
-      ar: "Next.js / TailwindCSS / API جاهز للتوسعة",
-      en: "Next.js / TailwindCSS / API-ready backend",
-    },
-    context: {
-      ar: "البراند أراد بداية سريعة لمتجر بسيط قبل الاستثمار في حلول معقدة أو مكلفة.",
-      en: "The brand wanted a fast way to start selling without investing in complex or expensive platforms.",
-    },
-    solution: {
-      ar: "بُنِي متجر بسيط بواجهة نظيفة وتجربة شراء سلسة، مع بنية برمجية تسمح بالربط لاحقاً مع بوابات الدفع وأنظمة إدارة.",
-      en: "We built a simple store with a clean interface and smooth checkout, with architecture ready for payment and management integrations later.",
-    },
-    results: {
-      ar: "تم إطلاق المتجر خلال فترة قصيرة، وبدأ البراند ببيع المنتجات فعلياً مع إمكانية تطوير المتجر مع نمو المبيعات.",
-      en: "The store launched quickly, enabling real sales while keeping the option open for future expansion.",
-    },
-  },
-};
+import {
+  getAllProjectSlugs,
+  getProjectBySlug,
+  type ProjectSlug,
+} from "@/lib/portfolio";
 
 export async function generateStaticParams() {
-  return projectSlugs.map((slug) => ({ slug }));
+  return getAllProjectSlugs().map((slug) => ({ slug }));
 }
 
 export async function generateMetadata({
@@ -121,7 +21,7 @@ export async function generateMetadata({
   params: Promise<{ locale: Locale; slug: ProjectSlug }>;
 }): Promise<Metadata> {
   const { locale, slug } = await params;
-  const project = projects[slug];
+  const project = getProjectBySlug(slug);
 
   if (!project) return {};
 
@@ -148,14 +48,15 @@ export default async function ProjectDetailPage({
   params: Promise<{ locale: Locale; slug: ProjectSlug }>;
 }) {
   const { locale, slug } = await params;
+  const project = getProjectBySlug(slug);
+
+  if (!project) notFound();
+
   const isArabic = locale === "ar";
   const align = isArabic ? "text-right" : "text-left";
   const justify = isArabic ? "justify-end" : "justify-start";
 
-  const project = projects[slug];
-  if (!project) notFound();
-
-  const schema = {
+  const schema: any = {
     "@context": "https://schema.org",
     "@type": "Project",
     name: project.name[locale],
@@ -168,9 +69,12 @@ export default async function ProjectDetailPage({
     },
   };
 
+  if (project.liveUrl) {
+    schema.url = project.liveUrl;
+  }
+
   return (
     <>
-      {/* Page wrapper with premium background */}
       <section className="relative isolate py-12 md:py-16 bg-softodev-bg/60 backdrop-blur-sm overflow-hidden">
         {/* Background glows */}
         <div className="pointer-events-none absolute inset-0 z-0">
@@ -195,7 +99,9 @@ export default async function ProjectDetailPage({
             </p>
 
             {/* Tags */}
-            <div className={`flex flex-wrap gap-3 text-[11px] text-softodev-muted ${justify}`}>
+            <div
+              className={`flex flex-wrap gap-3 text-[11px] text-softodev-muted ${justify}`}
+            >
               <span className="inline-flex items-center rounded-full bg-softodev-primarySoft/90 px-3 py-1 font-bold text-softodev-primary border border-softodev-border">
                 {project.industry[locale]}
               </span>
@@ -211,6 +117,8 @@ export default async function ProjectDetailPage({
             <div className={`flex flex-wrap gap-3 ${justify}`}>
               <a
                 href="https://wa.me/905015954826"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="inline-flex items-center rounded-full bg-gradient-to-r from-softodev-primary to-blue-700 px-5 py-2 text-xs md:text-sm font-bold text-white shadow-soft hover:opacity-95 transition active:scale-[0.98]"
               >
                 {isArabic
@@ -218,8 +126,19 @@ export default async function ProjectDetailPage({
                   : "Discuss a similar project for your business"}
               </a>
 
+              {project.liveUrl && (
+                <a
+                  href={project.liveUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center rounded-full border border-softodev-border bg-softodev-surface/90 px-5 py-2 text-xs md:text-sm font-bold text-softodev-text hover:border-softodev-primary/40 transition"
+                >
+                  {isArabic ? "زيارة الموقع المباشر" : "Visit live site"}
+                </a>
+              )}
+
               <Link
-                href={isArabic ? "/ar/portfolio" : "/en/portfolio"}
+                href={`/${locale}/portfolio`}
                 className="inline-flex items-center rounded-full border border-softodev-border bg-softodev-surface/90 px-5 py-2 text-xs md:text-sm font-bold text-softodev-text hover:border-softodev-primary/40 transition"
               >
                 {isArabic ? "العودة إلى الأعمال" : "Back to portfolio"}
@@ -291,14 +210,14 @@ export default async function ProjectDetailPage({
               <div className="rounded-3xl border border-dashed border-softodev-border bg-softodev-surface/80 p-6 text-sm text-softodev-muted shadow-soft">
                 {isArabic
                   ? "يمكن تنفيذ مشروع مشابه لهذا المشروع مع تخصيص الهوية البصرية، اللغة، وطريقة العمل حسب نشاطك ورؤية مشروعك."
-                  : "We can build a similar project customized to your brand, language, and workflow for your business."}
+                  : "We can build a similar project customized to your brand, language and workflow for your business."}
               </div>
             </div>
           </div>
         </Container>
       </section>
 
-      {/* JSON-LD (unchanged) */}
+      {/* JSON-LD */}
       <script
         type="application/ld+json"
         suppressHydrationWarning

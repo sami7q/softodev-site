@@ -1,148 +1,155 @@
 // lib/portfolio.ts
-import type { Locale } from "./i18n/config";
+import type { Locale } from "@/lib/i18n/config";
 
-export type PortfolioSlug =
-  | "clinic-management-system"
-  | "ecommerce-fashion-store"
-  | "saas-landing-page";
+export const projectSlugs = ["atlastrendo", "mhakem", "emlaakna"] as const;
+export type ProjectSlug = (typeof projectSlugs)[number];
 
-type PortfolioProject = {
-  slug: PortfolioSlug;
-  name_ar: string;
-  name_en: string;
-  short_ar: string;
-  short_en: string;
-  industry_ar: string;
-  industry_en: string;
-  country_ar: string;
-  country_en: string;
-  services_ar: string[];
-  services_en: string[];
-  tech: string[];
-  result_ar: string;
-  result_en: string;
-  // ممكن توسع لاحقًا: liveUrl, images, etc.
+type LocalizedText = { ar: string; en: string };
+
+export type PortfolioProject = {
+  slug: ProjectSlug;
+  name: LocalizedText;
+  shortDescription: LocalizedText;
+  tag: LocalizedText;
+  industry: LocalizedText;
+  region: LocalizedText;
+  stack: LocalizedText;
+  context: LocalizedText;
+  solution: LocalizedText;
+  results: LocalizedText;
+  liveUrl?: string;
 };
 
-const projects: PortfolioProject[] = [
+const PROJECTS: PortfolioProject[] = [
   {
-    slug: "clinic-management-system",
-    name_ar: "نظام إدارة عيادة متكامل",
-    name_en: "Full Clinic Management System",
-    short_ar:
-      "نظام متكامل لإدارة عيادة (مرضى، مواعيد، فواتير، مصاريف) يعمل أونلاين وأوفلاين.",
-    short_en:
-      "End-to-end clinic management system (patients, appointments, invoices, expenses) with online and offline-ready setup.",
-    industry_ar: "الرعاية الصحية / العيادات",
-    industry_en: "Healthcare / Clinics",
-    country_ar: "العراق",
-    country_en: "Iraq",
-    services_ar: [
-      "تحليل احتياج العيادة",
-      "تصميم واجهات المستخدم",
-      "تطوير النظام الخلفي والواجهات",
-      "نظام ترخيص وحماية",
-    ],
-    services_en: [
-      "Clinic requirements analysis",
-      "UI/UX design",
-      "Backend and frontend development",
-      "Licensing and protection system",
-    ],
-    tech: ["Django", "HTMX", "TailwindCSS", "SQLite", "PyInstaller"],
-    result_ar:
-      "ساعد النظام العيادة على تنظيم الحجوزات والفواتير وتقليل الأخطاء اليدوية، مع تسريع العمل اليومي للفريق.",
-    result_en:
-      "The system helped the clinic organize appointments and invoices, reduce manual errors, and speed up daily operations for the staff.",
+    slug: "atlastrendo",
+    name: {
+      ar: "منصّة ومتجر AtlasTrendo للأزياء (ويب + تطبيق)",
+      en: "AtlasTrendo fashion multi-vendor platform (web + app)",
+    },
+    shortDescription: {
+      ar: "منصّة أزياء متعددة البائعين مع موقع ومتجر إلكتروني متكامل وتطبيق موبايل متوفر على Google Play و App Store.",
+      en: "A multi-vendor fashion platform with a full e-commerce website and mobile app published on Google Play and the App Store.",
+    },
+    tag: {
+      ar: "متجر إلكتروني متعدد البائعين",
+      en: "Multi-vendor marketplace",
+    },
+    industry: {
+      ar: "أزياء وتجارة إلكترونية",
+      en: "Fashion & E-commerce",
+    },
+    region: { ar: "تركيا والشرق الأوسط", en: "Turkey & MENA" },
+    stack: {
+      ar: "منصّة متجر إلكتروني حديثة + تطبيقات موبايل (Android / iOS)",
+      en: "Modern e-commerce platform + mobile apps (Android / iOS)",
+    },
+    context: {
+      ar: "علامة AtlasTrendo أرادت منصّة أزياء تعكس هوية البراند وتسمح لبائعين متعددين بعرض منتجاتهم مع تجربة موبايل قوية وجاهزية للإعلانات المدفوعة.",
+      en: "AtlasTrendo needed a fashion platform that reflects their brand, supports multiple vendors, and delivers a strong mobile experience ready for paid ad campaigns.",
+    },
+    solution: {
+      ar: "تم تصميم وتطوير واجهة متجر عصرية تركز على الصور والمنتجات، مع بنية جاهزة للبائعين المتعددين وتكامل مع تطبيق موبايل يعمل على Android و iOS.",
+      en: "We designed and developed a modern storefront focused on visuals and products, with a multi-vendor-ready architecture and integration with mobile apps on Android and iOS.",
+    },
+    results: {
+      ar: "أصبح لدى AtlasTrendo منصّة جاهزة للعرض على العملاء والشركاء، مع واجهة متجاوبة وسرعة تحميل محسّنة واستعداد للتوسع في الأسواق الإقليمية.",
+      en: "AtlasTrendo now has a fully functional platform to showcase to customers and partners, with a responsive UI, optimized performance, and room to scale across the region.",
+    },
+    liveUrl: "https://atlastrendo.com/",
   },
   {
-    slug: "ecommerce-fashion-store",
-    name_ar: "متجر إلكتروني لعلامة أزياء",
-    name_en: "Fashion Brand E-commerce Store",
-    short_ar:
-      "متجر إلكتروني مخصص لبيع منتجات أزياء مع صفحات منتجات سريعة وتجربة شراء سلسة.",
-    short_en:
-      "Custom e-commerce store for a fashion brand with fast product pages and a smooth checkout.",
-    industry_ar: "التجارة الإلكترونية / الأزياء",
-    industry_en: "E-commerce / Fashion",
-    country_ar: "السعودية",
-    country_en: "Saudi Arabia",
-    services_ar: [
-      "تصميم واجهة المتجر",
-      "بناء صفحات المنتجات",
-      "ربط بوابة الدفع",
-      "تهيئة سيو للمنتجات",
-    ],
-    services_en: [
-      "Storefront UI design",
-      "Product page implementation",
-      "Payment gateway integration",
-      "On-page SEO for product pages",
-    ],
-    tech: ["Next.js", "React", "Stripe", "PostgreSQL"],
-    result_ar:
-      "ساهم المتجر في رفع المبيعات وتحسين تجربة العملاء، مع صفحات سريعة تناسب الزوار من الجوال.",
-    result_en:
-      "The store improved sales and customer experience with fast pages optimized for mobile visitors.",
+    slug: "mhakem",
+    name: {
+      ar: "منصّة Mhakem للتعليم الإلكتروني",
+      en: "Mhakem online learning platform",
+    },
+    shortDescription: {
+      ar: "منصّة تعليمية جامعية مشابهة لفكرة Coursera، مطلقة في السوق العراقي ومتبنّاة من عدّة جامعات منها جامعة كركوك.",
+      en: "A university-grade e-learning platform similar to Coursera, launched in the Iraqi market and adopted by multiple universities including Kirkuk University.",
+    },
+    tag: {
+      ar: "منصّة تعليمية جامعية",
+      en: "University e-learning platform",
+    },
+    industry: {
+      ar: "تعليم إلكتروني",
+      en: "Online education",
+    },
+    region: { ar: "العراق", en: "Iraq" },
+    stack: {
+      ar: "منصّة دورات ومحاضرات واختبارات إلكترونية",
+      en: "Courses, lectures and online exams platform",
+    },
+    context: {
+      ar: "الجامعات احتاجت منصّة موحدة لتقديم المحاضرات والاختبارات ورفع المواد التعليمية للطلاب مع دعم اللغة العربية.",
+      en: "Universities needed a unified platform to deliver lectures, exams, and course materials to students with full Arabic support.",
+    },
+    solution: {
+      ar: "تم تطوير منصّة تعليمية تسمح للأساتذة بإنشاء المقررات، رفع المحتوى، إدارة الطلاب والاختبارات، مع واجهة مهيّأة للاستخدام من قبل الطلبة في العراق.",
+      en: "We built a learning platform allowing instructors to create courses, upload content, manage students and exams, with an interface tailored for Iraqi students.",
+    },
+    results: {
+      ar: "تم إطلاق المنصّة واعتمادها من عدّة جامعات، مما سهّل على الأساتذة إدارة المواد، وعلى الطلاب متابعة المحاضرات والاختبارات إلكترونياً.",
+      en: "The platform was launched and adopted by several universities, making it easier for instructors to manage courses and for students to access lectures and exams online.",
+    },
+    liveUrl: "https://mhakem.net/",
   },
   {
-    slug: "saas-landing-page",
-    name_ar: "صفحة هبوط لخدمة SaaS",
-    name_en: "SaaS Product Landing Page",
-    short_ar:
-      "صفحة هبوط تسويقية لخدمة برمجية مع تركيز على الرسالة الأساسية ودعوة واضحة للتجربة.",
-    short_en:
-      "Marketing landing page for a SaaS product with clear messaging and a strong trial CTA.",
-    industry_ar: "البرمجيات / SaaS",
-    industry_en: "Software / SaaS",
-    country_ar: "الإمارات",
-    country_en: "UAE",
-    services_ar: [
-      "كتابة المحتوى التسويقي",
-      "تصميم صفحة الهبوط",
-      "تحسين سرعة التحميل",
-      "ربط أدوات التحليلات",
-    ],
-    services_en: [
-      "Marketing copywriting",
-      "Landing page design",
-      "Performance optimization",
-      "Analytics setup",
-    ],
-    tech: ["Next.js", "TypeScript", "Vercel"],
-    result_ar:
-      "رفعت صفحة الهبوط معدل التسجيل في التجربة المجانية بفضل تحسين الرسالة والهيكل.",
-    result_en:
-      "The landing page increased free trial signups thanks to optimized messaging and structure.",
+    slug: "emlaakna",
+    name: {
+      ar: "منصّة Emlaakna للعقارات (ويب + تطبيق)",
+      en: "Emlaakna real-estate platform (web + app)",
+    },
+    shortDescription: {
+      ar: "منصّة عراقية لبيع وشراء وتأجير المنازل والعقارات مع تطبيق موبايل متوفر على Google Play و App Store.",
+      en: "An Iraqi platform for buying, selling and renting properties with a mobile app available on Google Play and the App Store.",
+    },
+    tag: {
+      ar: "منصّة عقارات",
+      en: "Real-estate marketplace",
+    },
+    industry: {
+      ar: "عقارات وإعلانات مبوبة",
+      en: "Real-estate & classifieds",
+    },
+    region: { ar: "العراق", en: "Iraq" },
+    stack: {
+      ar: "منصّة عقارات + تطبيقات موبايل (Android / iOS)",
+      en: "Real-estate web platform + mobile apps (Android / iOS)",
+    },
+    context: {
+      ar: "السوق العقاري في العراق كان يعتمد بشكل كبير على الإعلانات العشوائية، والمنصّة استهدفت توحيد العروض في مكان واحد مع تجربة بحث سهلة.",
+      en: "The Iraqi real-estate market relied mostly on scattered ads; the platform aimed to centralize listings in one place with an easy search experience.",
+    },
+    solution: {
+      ar: "تم بناء منصّة عقارية تسمح للمستخدمين بنشر الإعلانات، تصفية النتائج حسب المدينة والسعر ونوع العقار، مع تكامل مع تطبيق موبايل لسهولة التصفح.",
+      en: "We built a real-estate platform where users can post listings and filter by city, price and property type, integrated with a mobile app for easier browsing.",
+    },
+    results: {
+      ar: "أصبح بإمكان المستخدمين استعراض العقارات في مدن مختلفة بسهولة، ونشر إعلاناتهم عبر الويب والتطبيق، مما يزيد من فرص البيع والشراء.",
+      en: "Users can now browse properties across cities more easily and post their own listings via web and app, increasing opportunities for deals.",
+    },
+    liveUrl: "https://emlaakna.com/ar",
   },
 ];
 
 export function getProjectsForLocale(locale: Locale) {
-  return projects.map((project) => ({
-    slug: project.slug,
-    name: locale === "ar" ? project.name_ar : project.name_en,
-    short: locale === "ar" ? project.short_ar : project.short_en,
-    industry: locale === "ar" ? project.industry_ar : project.industry_en,
-    country: locale === "ar" ? project.country_ar : project.country_en,
+  return PROJECTS.map((p) => ({
+    slug: p.slug,
+    name: p.name[locale],
+    short: p.shortDescription[locale],
+    tag: p.tag[locale],
+    industry: p.industry[locale],
+    region: p.region[locale],
+    liveUrl: p.liveUrl,
   }));
 }
 
-export function getProjectBySlug(slug: string, locale: Locale) {
-  const project = projects.find((p) => p.slug === slug);
-  if (!project) return null;
-
-  return {
-    slug: project.slug,
-    name: locale === "ar" ? project.name_ar : project.name_en,
-    short: locale === "ar" ? project.short_ar : project.short_en,
-    industry: locale === "ar" ? project.industry_ar : project.industry_en,
-    country: locale === "ar" ? project.country_ar : project.country_en,
-    services: locale === "ar" ? project.services_ar : project.services_en,
-    tech: project.tech,
-    result: locale === "ar" ? project.result_ar : project.result_en,
-  };
+export function getProjectBySlug(slug: ProjectSlug) {
+  return PROJECTS.find((p) => p.slug === slug);
 }
 
-export function getAllProjectSlugs(): PortfolioSlug[] {
-  return projects.map((p) => p.slug);
+export function getAllProjectSlugs() {
+  return projectSlugs;
 }
