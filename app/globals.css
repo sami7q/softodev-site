@@ -8,10 +8,10 @@ body {
 }
 
 body {
-  /* نخلي الأساس من الـ palette */
+  /* الأساس من الـ palette */
   @apply bg-softodev-bg text-softodev-text antialiased;
 
-  /* glow خفيف فوق الخلفية، تقدر تعدله أو تحذفه */
+  /* glow خفيف فوق الخلفية */
   background:
     radial-gradient(
       600px circle at 0% -10%,
@@ -24,4 +24,56 @@ body {
       transparent 55%
     ),
     linear-gradient(#e6ecf7, #e6ecf7);
+}
+
+@layer utilities {
+  .marquee-container {
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* المسار الأساسي للبراندات */
+  .marquee-track {
+    display: flex;
+    width: max-content;
+    animation: marquee 28s linear infinite;
+  }
+
+  /* لما نحط الماوس على الشريط كله، توقف الأنيميشن */
+  .marquee-container:hover .marquee-track {
+    animation-play-state: paused;
+  }
+
+  /* افتراضيًا: كل اللوجوهات ملوّنة وواضحة */
+  .marquee-container .brand-logo {
+    filter: none;
+    opacity: 0.9;
+    transition:
+      filter 150ms ease-out,
+      opacity 150ms ease-out,
+      transform 150ms ease-out;
+  }
+
+  /* لما نحط الماوس على الشريط: كل اللوجوهات تصير رمادية وخافتة */
+  .marquee-container:hover .brand-logo {
+    filter: grayscale(1);
+    opacity: 0.35;
+  }
+
+  /* اللوجو اللي عليه الماوس يبقى ملوّن ويكبر شوي */
+  .marquee-container .brand-item:hover .brand-logo {
+    filter: none !important;
+    opacity: 1 !important;
+    transform: scale(1.03);
+  }
+
+  /* الحركة: من 0 إلى -50% مع تكرار اللستة = لوب مستمر */
+  @keyframes marquee {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-50%);
+    }
+  }
 }
