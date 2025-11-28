@@ -220,53 +220,117 @@ export default async function ServicesPage({
   const align = isArabic ? "text-right" : "text-left";
 
   return (
-    <section className="relative isolate py-12 md:py-16 bg-softodev-bg/60 overflow-hidden">
-      {/* خلفية خفيفة */}
+    <section className="relative isolate py-12 md:py-16 bg-softodev-bg/70 overflow-hidden">
+      {/* خلفية خفيفة متناسقة مع الهوم */}
       <div className="pointer-events-none absolute inset-0 -z-10">
-        <div className="absolute -top-24 left-0 h-80 w-80 rounded-full bg-softodev-primary/10 blur-3xl" />
-        <div className="absolute top-1/3 right-0 h-96 w-96 rounded-full bg-sky-400/10 blur-3xl" />
+        <div className="absolute -top-24 -left-20 h-72 w-72 rounded-full bg-softodev-primary/12 blur-3xl" />
+        <div className="absolute top-1/3 right-0 h-96 w-96 rounded-full bg-softodev-primarySoft/40 blur-3xl" />
         <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-softodev-primary/40 to-transparent" />
       </div>
 
       <Container className="relative z-10 space-y-10 md:space-y-12">
         {/* Header */}
         <div className={`max-w-3xl ${align} space-y-3`}>
-          <p className="text-[11px] font-semibold uppercase tracking-[0.25em] text-softodev-muted">
-            {isArabic ? "الخدمات" : "Services"}
+          <p className="inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.25em] text-softodev-muted">
+            <span className="inline-block h-[1px] w-6 bg-softodev-primary/70" />
+            <span>{isArabic ? "الخدمات" : "SERVICES"}</span>
           </p>
 
           <h1 className="text-2xl md:text-3xl lg:text-4xl font-extrabold tracking-tight text-softodev-text leading-tight">
-            {isArabic
-              ? "خدمات برمجية وتسويقية متكاملة لمرحلة الانطلاق والنمو."
-              : "A complete service stack for launching and growing your business."}
+            {isArabic ? (
+              <>
+                <span>خدمات برمجية وتسويقية </span>
+                <span className="text-softodev-primary">
+                  تغطي رحلة مشروعك
+                </span>
+                <span> من الانطلاق إلى النمو.</span>
+              </>
+            ) : (
+              <>
+                <span>A complete service stack </span>
+                <span className="text-softodev-primary">
+                  for launching and growing
+                </span>
+                <span> your business.</span>
+              </>
+            )}
           </h1>
 
-          <p className="text-sm md:text-[15px] leading-relaxed text-softodev-muted">
-            {isArabic
-              ? "سواء كنت تحتاج صفحة هبوط واحدة، متجرًا إلكترونيًا كاملاً، نظام إدارة داخلي، أو حتى بوت ذكاء اصطناعي يخدم عملاءك – يمكنك البدء من أي خدمة ثم التوسع لاحقًا."
-              : "Whether you need a single landing page, a full online store, an internal management system, or an AI bot for your customers — you can start with one service and expand later."}
+          <p className="text-sm md:text[15px] leading-relaxed text-softodev-muted">
+            {isArabic ? (
+              <>
+                يمكنك البدء من{" "}
+                <span className="text-softodev-primary font-medium">
+                  صفحة هبوط
+                </span>{" "}
+                واحدة،{" "}
+                <span className="text-softodev-primary font-medium">
+                  متجر إلكتروني
+                </span>{" "}
+                أو{" "}
+                <span className="text-softodev-primary font-medium">
+                  نظام إدارة
+                </span>{" "}
+                داخلي، ثم التوسع لاحقًا بنفس الفريق ونفس اللغة.
+              </>
+            ) : (
+              <>
+                Start with a single{" "}
+                <span className="text-softodev-primary font-medium">
+                  landing page
+                </span>
+                , a{" "}
+                <span className="text-softodev-primary font-medium">
+                  full online store
+                </span>{" "}
+                or{" "}
+                <span className="text-softodev-primary font-medium">
+                  internal system
+                </span>{" "}
+                — then expand later with the same team and style.
+              </>
+            )}
           </p>
         </div>
 
         {/* Services grid */}
-        <div className="grid gap-5 md:gap-6 md:grid-cols-2 xl:grid-cols-3">
+        <div
+          className="grid gap-5 md:gap-6 md:grid-cols-2 xl:grid-cols-3"
+          dir={isArabic ? "rtl" : "ltr"}
+        >
           {services.map((service) => (
-            <div
+            <article
               key={service.id}
-              className="group relative overflow-hidden rounded-3xl border border-softodev-border/70 bg-softodev-surface/95 p-5 md:p-6 shadow-soft transition hover:-translate-y-1 hover:shadow-lg hover:border-softodev-primary/40"
+              className="
+                group relative h-full
+                overflow-hidden rounded-[26px]
+                border border-softodev-border/70
+                bg-softodev-surface/95
+                p-5 md:p-6
+                shadow-soft
+                transition-all duration-300
+                hover:-translate-y-1.5 hover:shadow-[0_28px_70px_rgba(15,23,42,0.18)]
+                hover:border-softodev-primary/45
+              "
             >
-              {/* subtle glow */}
-              <div className="pointer-events-none absolute inset-0 -z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-gradient-to-br from-softodev-primarySoft/60 via-softodev-surface/80 to-softodev-bg/80" />
+              {/* glow overlay */}
+              <div
+                className="
+                  pointer-events-none absolute inset-0 -z-10
+                  opacity-0 group-hover:opacity-100
+                  transition-opacity duration-300
+                  bg-gradient-to-br from-softodev-primarySoft/70 via-softodev-surface/80 to-softodev-bg/90
+                "
+              />
 
+              {/* Header داخل الكرت */}
               <div className="flex items-start justify-between gap-3">
-                <div className={`space-y-2 ${align}`}>
-                  <div className="inline-flex items-center gap-2 text-[11px] font-semibold text-softodev-muted">
-                    <span className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-softodev-primarySoft text-[10px] text-softodev-primary">
+                <div className="space-y-2">
+                  <div className="flex items-center gap-2 text-[11px] font-semibold text-softodev-muted">
+                    <span className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-softodev-primarySoft text-[10px] text-softodev-primary">
                       {service.badge}
                     </span>
-                    <span>
-                      {isArabic ? "خدمة" : "Service"}
-                    </span>
+                    <span>{isArabic ? "خدمة" : "Service"}</span>
                   </div>
                   <h2 className="text-base md:text-lg font-extrabold text-softodev-text">
                     {service.title}
@@ -277,35 +341,37 @@ export default async function ServicesPage({
                 </div>
               </div>
 
-              <ul
-                className={`mt-4 space-y-1.5 text-xs md:text-[13px] text-softodev-muted ${align}`}
-              >
+              {/* Bullets */}
+              <ul className="mt-4 space-y-1.5 text-xs md:text-[13px] text-softodev-muted">
                 {service.bullets.map((b) => (
                   <li key={b} className="flex gap-2">
-                    <span
-                      className={`mt-[5px] h-1.5 w-1.5 rounded-full bg-softodev-primary/80 flex-shrink-0 ${
-                        isArabic ? "ml-1" : "mr-1"
-                      }`}
-                    />
+                    <span className="mt-[6px] h-1.5 w-1.5 flex-shrink-0 rounded-full bg-softodev-primary/85" />
                     <span>{b}</span>
                   </li>
                 ))}
               </ul>
 
-              {/* CTA */}
-              <div className={`mt-5 flex justify-between items-center gap-3 ${align}`}>
+              {/* Divider */}
+              <div className="mt-5 border-t border-softodev-border/70" />
+
+              {/* CTA row – متجاوب */}
+              <div className="mt-3 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2.5">
                 <Link
                   href={`/${locale}/contact`}
-                  className="inline-flex items-center text-[11px] md:text-xs font-semibold text-softodev-primary hover:text-softodev-primaryDark transition"
+                  className="
+                    inline-flex items-center justify-center
+                    rounded-full bg-softodev-primary
+                    px-3.5 py-1.5
+                    text-[11px] md:text-xs font-semibold text-white
+                    shadow-soft
+                    hover:bg-softodev-primaryDark
+                    transition
+                  "
                 >
                   {isArabic
                     ? "اطلب عرض سعر لهذه الخدمة"
                     : "Request a quote for this service"}
-                  <span
-                    className={`inline-block text-[13px] ${
-                      isArabic ? "mr-1 group-hover:-translate-x-0.5" : "ml-1 group-hover:translate-x-0.5"
-                    } transition-transform`}
-                  >
+                  <span className="ml-1.5 text-[13px]">
                     {isArabic ? "←" : "→"}
                   </span>
                 </Link>
@@ -318,12 +384,19 @@ export default async function ServicesPage({
                   )}`}
                   target="_blank"
                   rel="noreferrer"
-                  className="inline-flex items-center rounded-full border border-softodev-border bg-softodev-bg/80 px-3 py-1.5 text-[11px] md:text-xs text-softodev-text hover:border-softodev-primary/60 hover:bg-softodev-primarySoft/40 transition"
+                  className="
+                    inline-flex items-center justify-center
+                    rounded-full border border-softodev-border
+                    bg-softodev-bg/80 px-3 py-1.5
+                    text-[11px] md:text-xs text-softodev-text
+                    hover:border-softodev-primary/60 hover:bg-softodev-primarySoft/40
+                    transition
+                  "
                 >
                   {isArabic ? "سؤال سريع على واتساب" : "Quick question on WhatsApp"}
                 </a>
               </div>
-            </div>
+            </article>
           ))}
         </div>
       </Container>
