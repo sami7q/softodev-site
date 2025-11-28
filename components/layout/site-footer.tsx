@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 
 type Locale = "ar" | "en" | string;
@@ -9,10 +10,22 @@ export function SiteFooter({ locale }: { locale: Locale }) {
     {
       title: isRTL ? "الخدمات" : "Services",
       items: [
-        { label: isRTL ? "صفحات الهبوط" : "Landing Pages", href: `/${locale}/services` },
-        { label: isRTL ? "مواقع الشركات" : "Websites", href: `/${locale}/services` },
-        { label: isRTL ? "المتاجر الإلكترونية" : "E-Commerce Stores", href: `/${locale}/services` },
-        { label: isRTL ? "أنظمة الإدارة" : "Management Systems", href: `/${locale}/services` },
+        {
+          label: isRTL ? "صفحات الهبوط" : "Landing Pages",
+          href: `/${locale}/services`,
+        },
+        {
+          label: isRTL ? "مواقع الشركات" : "Websites",
+          href: `/${locale}/services`,
+        },
+        {
+          label: isRTL ? "المتاجر الإلكترونية" : "E-Commerce Stores",
+          href: `/${locale}/services`,
+        },
+        {
+          label: isRTL ? "أنظمة الإدارة" : "Management Systems",
+          href: `/${locale}/services`,
+        },
       ],
     },
     {
@@ -56,12 +69,17 @@ export function SiteFooter({ locale }: { locale: Locale }) {
         <div className="grid grid-cols-1 md:grid-cols-[minmax(0,1.4fr)_minmax(0,1.3fr)] gap-8">
           {/* Brand + mini form */}
           <div className={isRTL ? "text-right" : "text-left"}>
-            {/* Brand */}
-            <div className="flex items-center gap-2 font-semibold mb-3 justify-start">
-              <div className="h-9 w-9 rounded-xl bg-softodev-bg text-softodev-text grid place-items-center shadow-soft">
-                S
+            {/* Brand – لوغو فقط بدون مربع، بحجم أكبر */}
+            <div className="flex items-center mb-3 justify-start">
+              <div className="flex items-center h-9 sm:h-10">
+                <Image
+                  src="/logo/logo.png"
+                  alt="SoftoDev logo"
+                  width={140}
+                  height={40}
+                  className="h-8 sm:h-9 w-auto object-contain"
+                />
               </div>
-              <span>SoftoDev</span>
             </div>
 
             <p className="text-xs sm:text-sm text-white/80 leading-relaxed mb-4 max-w-md">
@@ -93,7 +111,9 @@ export function SiteFooter({ locale }: { locale: Locale }) {
                       type="text"
                       required
                       autoComplete="name"
-                      placeholder={isRTL ? "مثال: أحمد من الرياض" : "e.g. Ahmed from Riyadh"}
+                      placeholder={
+                        isRTL ? "مثال: أحمد من الرياض" : "e.g. Ahmed from Riyadh"
+                      }
                       className="w-full rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 text-[11px] text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-softodev-primary/70"
                     />
                   </div>
