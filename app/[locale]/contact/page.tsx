@@ -8,9 +8,9 @@ import { ContactForm } from "@/components/contact/contact-form";
 export async function generateMetadata({
   params,
 }: {
-  params: { locale: Locale };
+  params: Promise<{ locale: Locale }>;
 }): Promise<Metadata> {
-  const { locale } = params;
+  const { locale } = await params;
 
   const title =
     locale === "ar"
@@ -33,12 +33,12 @@ export async function generateMetadata({
   };
 }
 
-export default function ContactPage({
+export default async function ContactPage({
   params,
 }: {
-  params: { locale: Locale };
+  params: Promise<{ locale: Locale }>;
 }) {
-  const { locale } = params;
+  const { locale } = await params;
   const isArabic = locale === "ar";
   const align = isArabic ? "text-right" : "text-left";
 
