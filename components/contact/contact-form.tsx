@@ -7,11 +7,21 @@ type ContactFormProps = {
   locale: Locale;
 };
 
+type ProjectType =
+  | "landing"
+  | "store"
+  | "website"
+  | "system"
+  | "marketing"
+  | "branding"
+  | "ai-bot"
+  | "other";
+
 type FormState = {
   name: string;
   email: string;
   whatsapp: string;
-  projectType: string;
+  projectType: ProjectType;
   message: string;
 };
 
@@ -30,10 +40,54 @@ export function ContactForm({ locale }: ContactFormProps) {
   function handleChange(
     e: React.ChangeEvent<
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-    >,
+    >
   ) {
     const { name, value } = e.target;
     setFormState((prev) => ({ ...prev, [name]: value }));
+  }
+
+  function getProjectTypeLabel(value: ProjectType) {
+    if (isArabic) {
+      switch (value) {
+        case "landing":
+          return "صفحة هبوط";
+        case "store":
+          return "متجر إلكتروني";
+        case "website":
+          return "موقع تعريفي كامل";
+        case "system":
+          return "نظام برمجي / نظام إدارة";
+        case "marketing":
+          return "خدمات التسويق الرقمي";
+        case "branding":
+          return "تصميم هوية بصرية وشعارات";
+        case "ai-bot":
+          return "بوت ذكاء اصطناعي للموقع";
+        case "other":
+        default:
+          return "مشروع آخر";
+      }
+    } else {
+      switch (value) {
+        case "landing":
+          return "Landing page";
+        case "store":
+          return "Online store";
+        case "website":
+          return "Full website";
+        case "system":
+          return "Business / management system";
+        case "marketing":
+          return "Digital marketing services";
+        case "branding":
+          return "Branding & visual identity";
+        case "ai-bot":
+          return "AI bot for website";
+        case "other":
+        default:
+          return "Other project";
+      }
+    }
   }
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -41,21 +95,7 @@ export function ContactForm({ locale }: ContactFormProps) {
 
     const { name, email, whatsapp, projectType, message } = formState;
 
-    const projectTypeLabel = isArabic
-      ? projectType === "landing"
-        ? "صفحة هبوط"
-        : projectType === "store"
-        ? "متجر إلكتروني"
-        : projectType === "system"
-        ? "نظام إدارة"
-        : "مشروع آخر"
-      : projectType === "landing"
-      ? "Landing page"
-      : projectType === "store"
-      ? "Online store"
-      : projectType === "system"
-      ? "Management system"
-      : "Other project";
+    const projectTypeLabel = getProjectTypeLabel(projectType);
 
     const intro = isArabic
       ? "طلب جديد من نموذج موقع SoftoDev:\n\n"
@@ -80,7 +120,6 @@ export function ContactForm({ locale }: ContactFormProps) {
 
     const url = `https://wa.me/905015954826?text=${encodeURIComponent(text)}`;
 
-    // فتح واتساب في تبويب جديد
     window.open(url, "_blank");
   }
 
@@ -148,8 +187,20 @@ export function ContactForm({ locale }: ContactFormProps) {
           <option value="store">
             {isArabic ? "متجر إلكتروني" : "Online store"}
           </option>
+          <option value="website">
+            {isArabic ? "موقع تعريفي كامل" : "Full website"}
+          </option>
           <option value="system">
-            {isArabic ? "نظام إدارة" : "Management system"}
+            {isArabic ? "نظام برمجي / نظام إدارة" : "Business / management system"}
+          </option>
+          <option value="marketing">
+            {isArabic ? "خدمات التسويق الرقمي" : "Digital marketing services"}
+          </option>
+          <option value="branding">
+            {isArabic ? "تصميم هوية بصرية وشعارات" : "Branding & visual identity"}
+          </option>
+          <option value="ai-bot">
+            {isArabic ? "بوت ذكاء اصطناعي للموقع" : "AI bot for website"}
           </option>
           <option value="other">
             {isArabic ? "مشروع آخر" : "Other project"}
@@ -169,8 +220,8 @@ export function ContactForm({ locale }: ContactFormProps) {
           className="w-full rounded-2xl border border-softodev-border/80 bg-gray-50 px-3 py-2 text-xs outline-none ring-0 focus:border-softodev-primary focus:bg-white"
           placeholder={
             isArabic
-              ? "اذكر نوع المشروع، عدد الصفحات تقريباً، وهل لديك أمثلة لمواقع تعجبك..."
-              : "Include project type, approximate number of pages, and maybe links to sites you like…"
+              ? "اذكر نوع المشروع، عدد الملفات أو الصفحات تقريباً، وهل لديك أمثلة لمواقع تعجبك..."
+              : "Include project type, approximate number of pages/screens, and maybe links to sites you like…"
           }
         />
       </div>
@@ -192,7 +243,9 @@ export function ContactForm({ locale }: ContactFormProps) {
           target="_blank"
           rel="noreferrer"
         >
-          {isArabic ? "فتح محادثة واتساب مباشرة" : "Open WhatsApp chat directly"}
+          {isArabic
+            ? "فتح محادثة واتساب مباشرة"
+            : "Open WhatsApp chat directly"}
         </a>
       </div>
 

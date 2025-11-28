@@ -5,13 +5,11 @@ import { getCanonicalUrl } from "@/lib/seo";
 import { Container } from "@/components/layout/container";
 import { ContactForm } from "@/components/contact/contact-form";
 
-type ContactPageParams = {
+export async function generateMetadata({
+  params,
+}: {
   params: { locale: Locale };
-};
-
-export async function generateMetadata(
-  { params }: ContactPageParams
-): Promise<Metadata> {
+}): Promise<Metadata> {
   const { locale } = params;
 
   const title =
@@ -35,7 +33,11 @@ export async function generateMetadata(
   };
 }
 
-export default function ContactPage({ params }: ContactPageParams) {
+export default function ContactPage({
+  params,
+}: {
+  params: { locale: Locale };
+}) {
   const { locale } = params;
   const isArabic = locale === "ar";
   const align = isArabic ? "text-right" : "text-left";
