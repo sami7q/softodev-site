@@ -47,42 +47,92 @@ export default async function PortfolioPage({
   const projects = getProjectsForLocale(locale);
 
   return (
-    <section className="relative isolate py-12 md:py-16 bg-softodev-bg/60 backdrop-blur-sm overflow-hidden">
-      {/* Background glows */}
-      <div className="pointer-events-none absolute inset-0 z-0">
-        <div className="absolute -top-24 left-0 h-80 w-80 rounded-full bg-softodev-primary/12 blur-3xl" />
-        <div className="absolute top-0 right-0 h-96 w-96 rounded-full bg-sky-400/12 blur-3xl" />
+    <section className="relative isolate py-12 md:py-16 bg-softodev-bg/70 overflow-hidden">
+      {/* خلفية بنفس نمط الخدمات / الأسعار */}
+      <div className="pointer-events-none absolute inset-0 -z-10">
+        <div className="absolute -top-24 -left-20 h-72 w-72 rounded-full bg-softodev-primary/12 blur-3xl" />
+        <div className="absolute top-1/3 right-0 h-96 w-96 rounded-full bg-softodev-primarySoft/40 blur-3xl" />
         <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-softodev-primary/40 to-transparent" />
       </div>
 
       <Container className="relative z-10 space-y-10 md:space-y-12">
         {/* Header */}
-        <div className={`space-y-3 ${align}`}>
-          <p className="text-[11px] font-semibold uppercase tracking-[0.25em] text-softodev-muted">
-            {isArabic ? "الأعمال" : "Portfolio"}
+        <div className={`max-w-3xl ${align} space-y-3`}>
+          <p className="inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.25em] text-softodev-muted">
+            <span className="inline-block h-[1px] w-6 bg-softodev-primary/70" />
+            <span>{isArabic ? "الأعمال" : "PORTFOLIO"}</span>
           </p>
 
           <h1 className="text-2xl md:text-3xl lg:text-4xl font-extrabold tracking-tight text-softodev-text leading-tight">
-            {isArabic
-              ? "منصّات ومتاجر حقيقية تم تنفيذها لعملاء في العراق والمنطقة"
-              : "Real platforms and stores delivered for clients in Iraq and the region."}
+            {isArabic ? (
+              <>
+                <span>منصّات ومتاجر </span>
+                <span className="text-softodev-primary">حقيقية</span>
+                <span> تم تنفيذها لعملاء في العراق والمنطقة.</span>
+              </>
+            ) : (
+              <>
+                <span>Real platforms and stores </span>
+                <span className="text-softodev-primary">shipped for clients</span>
+                <span> in Iraq and across the region.</span>
+              </>
+            )}
           </h1>
 
-          <p className="max-w-2xl text-base md:text-[15px] leading-relaxed text-softodev-muted">
-            {isArabic
-              ? "هذه المشاريع توضح طريقة عمل SoftoDev في بناء متاجر إلكترونية، منصّات تعليمية ومنصّات عقارات مع تركيز على الأداء وتجربة المستخدم."
-              : "These projects show how SoftoDev builds e-commerce, e-learning and real-estate platforms with a focus on performance and UX."}
+          <p className="text-sm md:text-[15px] leading-relaxed text-softodev-muted">
+            {isArabic ? (
+              <>
+                هذه المشاريع توضح طريقة عمل{" "}
+                <span className="text-softodev-primary font-medium">
+                  SoftoDev
+                </span>{" "}
+                في بناء متاجر إلكترونية، منصّات تعليمية ومنصّات عقارات مع تركيز
+                على الأداء وتجربة المستخدم.
+              </>
+            ) : (
+              <>
+                These projects show how{" "}
+                <span className="text-softodev-primary font-medium">
+                  SoftoDev
+                </span>{" "}
+                delivers e-commerce, e-learning and real-estate platforms with a
+                strong focus on performance and user experience.
+              </>
+            )}
           </p>
         </div>
 
         {/* Grid */}
-        <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+        <div
+          className="grid gap-5 md:gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"
+          dir={isArabic ? "rtl" : "ltr"}
+        >
           {projects.map((project) => (
             <Link
               key={project.slug}
               href={`/${locale}/portfolio/${project.slug}`}
-              className="group flex flex-col rounded-3xl border border-softodev-border bg-softodev-surface/90 p-4 shadow-soft transition hover:-translate-y-0.5 hover:shadow-lg hover:border-softodev-primary/30"
+              className="
+                group relative h-full
+                overflow-hidden rounded-[26px]
+                border border-softodev-border/70
+                bg-softodev-surface/95
+                p-4 md:p-5
+                shadow-soft
+                transition-all duration-300
+                hover:-translate-y-1.5 hover:shadow-[0_28px_70px_rgba(15,23,42,0.18)]
+                hover:border-softodev-primary/45
+              "
             >
+              {/* glow overlay */}
+              <div
+                className="
+                  pointer-events-none absolute inset-0 -z-10
+                  opacity-0 group-hover:opacity-100
+                  transition-opacity duration-300
+                  bg-gradient-to-br from-softodev-primarySoft/70 via-softodev-surface/85 to-softodev-bg/90
+                "
+              />
+
               {/* Screenshot */}
               <div className="relative mb-4 overflow-hidden rounded-2xl border border-softodev-border bg-softodev-bg/80">
                 <Image
@@ -96,15 +146,16 @@ export default async function PortfolioPage({
 
               {/* Content */}
               <div className={align}>
-                <div className="mb-2 inline-flex w-fit rounded-full bg-softodev-primarySoft/90 px-3 py-1 text-[11px] font-bold text-softodev-primary border border-softodev-border">
-                  {project.tag}
+                <div className="mb-2 inline-flex w-fit items-center gap-2 rounded-full bg-softodev-primarySoft/90 px-3 py-1 text-[11px] font-bold text-softodev-primary border border-softodev-border">
+                  <span className="inline-block h-1.5 w-1.5 rounded-full bg-softodev-primary/80" />
+                  <span>{project.tag}</span>
                 </div>
 
-                <h2 className="text-base font-bold text-softodev-text">
+                <h2 className="text-base md:text-[15px] font-extrabold text-softodev-text">
                   {project.name}
                 </h2>
 
-                <p className="mt-2 text-sm leading-relaxed text-softodev-muted">
+                <p className="mt-2 text-xs md:text-sm leading-relaxed text-softodev-muted">
                   {project.short}
                 </p>
               </div>
@@ -119,8 +170,13 @@ export default async function PortfolioPage({
                 <span>{project.region}</span>
               </div>
 
-              <div className={`mt-3 text-sm font-bold text-softodev-primary ${align}`}>
-                {isArabic ? "عرض تفاصيل المشروع →" : "View case study →"}
+              <div
+                className={`
+                  mt-3 text-[11px] md:text-sm font-semibold text-softodev-primary
+                  ${align}
+                `}
+              >
+                {isArabic ? "عرض تفاصيل المشروع ←" : "View case study →"}
               </div>
             </Link>
           ))}
@@ -129,7 +185,7 @@ export default async function PortfolioPage({
         <p className={`text-xs text-softodev-muted ${align}`}>
           {isArabic
             ? "يمكن تنفيذ مشروع جديد بأسلوب مشابه لهذه المشاريع، مع تخصيص الهوية البصرية، اللغة، وطريقة العمل حسب نشاطك."
-            : "We can build a new project similar to these, fully customized to your brand, language and workflow."}
+            : "We can build a new project similar to these, fully adapted to your brand, language and internal workflow."}
         </p>
       </Container>
     </section>

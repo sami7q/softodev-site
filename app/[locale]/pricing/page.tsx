@@ -9,35 +9,35 @@ type PlanId = "starter" | "growth" | "pro";
 
 type Plan = {
   id: PlanId;
-  badge?: { ar: string; en: string };
-  name: { ar: string; en: string };
+  badge: string;
+  title: { ar: string; en: string };
   price: { ar: string; en: string };
-  description: { ar: string; en: string };
-  features: { ar: string[]; en: string[] };
-  highlight: boolean;
+  short: { ar: string; en: string };
+  bullets: { ar: string[]; en: string[] };
+  highlight?: boolean;
 };
 
 const plans: Plan[] = [
   {
     id: "starter",
-    badge: { ar: "الأفضل للبدايات", en: "Best to start" },
-    name: { ar: "باقة البداية", en: "Starter" },
+    badge: "01",
+    title: { ar: "باقة البداية", en: "Starter" },
     price: { ar: "من 199$", en: "From $199" },
-    description: {
-      ar: "صفحة هبوط أو موقع تعريفي بسيط لمنتج أو خدمة واحدة.",
-      en: "A landing page or simple website for a single product or service.",
+    short: {
+      ar: "مثالية لصفحة هبوط واحدة أو موقع تعريفي بسيط.",
+      en: "Perfect for a single landing page or simple intro website.",
     },
-    features: {
+    bullets: {
       ar: [
-        "تصميم صفحة واحدة متجاوبة.",
-        "تعديل الألوان والخط والخلفية حسب الهوية.",
+        "صفحة واحدة متجاوبة مهيأة للإعلانات.",
+        "تعديل الألوان والخط بما يناسب هويتك.",
         "زر واتساب + نموذج تواصل بسيط.",
-        "تهيئة فنية بسيطة للـ SEO.",
+        "تهيئة فنية أساسية للـ SEO.",
       ],
       en: [
-        "One responsive page design.",
-        "Colors, typography, and background customized to your brand.",
-        "WhatsApp button + simple contact form.",
+        "One responsive page optimized for ads.",
+        "Colors and typography adapted to your brand.",
+        "WhatsApp CTA + simple contact form.",
         "Basic technical SEO setup.",
       ],
     },
@@ -45,53 +45,142 @@ const plans: Plan[] = [
   },
   {
     id: "growth",
-    badge: { ar: "الأكثر طلباً", en: "Most popular" },
-    name: { ar: "باقة النمو", en: "Growth" },
+    badge: "02",
+    title: { ar: "باقة النمو", en: "Growth" },
     price: { ar: "من 499$", en: "From $499" },
-    description: {
-      ar: "موقع أو متجر صغير بعدة صفحات مناسب للشركات الصغيرة والمتوسطة.",
-      en: "A small website or store with multiple pages for growing businesses.",
+    short: {
+      ar: "مناسبة لمواقع الشركات والمتاجر الصغيرة بعدة صفحات.",
+      en: "Best for multi-page sites and small online stores.",
     },
-    features: {
+    bullets: {
       ar: [
         "حتى 5 صفحات (الرئيسية، الخدمات، من نحن، تواصل، صفحة إضافية).",
         "بنية نظيفة وسريعة التحميل.",
         "ربط بسيط مع نماذج واتساب أو البريد.",
-        "تحسين SEO أساسي للعناوين والوصف.",
+        "تهيئة SEO أساسية للعناوين والوصف.",
       ],
       en: [
         "Up to 5 pages (home, services, about, contact, extra).",
-        "Clean structure and fast loading.",
+        "Clean, fast-loading architecture.",
         "Basic integration with WhatsApp or email forms.",
-        "Essential on-page SEO (titles and descriptions).",
+        "Essential on-page SEO (titles & descriptions).",
       ],
     },
     highlight: true,
   },
   {
     id: "pro",
-    badge: { ar: "للشركات والعيادات", en: "For serious teams" },
-    name: { ar: "باقة الاحتراف", en: "Pro" },
+    badge: "03",
+    title: { ar: "باقة الاحتراف", en: "Pro" },
     price: { ar: "من 699$+", en: "From $699+" },
-    description: {
-      ar: "متجر إلكتروني أو نظام إدارة مخصص مع بنية قابلة للتوسع.",
-      en: "An e-commerce store or custom management system with a scalable architecture.",
+    short: {
+      ar: "للمتاجر المتقدمة أو الأنظمة البرمجية المخصصة.",
+      en: "For advanced stores or fully custom systems.",
     },
-    features: {
+    bullets: {
       ar: [
-        "بنية مخصصة لمشروعك (متجر أو نظام إدارة).",
+        "متجر إلكتروني كامل أو نظام إدارة مخصص.",
         "تصميم واجهات رئيسية + لوحة تحكم أولية.",
-        "ربط مع خدمات خارجية عند الحاجة (حسب الاتفاق).",
+        "إمكانية ربط مع أنظمة وخدمات خارجية.",
         "تركيز على الأداء وتجربة المستخدم.",
       ],
       en: [
-        "Custom architecture for your project (store or management system).",
-        "Design of main UI screens + initial dashboard.",
-        "Integrations with external services when needed (by agreement).",
+        "Full e-commerce store or custom management system.",
+        "Main UI screens + initial dashboard design.",
+        "Integrations with external systems when needed.",
         "Strong focus on performance and UX.",
       ],
     },
     highlight: false,
+  },
+];
+
+type PricingService = {
+  id: string;
+  badge: string;
+  title: { ar: string; en: string };
+  short: { ar: string; en: string };
+  startsFrom: { ar: string; en: string };
+  recommendedPlan: PlanId;
+};
+
+const servicesForPricing: PricingService[] = [
+  {
+    id: "landing-pages",
+    badge: "01",
+    title: { ar: "صفحات الهبوط", en: "Landing Pages" },
+    short: {
+      ar: "صفحات تسويقية جاهزة للحملات الإعلانية والتحويل.",
+      en: "Marketing-focused pages tailored for paid campaigns.",
+    },
+    startsFrom: { ar: "من 199$", en: "From $199" },
+    recommendedPlan: "starter",
+  },
+  {
+    id: "ecommerce",
+    badge: "02",
+    title: { ar: "متاجر إلكترونية", en: "Online Stores" },
+    short: {
+      ar: "متاجر متكاملة مع بوابات دفع وشحن وإدارة منتجات.",
+      en: "Full e-commerce setups with payments and product management.",
+    },
+    startsFrom: { ar: "من 699$", en: "From $699" },
+    recommendedPlan: "pro",
+  },
+  {
+    id: "websites",
+    badge: "03",
+    title: { ar: "مواقع تعريفية كاملة", en: "Full Website Design" },
+    short: {
+      ar: "مواقع للشركات والعيادات والمشاريع الناشئة بعدة صفحات.",
+      en: "Multi-page sites for companies, clinics and startups.",
+    },
+    startsFrom: { ar: "من 499$", en: "From $499" },
+    recommendedPlan: "growth",
+  },
+  {
+    id: "systems",
+    badge: "04",
+    title: { ar: "أنظمة برمجية للشركات", en: "Custom Business Systems" },
+    short: {
+      ar: "أنظمة إدارة داخلية مخصصة لسير عملك الفعلي.",
+      en: "Internal tools and management systems tailored to your workflow.",
+    },
+    startsFrom: { ar: "من 1500$", en: "From $1500" },
+    recommendedPlan: "pro",
+  },
+  {
+    id: "marketing",
+    badge: "05",
+    title: { ar: "خدمات التسويق الرقمي", en: "Digital Marketing" },
+    short: {
+      ar: "حملات وإعداد صفحات مهيأة لرفع نسبة التحويل.",
+      en: "Campaigns plus landing pages optimized for conversions.",
+    },
+    startsFrom: { ar: "من 299$", en: "From $299" },
+    recommendedPlan: "growth",
+  },
+  {
+    id: "branding",
+    badge: "06",
+    title: { ar: "هوية بصرية وشعارات", en: "Visual Identity & Branding" },
+    short: {
+      ar: "شعار، ألوان، خطوط، ومواد رقمية متناسقة مع مشروعك.",
+      en: "Logo, color system, typography and digital assets.",
+    },
+    startsFrom: { ar: "من 249$", en: "From $249" },
+    recommendedPlan: "starter",
+  },
+  {
+    id: "ai-bots",
+    badge: "07",
+    title: { ar: "بوتات ذكاء اصطناعي", en: "AI Bots for Your Website" },
+    short: {
+      ar: "بوتات AI ترد على عملائك اعتماداً على بيانات مشروعك.",
+      en: "AI assistants answering your visitors based on your content.",
+    },
+    startsFrom: { ar: "من 699$", en: "From $699" },
+    recommendedPlan: "pro",
   },
 ];
 
@@ -103,12 +192,14 @@ export async function generateMetadata({
   const { locale } = await params;
 
   const title =
-    locale === "ar" ? "باقات الأسعار | SoftoDev" : "Pricing Plans | SoftoDev";
+    locale === "ar"
+      ? "باقات الأسعار | SoftoDev"
+      : "Pricing Plans | SoftoDev";
 
   const description =
     locale === "ar"
-      ? "اختر الباقة المناسبة لمشروعك، من صفحة هبوط بسيطة إلى متجر إلكتروني كامل أو نظام إدارة مخصص."
-      : "Choose the right plan for your project, from a simple landing page to a full store or custom management system.";
+      ? "باقات أسعار مرنة تبدأ من صفحات هبوط بسيطة وصولاً إلى أنظمة إدارة مخصصة بالكامل."
+      : "Flexible pricing plans from simple landing pages up to fully custom management systems.";
 
   const url = getCanonicalUrl(locale, "/pricing");
 
@@ -128,128 +219,247 @@ export default async function PricingPage({
 }) {
   const { locale } = await params;
   const isArabic = locale === "ar";
+
   const align = isArabic ? "text-right" : "text-left";
-  const justify = isArabic ? "justify-end" : "justify-start";
 
   return (
-    <section className="relative isolate py-12 md:py-16 bg-softodev-bg/60 backdrop-blur-sm overflow-hidden">
-      {/* Background glows */}
-      <div className="pointer-events-none absolute inset-0 z-0">
-        <div className="absolute -top-24 left-0 h-80 w-80 rounded-full bg-softodev-primary/12 blur-3xl" />
-        <div className="absolute top-0 right-0 h-96 w-96 rounded-full bg-sky-400/12 blur-3xl" />
+    <section className="relative isolate py-12 md:py-16 bg-softodev-bg/70 overflow-hidden">
+      {/* خلفية خفيفة متناسقة مع الهوم / الخدمات */}
+      <div className="pointer-events-none absolute inset-0 -z-10">
+        <div className="absolute -top-24 -left-20 h-72 w-72 rounded-full bg-softodev-primary/12 blur-3xl" />
+        <div className="absolute top-1/3 right-0 h-96 w-96 rounded-full bg-softodev-primarySoft/40 blur-3xl" />
         <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-softodev-primary/40 to-transparent" />
       </div>
 
       <Container className="relative z-10 space-y-10 md:space-y-12">
         {/* Header */}
-        <div className={`space-y-3 ${align}`}>
-          <p className="text-[11px] font-semibold uppercase tracking-[0.25em] text-softodev-muted">
-            {isArabic ? "الأسعار" : "Pricing"}
+        <div className={`max-w-3xl ${align} space-y-3`}>
+          <p className="inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.25em] text-softodev-muted">
+            <span className="inline-block h-[1px] w-6 bg-softodev-primary/70" />
+            <span>{isArabic ? "الأسعار" : "PRICING"}</span>
           </p>
 
           <h1 className="text-2xl md:text-3xl lg:text-4xl font-extrabold tracking-tight text-softodev-text leading-tight">
-            {isArabic
-              ? "باقات مرنة تبدأ من 199$ وتصل إلى أنظمة مخصصة بالكامل"
-              : "Flexible plans from $199 up to fully custom systems."}
+            {isArabic ? (
+              <>
+                <span>باقات أسعار </span>
+                <span className="text-softodev-primary">واضحة ومرنة</span>
+                <span> تناسب حجم مشروعك ومرحلة نموّه.</span>
+              </>
+            ) : (
+              <>
+                <span>Clear, flexible pricing </span>
+                <span className="text-softodev-primary">
+                  that matches your stage
+                </span>
+                <span> and project size.</span>
+              </>
+            )}
           </h1>
 
-          <p className="max-w-2xl text-base md:text-[15px] leading-relaxed text-softodev-muted">
-            {isArabic
-              ? "الهدف هو تقديم عرض سعر واضح قدر الإمكان من البداية، مع ترك مساحة للتعديلات بناءً على تفاصيل مشروعك."
-              : "We aim to give you a clear starting price while leaving room for adjustments based on your project details."}
+          <p className="text-sm md:text[15px] leading-relaxed text-softodev-muted">
+            {isArabic ? (
+              <>
+                الهدف أن تعرف من البداية إطار الاستثمار التقريبي، مع إمكانية
+                تعديل التفاصيل حسب{" "}
+                <span className="text-softodev-primary font-medium">
+                  سوقك، نوع خدمتك، وسرعة التنفيذ المطلوبة.
+                </span>
+              </>
+            ) : (
+              <>
+                Our goal is to give you a realistic investment range upfront,
+                with room to adapt based on{" "}
+                <span className="text-softodev-primary font-medium">
+                  your market, product type, and timeline.
+                </span>
+              </>
+            )}
           </p>
         </div>
 
-        {/* Cards */}
-        <div className="grid gap-5 md:grid-cols-3 md:gap-6 items-stretch">
-          {plans.map((plan) => {
-            const isHighlight = plan.highlight;
-
-            return (
+        {/* Plans grid – نفس نمط كروت الخدمات */}
+        <div
+          className="grid gap-5 md:gap-6 md:grid-cols-2 xl:grid-cols-3"
+          dir={isArabic ? "rtl" : "ltr"}
+        >
+          {plans.map((plan) => (
+            <article
+              key={plan.id}
+              className={[
+                "group relative h-full overflow-hidden rounded-[26px] border",
+                "border-softodev-border/70 bg-softodev-surface/95",
+                "p-5 md:p-6 shadow-soft transition-all duration-300",
+                "hover:-translate-y-1.5 hover:shadow-[0_28px_70px_rgba(15,23,42,0.18)] hover:border-softodev-primary/45",
+                plan.highlight ? "ring-1 ring-softodev-primary/40" : "",
+              ].join(" ")}
+            >
+              {/* glow overlay عند الهوفر / وللباقة المميزة تحسها بريميوم */}
               <div
-                key={plan.id}
                 className={[
-                  "relative flex flex-col rounded-3xl border p-5 md:p-6 text-sm shadow-soft transition",
-                  "bg-softodev-surface/90",
-                  isHighlight
-                    ? "border-softodev-primary/70 ring-2 ring-softodev-primary/20 scale-[1.02] md:scale-105"
-                    : "border-softodev-border hover:-translate-y-0.5 hover:shadow-lg hover:border-softodev-primary/30",
+                  "pointer-events-none absolute inset-0 -z-10",
+                  "opacity-0 group-hover:opacity-100 transition-opacity duration-300",
+                  "bg-gradient-to-br from-softodev-primarySoft/70 via-softodev-surface/85 to-softodev-bg/90",
+                  plan.highlight ? "opacity-100 group-hover:opacity-100" : "",
                 ].join(" ")}
-              >
-                {/* Highlight glow */}
-                {isHighlight && (
-                  <div className="pointer-events-none absolute -inset-2 -z-10 rounded-3xl bg-gradient-to-br from-softodev-primarySoft via-white/60 to-sky-100/60 blur-xl" />
-                )}
+              />
 
-                <div className={align}>
-                  {plan.badge && (
-                    <div
-                      className={[
-                        "mb-3 inline-flex w-fit rounded-full px-3 py-1 text-[11px] font-bold border",
-                        isHighlight
-                          ? "bg-softodev-primarySoft/90 text-softodev-primary border-softodev-primary/20"
-                          : "bg-softodev-primarySoft/70 text-softodev-primary border-softodev-border",
-                      ].join(" ")}
-                    >
-                      {plan.badge[locale]}
-                    </div>
-                  )}
-
-                  <div className="text-lg font-extrabold text-softodev-text">
-                    {plan.name[locale]}
+              {/* Header داخل الكرت */}
+              <div className="flex items-start justify-between gap-3">
+                <div className="space-y-2">
+                  <div className="flex items-center gap-2 text-[11px] font-semibold text-softodev-muted">
+                    <span className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-softodev-primarySoft text-[10px] text-softodev-primary">
+                      {plan.badge}
+                    </span>
+                    <span>{isArabic ? "باقة" : "Plan"}</span>
                   </div>
-
-                  <div className="mt-1 text-2xl font-extrabold tracking-tight text-softodev-text">
+                  <h2 className="text-base md:text-lg font-extrabold text-softodev-text">
+                    {plan.title[locale]}
+                  </h2>
+                  <p className="text-sm font-semibold text-softodev-primary">
                     {plan.price[locale]}
-                  </div>
-
-                  <p className="mt-2 text-sm text-softodev-muted leading-relaxed">
-                    {plan.description[locale]}
+                  </p>
+                  <p className="text-xs md:text-sm text-softodev-muted leading-relaxed">
+                    {plan.short[locale]}
                   </p>
                 </div>
+              </div>
 
-                {/* Features */}
-                <div className={`mt-5 flex-1 space-y-2.5 ${align}`}>
-                  {plan.features[locale].map((f, idx) => (
-                    <div key={idx} className="flex items-start gap-2.5">
-                      <span className="mt-1.5 h-2 w-2 flex-none rounded-full bg-softodev-primary" />
-                      <p className="text-sm text-softodev-muted leading-relaxed">
-                        {f}
+              {/* Bullets */}
+              <ul className="mt-4 space-y-1.5 text-xs md:text-[13px] text-softodev-muted">
+                {plan.bullets[locale].map((b) => (
+                  <li key={b} className="flex gap-2">
+                    <span className="mt-[6px] h-1.5 w-1.5 flex-shrink-0 rounded-full bg-softodev-primary/85" />
+                    <span>{b}</span>
+                  </li>
+                ))}
+              </ul>
+
+              {/* Divider */}
+              <div className="mt-5 border-t border-softodev-border/70" />
+
+              {/* CTA row – زر أصغر وبسيط فقط */}
+              <div className="mt-3 flex justify-start">
+                <Link
+                  href={`/${locale}/contact`}
+                  className="
+                    inline-flex items-center justify-center
+                    rounded-full bg-softodev-primary
+                    px-3 py-1.5
+                    text-[11px] md:text-xs font-semibold text-white
+                    shadow-soft
+                    hover:bg-softodev-primaryDark
+                    transition
+                  "
+                >
+                  {isArabic ? "اطلب عرض سعر" : "Get a quote"}
+                </Link>
+              </div>
+            </article>
+          ))}
+        </div>
+
+        {/* قسم الخدمات + نقطة البداية لكل خدمة بنفس النمط */}
+        <div className="space-y-6">
+          <div className={`max-w-3xl ${align} space-y-2`}>
+            <h2 className="text-lg sm:text-xl font-semibold text-softodev-text">
+              {isArabic
+                ? "كيف تنعكس هذه الباقات على كل خدمة؟"
+                : "How do these plans map to each service?"}
+            </h2>
+            <p className="text-sm md:text[15px] text-softodev-muted">
+              {isArabic ? (
+                <>
+                  هنا توضيح سريع{" "}
+                  <span className="text-softodev-primary font-medium">
+                    لكل خدمة
+                  </span>{" "}
+                  نقدّمها، من أي سعر تقريبًا تبدأ، وأي باقة تكون عادةً الأنسب
+                  كبداية.
+                </>
+              ) : (
+                <>
+                  Here’s a quick overview of{" "}
+                  <span className="text-softodev-primary font-medium">
+                    each service
+                  </span>
+                  , the usual starting price, and the plan that typically fits
+                  best.
+                </>
+              )}
+            </p>
+          </div>
+
+          <div
+            className="grid gap-5 md:gap-6 md:grid-cols-2 xl:grid-cols-3"
+            dir={isArabic ? "rtl" : "ltr"}
+          >
+            {servicesForPricing.map((service) => {
+              const plan = plans.find((p) => p.id === service.recommendedPlan)!;
+
+              return (
+                <article
+                  key={service.id}
+                  className="
+                    group relative h-full
+                    overflow-hidden rounded-[26px]
+                    border border-softodev-border/70
+                    bg-softodev-surface/95
+                    p-4 md:p-5
+                    shadow-soft
+                    transition-all duration-300
+                    hover:-translate-y-1.5 hover:shadow-[0_28px_70px_rgba(15,23,42,0.18)]
+                    hover:border-softodev-primary/45
+                  "
+                >
+                  <div className="flex items-start justify-between gap-3">
+                    <div className="space-y-2">
+                      <div className="flex items-center gap-2 text-[11px] font-semibold text-softodev-muted">
+                        <span className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-softodev-primarySoft text-[10px] text-softodev-primary">
+                          {service.badge}
+                        </span>
+                        <span>{isArabic ? "خدمة" : "Service"}</span>
+                      </div>
+                      <h3 className="text-base md:text-[15px] font-semibold text-softodev-text">
+                        {service.title[locale]}
+                      </h3>
+                      <p className="text-xs md:text-sm text-softodev-muted leading-relaxed line-clamp-3">
+                        {service.short[locale]}
                       </p>
                     </div>
-                  ))}
-                </div>
 
-                {/* Actions */}
-                <div className={`mt-6 flex flex-wrap gap-3 text-sm ${justify}`}>
-                  <Link
-                    href={isArabic ? "/ar/contact" : "/en/contact"}
-                    className={[
-                      "inline-flex items-center rounded-full px-5 py-2 font-bold shadow-soft transition active:scale-[0.98]",
-                      isHighlight
-                        ? "bg-gradient-to-r from-softodev-primary to-blue-700 text-white hover:opacity-95"
-                        : "border border-softodev-border bg-softodev-surface text-softodev-text hover:border-softodev-primary/40",
-                    ].join(" ")}
-                  >
-                    {isArabic ? "احصل على عرض سعر" : "Get a quote"}
-                  </Link>
+                    <span className="inline-flex min-w-max items-center rounded-full border border-softodev-border bg-softodev-primarySoft/60 px-2.5 py-1 text-[10px] font-semibold text-softodev-primary">
+                      {isArabic ? "أنسب مع" : "Best with"}{" "}
+                      <span className="mx-1">•</span>
+                      {plan.title[locale]}
+                    </span>
+                  </div>
 
-                  <Link
-                    href={isArabic ? "/ar/services" : "/en/services"}
-                    className="inline-flex items-center rounded-full border border-dashed border-softodev-border px-5 py-2 font-bold text-softodev-muted hover:bg-softodev-primarySoft/40 transition"
-                  >
-                    {isArabic ? "قارن مع الخدمات" : "Compare with services"}
-                  </Link>
-                </div>
-              </div>
-            );
-          })}
+                  <div className="mt-4 flex items-center justify-between gap-3">
+                    <div className="text-xs md:text-sm text-softodev-muted">
+                      {isArabic ? "يبدأ من" : "Starts from"}{" "}
+                      <span className="font-semibold text-softodev-text">
+                        {service.startsFrom[locale]}
+                      </span>
+                    </div>
+
+                    <Link
+                      href={`/${locale}/services/${service.id}`}
+                      className="text-xs md:text-sm font-semibold text-softodev-primary hover:underline"
+                    >
+                      {isArabic ? "تفاصيل الخدمة" : "View service"}
+                    </Link>
+                  </div>
+                </article>
+              );
+            })}
+          </div>
         </div>
 
         <p className={`text-xs text-softodev-muted ${align}`}>
           {isArabic
-            ? "الأسعار المذكورة تقريبية وتعتمد على تفاصيل مشروعك النهائي، لكنّها تعطيك تصورًا واضحًا عن مستوى الاستثمار المطلوب."
-            : "Prices are starting points and depend on your final scope, but they give you a realistic idea of the required investment."}
+            ? "كل الأرقام تقريبية لبداية الحديث، والتسعير النهائي يتم بعد فهم فكرة مشروعك، سوقك، والنتيجة التي تريد الوصول لها."
+            : "All numbers here are starting points. Final pricing is agreed after we understand your idea, market, and desired outcome."}
         </p>
       </Container>
     </section>

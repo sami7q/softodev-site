@@ -54,7 +54,6 @@ export default async function ProjectDetailPage({
 
   const isArabic = locale === "ar";
   const align = isArabic ? "text-right" : "text-left";
-  const justify = isArabic ? "justify-end" : "justify-start";
 
   const schema: any = {
     "@context": "https://schema.org",
@@ -73,34 +72,45 @@ export default async function ProjectDetailPage({
     schema.url = project.liveUrl;
   }
 
+  const whatsappHref = isArabic
+    ? `https://wa.me/905015954826?text=${encodeURIComponent(
+        `مرحباً SoftoDev، أريد مناقشة مشروع مشابه لـ: ${project.name.ar}`
+      )}`
+    : `https://wa.me/905015954826?text=${encodeURIComponent(
+        `Hi SoftoDev, I’d like to discuss a project similar to: ${project.name.en}`
+      )}`;
+
   return (
     <>
-      <section className="relative isolate py-12 md:py-16 bg-softodev-bg/60 backdrop-blur-sm overflow-hidden">
-        {/* Background glows */}
-        <div className="pointer-events-none absolute inset-0 z-0">
-          <div className="absolute -top-24 left-0 h-80 w-80 rounded-full bg-softodev-primary/12 blur-3xl" />
-          <div className="absolute top-0 right-0 h-96 w-96 rounded-full bg-sky-400/12 blur-3xl" />
+      <section className="relative isolate pt-12 md:pt-16 pb-40 md:pb-48 bg-softodev-bg/70 overflow-hidden">
+        {/* خلفية بنفس نمط الخدمات / الأسعار / الأعمال */}
+        <div className="pointer-events-none absolute inset-0 -z-10">
+          <div className="absolute -top-24 -left-20 h-72 w-72 rounded-full bg-softodev-primary/12 blur-3xl" />
+          <div className="absolute top-1/3 right-0 h-96 w-96 rounded-full bg-softodev-primarySoft/40 blur-3xl" />
           <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-softodev-primary/40 to-transparent" />
         </div>
 
         <Container className="relative z-10 space-y-10 md:space-y-12">
           {/* Hero */}
-          <div className={`space-y-4 ${align}`}>
-            <p className="text-[11px] font-semibold uppercase tracking-[0.25em] text-softodev-muted">
-              {isArabic ? "دراسة حالة" : "Case study"}
+          <div className={`max-w-3xl ${align} space-y-3`}>
+            <p className="inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.25em] text-softodev-muted">
+              <span className="inline-block h-[1px] w-6 bg-softodev-primary/70" />
+              <span>{isArabic ? "دراسة حالة" : "CASE STUDY"}</span>
             </p>
 
             <h1 className="text-2xl md:text-3xl lg:text-4xl font-extrabold tracking-tight text-softodev-text leading-tight">
               {project.name[locale]}
             </h1>
 
-            <p className="max-w-2xl text-base md:text-[15px] leading-relaxed text-softodev-muted">
+            <p className="text-sm md:text-[15px] leading-relaxed text-softodev-muted">
               {project.shortDescription[locale]}
             </p>
 
             {/* Tags */}
             <div
-              className={`flex flex-wrap gap-3 text-[11px] text-softodev-muted ${justify}`}
+              className={`mt-2 flex flex-wrap gap-2.5 text-[11px] text-softodev-muted ${
+                isArabic ? "justify-end" : "justify-start"
+              }`}
             >
               <span className="inline-flex items-center rounded-full bg-softodev-primarySoft/90 px-3 py-1 font-bold text-softodev-primary border border-softodev-border">
                 {project.industry[locale]}
@@ -113,17 +123,29 @@ export default async function ProjectDetailPage({
               </span>
             </div>
 
-            {/* CTAs */}
-            <div className={`flex flex-wrap gap-3 ${justify}`}>
+            {/* CTAs – نفس نمط الأزرار الصغيرة في باقي الصفحات */}
+            <div
+              className={`mt-3 flex flex-wrap gap-2.5 ${
+                isArabic ? "justify-end" : "justify-start"
+              }`}
+            >
               <a
-                href="https://wa.me/905015954826"
+                href={whatsappHref}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center rounded-full bg-gradient-to-r from-softodev-primary to-blue-700 px-5 py-2 text-xs md:text-sm font-bold text-white shadow-soft hover:opacity-95 transition active:scale-[0.98]"
+                className="
+                  inline-flex items-center justify-center
+                  rounded-full bg-softodev-primary
+                  px-3 py-1.5
+                  text-[11px] md:text-xs font-semibold text-white
+                  shadow-soft
+                  hover:bg-softodev-primaryDark
+                  transition
+                "
               >
                 {isArabic
                   ? "ناقشنا مشروعاً مشابهاً لمشروعك"
-                  : "Discuss a similar project for your business"}
+                  : "Discuss a similar project"}
               </a>
 
               {project.liveUrl && (
@@ -131,7 +153,14 @@ export default async function ProjectDetailPage({
                   href={project.liveUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center rounded-full border border-softodev-border bg-softodev-surface/90 px-5 py-2 text-xs md:text-sm font-bold text-softodev-text hover:border-softodev-primary/40 transition"
+                  className="
+                    inline-flex items-center justify-center
+                    rounded-full border border-softodev-border
+                    bg-softodev-surface/90 px-3 py-1.5
+                    text-[11px] md:text-xs font-semibold text-softodev-text
+                    hover:border-softodev-primary/40 hover:bg-softodev-primarySoft/40
+                    transition
+                  "
                 >
                   {isArabic ? "زيارة الموقع المباشر" : "Visit live site"}
                 </a>
@@ -139,7 +168,14 @@ export default async function ProjectDetailPage({
 
               <Link
                 href={`/${locale}/portfolio`}
-                className="inline-flex items-center rounded-full border border-softodev-border bg-softodev-surface/90 px-5 py-2 text-xs md:text-sm font-bold text-softodev-text hover:border-softodev-primary/40 transition"
+                className="
+                  inline-flex items-center justify-center
+                  rounded-full border border-softodev-border
+                  bg-softodev-surface/90 px-3 py-1.5
+                  text-[11px] md:text-xs font-semibold text-softodev-text
+                  hover:border-softodev-primary/40 hover:bg-softodev-primarySoft/40
+                  transition
+                "
               >
                 {isArabic ? "العودة إلى الأعمال" : "Back to portfolio"}
               </Link>
@@ -147,59 +183,108 @@ export default async function ProjectDetailPage({
           </div>
 
           {/* Layout */}
-          <div className="grid gap-6 md:grid-cols-[minmax(0,1.6fr)_minmax(0,1.1fr)]">
+          <div
+            className="grid gap-6 md:gap-7 md:grid-cols-[minmax(0,1.6fr)_minmax(0,1.1fr)]"
+            dir={isArabic ? "rtl" : "ltr"}
+          >
             {/* Narrative */}
-            <div className={`space-y-4 ${align}`}>
-              <div className="rounded-3xl border border-softodev-border bg-softodev-surface/90 p-6 shadow-soft transition hover:border-softodev-primary/30">
-                <h2 className="text-base font-bold text-softodev-text">
+            <div className="space-y-4">
+              <article
+                className={`
+                  group relative h-full
+                  overflow-hidden rounded-[26px]
+                  border border-softodev-border/70
+                  bg-softodev-surface/95
+                  p-4 md:p-5
+                  shadow-soft
+                  transition-all duration-300
+                  hover:-translate-y-1 hover:shadow-[0_24px_60px_rgba(15,23,42,0.16)]
+                  hover:border-softodev-primary/45
+                  ${align}
+                `}
+              >
+                <h2 className="text-sm md:text-base font-semibold text-softodev-text">
                   {isArabic ? "الخلفية" : "Background"}
                 </h2>
-                <p className="mt-2 text-sm leading-relaxed text-softodev-muted">
+                <p className="mt-2 text-xs md:text-sm leading-relaxed text-softodev-muted">
                   {project.context[locale]}
                 </p>
-              </div>
+              </article>
 
-              <div className="rounded-3xl border border-softodev-border bg-softodev-surface/90 p-6 shadow-soft transition hover:border-softodev-primary/30">
-                <h2 className="text-base font-bold text-softodev-text">
+              <article
+                className={`
+                  group relative h-full
+                  overflow-hidden rounded-[26px]
+                  border border-softodev-border/70
+                  bg-softodev-surface/95
+                  p-4 md:p-5
+                  shadow-soft
+                  transition-all duration-300
+                  hover:-translate-y-1 hover:shadow-[0_24px_60px_rgba(15,23,42,0.16)]
+                  hover:border-softodev-primary/45
+                  ${align}
+                `}
+              >
+                <h2 className="text-sm md:text-base font-semibold text-softodev-text">
                   {isArabic ? "الحل" : "Solution"}
                 </h2>
-                <p className="mt-2 text-sm leading-relaxed text-softodev-muted">
+                <p className="mt-2 text-xs md:text-sm leading-relaxed text-softodev-muted">
                   {project.solution[locale]}
                 </p>
-              </div>
+              </article>
 
-              <div className="rounded-3xl border border-softodev-border bg-softodev-surface/90 p-6 shadow-soft transition hover:border-softodev-primary/30">
-                <h2 className="text-base font-bold text-softodev-text">
+              <article
+                className={`
+                  group relative h-full
+                  overflow-hidden rounded-[26px]
+                  border border-softodev-border/70
+                  bg-softodev-surface/95
+                  p-4 md:p-5
+                  shadow-soft
+                  transition-all duration-300
+                  hover:-translate-y-1 hover:shadow-[0_24px_60px_rgba(15,23,42,0.16)]
+                  hover:border-softodev-primary/45
+                  ${align}
+                `}
+              >
+                <h2 className="text-sm md:text-base font-semibold text-softodev-text">
                   {isArabic ? "النتائج" : "Results"}
                 </h2>
-                <p className="mt-2 text-sm leading-relaxed text-softodev-muted">
+                <p className="mt-2 text-xs md:text-sm leading-relaxed text-softodev-muted">
                   {project.results[locale]}
                 </p>
-              </div>
+              </article>
             </div>
 
             {/* Side meta */}
-            <div className={`space-y-4 ${align}`}>
-              <div className="rounded-3xl border border-softodev-border bg-softodev-bg/70 p-6 text-sm text-softodev-muted shadow-soft">
-                <h3 className="text-base font-bold text-softodev-text">
+            <aside className="space-y-4">
+              <div
+                className={`
+                  rounded-[26px] border border-softodev-border/70
+                  bg-softodev-bg/70
+                  p-4 md:p-5 text-xs md:text-sm text-softodev-muted shadow-soft
+                  ${align}
+                `}
+              >
+                <h3 className="text-sm md:text-base font-semibold text-softodev-text">
                   {isArabic ? "نبذة سريعة عن المشروع" : "Quick project facts"}
                 </h3>
 
-                <dl className={`mt-4 space-y-3 ${align}`}>
+                <dl className="mt-4 space-y-3">
                   <div>
-                    <dt className="font-bold text-softodev-text">
+                    <dt className="text-xs md:text-sm font-semibold text-softodev-text">
                       {isArabic ? "القطاع" : "Industry"}
                     </dt>
                     <dd className="mt-1">{project.industry[locale]}</dd>
                   </div>
                   <div>
-                    <dt className="font-bold text-softodev-text">
+                    <dt className="text-xs md:text-sm font-semibold text-softodev-text">
                       {isArabic ? "المنطقة" : "Region"}
                     </dt>
                     <dd className="mt-1">{project.region[locale]}</dd>
                   </div>
                   <div>
-                    <dt className="font-bold text-softodev-text">
+                    <dt className="text-xs md:text-sm font-semibold text-softodev-text">
                       {isArabic ? "التقنيات" : "Tech stack"}
                     </dt>
                     <dd className="mt-1">{project.stack[locale]}</dd>
@@ -207,12 +292,19 @@ export default async function ProjectDetailPage({
                 </dl>
               </div>
 
-              <div className="rounded-3xl border border-dashed border-softodev-border bg-softodev-surface/80 p-6 text-sm text-softodev-muted shadow-soft">
+              <div
+                className={`
+                  rounded-[26px] border border-dashed border-softodev-border
+                  bg-softodev-surface/80
+                  p-4 md:p-5 text-[11px] md:text-xs text-softodev-muted shadow-soft
+                  ${align}
+                `}
+              >
                 {isArabic
-                  ? "يمكن تنفيذ مشروع مشابه لهذا المشروع مع تخصيص الهوية البصرية، اللغة، وطريقة العمل حسب نشاطك ورؤية مشروعك."
-                  : "We can build a similar project customized to your brand, language and workflow for your business."}
+                  ? "يمكن تنفيذ مشروع مشابه لهذا المشروع، مع تخصيص الهوية البصرية، اللغة، وطريقة العمل حسب نشاطك وحجم فريقك."
+                  : "We can build a similar project, fully tailored to your brand, language and internal processes."}
               </div>
-            </div>
+            </aside>
           </div>
         </Container>
       </section>

@@ -572,7 +572,6 @@ export default async function ServiceDetailPage({
   const { locale, slug } = await params;
   const isArabic = locale === "ar";
   const align = isArabic ? "text-right" : "text-left";
-  const justify = isArabic ? "justify-end" : "justify-start";
 
   const service = services[slug];
 
@@ -617,107 +616,193 @@ export default async function ServiceDetailPage({
 
   return (
     <>
-      <section className="py-10 md:py-14 bg-softodev-bg/60">
-        <Container className="space-y-8">
+      <section className="relative isolate py-12 md:py-16 bg-softodev-bg/70 overflow-hidden">
+        {/* خلفية بنفس نمط صفحة الخدمات / الأسعار */}
+        <div className="pointer-events-none absolute inset-0 -z-10">
+          <div className="absolute -top-24 -left-20 h-72 w-72 rounded-full bg-softodev-primary/12 blur-3xl" />
+          <div className="absolute top-1/3 right-0 h-96 w-96 rounded-full bg-softodev-primarySoft/40 blur-3xl" />
+          <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-softodev-primary/40 to-transparent" />
+        </div>
+
+        <Container className="relative z-10 space-y-8 md:space-y-10">
           {/* Hero */}
-          <div className={`space-y-4 ${align}`}>
-            <p className="text-[11px] font-semibold uppercase tracking-[0.25em] text-softodev-muted">
-              {isArabic ? "خدمة SoftoDev" : "SoftoDev service"}
+          <div className={`max-w-3xl ${align} space-y-3`}>
+            <p className="inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.25em] text-softodev-muted">
+              <span className="inline-block h-[1px] w-6 bg-softodev-primary/70" />
+              <span>{isArabic ? "خدمة SoftoDev" : "SOFTODEV SERVICE"}</span>
             </p>
-            <h1 className="text-2xl font-semibold tracking-tight text-softodev-text md:text-3xl">
+
+            <h1 className="text-2xl md:text-3xl lg:text-4xl font-extrabold tracking-tight text-softodev-text leading-tight">
               {service.name[langKey]}
             </h1>
-            <p className="max-w-2xl text-sm leading-relaxed text-softodev-muted md:text-[15px]">
+
+            <p className="text-sm md:text-[15px] leading-relaxed text-softodev-muted">
               {service.shortDescription[langKey]}
             </p>
-            <p className="text-xs text-softodev-muted">
+
+            <p className="text-xs md:text-[13px] text-softodev-muted">
               {isArabic
-                ? "خدمة مصممة خصيصاً لسوق الخليج والعراق من ناحية اللغة وتجربة المستخدم."
-                : "A service tailored for GCC and Iraqi markets in language, structure, and UX."}
+                ? "خدمة مصممة خصيصاً لسوق الخليج والعراق من ناحية اللغة، الرسالة وتجربة المستخدم."
+                : "This service is tailored for GCC and Iraqi markets in language, messaging, and user experience."}
             </p>
-            <div className={`flex flex-wrap gap-3 ${justify}`}>
+
+            {/* CTA row – نفس روح الخدمات/الأسعار، أزرار صغيرة */}
+            <div
+              className={`mt-3 flex flex-wrap gap-2.5 ${
+                isArabic ? "justify-end" : "justify-start"
+              }`}
+            >
               <a
-                href="https://wa.me/905015954826"
-                className="inline-flex items-center rounded-full bg-softodev-primary px-5 py-2 text-xs font-semibold text-white shadow-soft hover:bg-blue-700 md:text-sm"
+                href={
+                  isArabic
+                    ? "https://wa.me/905015954826?text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%D9%8B%20SoftoDev%2C%20%D8%A3%D8%B1%D9%8A%D8%AF%20%D9%85%D9%86%D8%A7%D9%82%D8%B4%D8%A9%20%D8%AE%D8%AF%D9%85%D8%A9%20" +
+                      encodeURIComponent(service.name.ar)
+                    : "https://wa.me/905015954826?text=Hi%20SoftoDev%2C%20I%20want%20to%20discuss%20the%20service%20" +
+                      encodeURIComponent(service.name.en)
+                }
+                target="_blank"
+                rel="noreferrer"
+                className="
+                  inline-flex items-center justify-center
+                  rounded-full bg-softodev-primary
+                  px-3 py-1.5
+                  text-[11px] md:text-xs font-semibold text-white
+                  shadow-soft
+                  hover:bg-softodev-primaryDark
+                  transition
+                "
               >
-                {isArabic ? "ناقشنا فكرتك عبر الواتساب" : "Discuss your idea on WhatsApp"}
+                {isArabic
+                  ? "ناقشنا فكرتك على واتساب"
+                  : "Discuss your idea on WhatsApp"}
               </a>
+
               <Link
                 href={`/${locale}/contact`}
-                className="inline-flex items-center rounded-full border border-softodev-border bg-softodev-surface/90 px-5 py-2 text-xs font-semibold text-softodev-text hover:bg-softodev-primarySoft/70 md:text-sm"
+                className="
+                  inline-flex items-center justify-center
+                  rounded-full border border-softodev-border
+                  bg-softodev-surface/90 px-3 py-1.5
+                  text-[11px] md:text-xs font-semibold text-softodev-text
+                  hover:bg-softodev-primarySoft/60
+                  transition
+                "
               >
-                {isArabic ? "اطلب عرض سعر تفصيلي" : "Request a detailed quote"}
+                {isArabic ? "اطلب عرض سعر" : "Get a quote"}
               </Link>
             </div>
           </div>
 
-          {/* Layout: benefits + FAQ + process */}
-          <div className="grid gap-6 md:grid-cols-[minmax(0,1.4fr)_minmax(0,1.2fr)]">
-            {/* Benefits + audience + FAQ */}
-            <div className={`space-y-4 ${align}`}>
-              {/* Benefits */}
-              <div>
-                <h2 className="text-sm font-semibold text-softodev-text md:text-base">
+          {/* Layout: benefits + audience + FAQ + process */}
+          <div
+            className="grid gap-6 md:gap-7 md:grid-cols-[minmax(0,1.5fr)_minmax(0,1.2fr)]"
+            dir={isArabic ? "rtl" : "ltr"}
+          >
+            {/* Left side: benefits + audience + FAQ */}
+            <div className="space-y-5">
+              {/* Benefits card */}
+              <article
+                className={`
+                  group relative h-full
+                  overflow-hidden rounded-[26px]
+                  border border-softodev-border/70
+                  bg-softodev-surface/95
+                  p-4 md:p-5
+                  shadow-soft
+                  transition-all duration-300
+                  hover:-translate-y-1 hover:shadow-[0_24px_60px_rgba(15,23,42,0.16)]
+                  hover:border-softodev-primary/45
+                  ${align}
+                `}
+              >
+                <h2 className="text-sm md:text-base font-semibold text-softodev-text">
                   {isArabic
                     ? "ماذا ستحصل من هذه الخدمة؟"
                     : "What you get with this service"}
                 </h2>
-                <div className="mt-2 space-y-2 text-sm text-softodev-muted">
+                <ul className="mt-3 space-y-2 text-xs md:text-[13px] text-softodev-muted">
                   {service.benefits[langKey].map((item, idx) => (
-                    <div
-                      key={idx}
-                      className="flex items-start gap-2 rounded-2xl border border-softodev-border/70 bg-softodev-surface/95 px-3 py-2"
-                    >
-                      <span className="mt-1 h-1.5 w-1.5 flex-none rounded-full bg-softodev-primary" />
-                      <p className="leading-relaxed">{item}</p>
-                    </div>
+                    <li key={idx} className="flex gap-2">
+                      <span className="mt-[6px] h-1.5 w-1.5 flex-shrink-0 rounded-full bg-softodev-primary/85" />
+                      <span className="leading-relaxed">{item}</span>
+                    </li>
                   ))}
-                </div>
-              </div>
+                </ul>
+              </article>
 
-              {/* Audience */}
-              <div className="rounded-2xl bg-softodev-primarySoft/80 px-3 py-3 text-xs text-softodev-text">
+              {/* Audience card */}
+              <article
+                className={`
+                  rounded-[22px] border border-softodev-border/60
+                  bg-softodev-primarySoft/70
+                  px-4 py-4
+                  text-xs md:text-[13px] text-softodev-text
+                  ${align}
+                `}
+              >
                 <div className="font-semibold">
                   {isArabic ? "لمن هذه الخدمة؟" : "Who is this for?"}
                 </div>
-                <p className="mt-1 leading-relaxed">
+                <p className="mt-1.5 leading-relaxed">
                   {service.audience[langKey]}
                 </p>
-              </div>
+              </article>
 
-              {/* FAQ */}
-              <div className="mt-4">
-                <h2 className="text-sm font-semibold text-softodev-text md:text-base">
+              {/* FAQ card */}
+              <article
+                className={`
+                  rounded-[26px] border border-softodev-border/70
+                  bg-softodev-surface/95
+                  p-4 md:p-5
+                  ${align}
+                `}
+              >
+                <h2 className="text-sm md:text-base font-semibold text-softodev-text">
                   {isArabic ? "أسئلة شائعة" : "Frequently asked questions"}
                 </h2>
-                <div className="mt-2 space-y-2 text-sm text-softodev-muted">
+                <div className="mt-3 space-y-2.5 text-xs md:text-[13px] text-softodev-muted">
                   {service.faq[langKey].map((item, idx) => (
                     <div
                       key={idx}
-                      className="rounded-2xl border border-softodev-border/70 bg-gray-50 px-3 py-2"
+                      className="
+                        rounded-2xl border border-softodev-border/60
+                        bg-softodev-bg/60 px-3 py-2
+                      "
                     >
-                      <p className="text-xs font-semibold text-softodev-text md:text-sm">
+                      <p className="text-[12px] md:text-[13px] font-semibold text-softodev-text">
                         {item.q}
                       </p>
-                      <p className="mt-1 text-xs leading-relaxed md:text-[13px]">
-                        {item.a}
-                      </p>
+                      <p className="mt-1 leading-relaxed">{item.a}</p>
                     </div>
                   ))}
                 </div>
-              </div>
+              </article>
             </div>
 
-            {/* Process */}
-            <div className={`space-y-3 ${align}`}>
-              <h2 className="text-sm font-semibold text-softodev-text md:text-base">
+            {/* Right side: process */}
+            <aside
+              className={`
+                space-y-4 rounded-[26px]
+                border border-softodev-border/70
+                bg-softodev-surface/95
+                p-4 md:p-5
+                shadow-soft
+                ${align}
+              `}
+            >
+              <h2 className="text-sm md:text-base font-semibold text-softodev-text">
                 {isArabic ? "كيف يتم تنفيذ العمل؟" : "How the process works"}
               </h2>
-              <ol className="space-y-2 text-sm text-softodev-muted">
+
+              <ol className="space-y-2.5 text-xs md:text-[13px] text-softodev-muted">
                 {service.process[langKey].map((step, idx) => (
                   <li
                     key={idx}
-                    className="flex items-start gap-2 rounded-2xl border border-softodev-border/70 bg-gray-50 px-3 py-2"
+                    className="
+                      flex items-start gap-2
+                      rounded-2xl border border-softodev-border/60
+                      bg-softodev-bg/60 px-3 py-2
+                    "
                   >
                     <span className="mt-0.5 flex h-5 w-5 flex-none items-center justify-center rounded-full bg-softodev-primarySoft text-[11px] font-semibold text-softodev-text">
                       {idx + 1}
@@ -727,12 +812,12 @@ export default async function ServiceDetailPage({
                 ))}
               </ol>
 
-              <div className="mt-3 rounded-2xl border border-dashed border-softodev-border px-3 py-3 text-xs text-softodev-muted">
+              <div className="mt-2 rounded-2xl border border-dashed border-softodev-border px-3 py-3 text-[11px] md:text-xs text-softodev-muted">
                 {isArabic
-                  ? "نركز على بناء أساس تقني منظم وقابل للتطوير، بحيث تستطيع إضافة خدمات أو توسيع مشروعك بسهولة مع الوقت."
-                  : "We focus on a clean, scalable technical foundation so you can expand your services and products over time without friction."}
+                  ? "نركّز على بناء أساس تقني منظم وقابل للتطوير، بحيث يمكنك إضافة مزيد من الصفحات، الخدمات أو الربط مع أنظمة أخرى بسهولة لاحقاً."
+                  : "We focus on a clean, scalable technical base, so you can later add more pages, services, or integrations without starting from scratch."}
               </div>
-            </div>
+            </aside>
           </div>
         </Container>
       </section>
