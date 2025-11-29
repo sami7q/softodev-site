@@ -31,6 +31,9 @@ export function MouseParticles({
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
+    // ✅ من هنا وطالع نستخدم context بدل ctx (ليس فيه null)
+    const context = ctx;
+
     let animationId: number;
     let particles: Particle[] = [];
 
@@ -40,7 +43,8 @@ export function MouseParticles({
     const dpr = window.devicePixelRatio || 1;
     canvas.width = width * dpr;
     canvas.height = height * dpr;
-    ctx.scale(dpr, dpr);
+    context.setTransform(1, 0, 0, 1, 0, 0);
+    context.scale(dpr, dpr);
 
     // موضع الماوس الفعلي + هدف نعمل له "Lerp" عشان تكون الحركة ناعمة
     const mouse = {
@@ -55,7 +59,7 @@ export function MouseParticles({
       // ✅ نقاط أكثر + ضبط حد أدنى وأقصى
       const count = Math.min(
         260,
-        Math.max(90, Math.floor((width * height) / 5000))
+        Math.max(90, Math.floor((width * height) / 5000)),
       );
 
       particles = [];
@@ -83,8 +87,8 @@ export function MouseParticles({
       const dpr = window.devicePixelRatio || 1;
       canvas.width = width * dpr;
       canvas.height = height * dpr;
-      ctx.setTransform(1, 0, 0, 1, 0, 0);
-      ctx.scale(dpr, dpr);
+      context.setTransform(1, 0, 0, 1, 0, 0);
+      context.scale(dpr, dpr);
 
       mouse.x = width / 2;
       mouse.y = height / 2;
@@ -108,14 +112,14 @@ export function MouseParticles({
 
     function draw() {
       // الخلفية الشفافة تعطي trail ناعم
-      ctx.fillStyle = `rgba(250, 250, 250, ${backgroundAlpha})`;
-      ctx.fillRect(0, 0, width, height);
+      context.fillStyle = `rgba(250, 250, 250, ${backgroundAlpha})`;
+      context.fillRect(0, 0, width, height);
 
       // حركة الماوس نفسها ناعمة (Lerp → أحلى إحساس عند التحريك)
       mouse.x += (targetMouseX - mouse.x) * 0.18;
       mouse.y += (targetMouseY - mouse.y) * 0.18;
 
-      ctx.fillStyle = dotColor;
+      context.fillStyle = dotColor;
 
       for (const p of particles) {
         const dx = mouse.x - p.x;
@@ -149,9 +153,9 @@ export function MouseParticles({
         p.x += p.vx;
         p.y += p.vy;
 
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, 1.7, 0, Math.PI * 2);
-        ctx.fill();
+        context.beginPath();
+        context.arc(p.x, p.y, 1.7, 0, Math.PI * 2);
+        context.fill();
       }
 
       animationId = requestAnimationFrame(draw);
