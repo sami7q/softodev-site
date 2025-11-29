@@ -7,9 +7,37 @@ body {
   height: 100%;
 }
 
+/* ✅ موبايل (أساس) */
+html {
+  font-size: 17px; /* أكبر من العادي من البداية */
+  scroll-behavior: smooth;
+}
+
+/* ✅ تابلت (>= 768px) */
+@media (min-width: 768px) {
+  html {
+    font-size: 18px;
+  }
+}
+
+/* ✅ لابتوب (>= 1024px) */
+@media (min-width: 1024px) {
+  html {
+    font-size: 19px;
+  }
+}
+
+/* ✅ شاشات كبيرة (>= 1440px) */
+@media (min-width: 1440px) {
+  html {
+    font-size: 20px;
+  }
+}
+
 body {
   /* الأساس من الـ palette */
   @apply bg-softodev-bg text-softodev-text antialiased;
+  line-height: 1.6;
 
   /* glow خفيف فوق الخلفية */
   background:
@@ -24,6 +52,27 @@ body {
       transparent 55%
     ),
     linear-gradient(#e6ecf7, #e6ecf7);
+}
+
+/* ✅ زوم خفيـف فقط على الشاشات الأكبر (مسحوب شوي لبرا) */
+@media (min-width: 1024px) {
+  body {
+    zoom: 1.06;       /* كان 1.15 → الآن زوم خفيف */
+    transform-origin: top center;
+  }
+}
+
+@media (min-width: 1440px) {
+  body {
+    zoom: 1.12;       /* كان 1.25 → أقل بوضوح */
+    transform-origin: top center;
+  }
+}
+
+/* ✅ لون اختيار النص */
+::selection {
+  background: rgba(30, 90, 239, 0.25);
+  color: #0f172a;
 }
 
 @layer utilities {

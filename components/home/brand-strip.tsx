@@ -2,6 +2,7 @@
 import Image from "next/image";
 import { Container } from "@/components/layout/container";
 import type { Locale } from "@/lib/i18n/config";
+import { MouseParticles } from "@/components/ui/mouse-particles"; // 👈 الجديد
 
 type HomeBrandStripProps = {
   locale: Locale;
@@ -19,7 +20,14 @@ export function HomeBrandStrip({ locale }: HomeBrandStripProps) {
   const isArabic = locale === "ar";
 
   return (
-    <section className="border-y border-softodev-border/40 bg-softodev-bg/60">
+    <section className="relative overflow-hidden border-y border-softodev-border/40 bg-softodev-bg/60">
+      {/* خلفية النقاط المتحركة خلف شريط البراندات */}
+      <MouseParticles
+        className="absolute inset-0 -z-10 h-full w-full pointer-events-none"
+        dotColor="rgba(15, 23, 42, 0.25)"     // نقاط غامقة خفيفة
+        backgroundAlpha={0.18}                // شفافية ناعمة
+      />
+
       <Container className="py-5 sm:py-6">
         {/* النص فوق البراندات */}
         <div

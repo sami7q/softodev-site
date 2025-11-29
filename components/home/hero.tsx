@@ -1,6 +1,7 @@
-// components/home/hero.tsx
 import { Container } from "@/components/layout/container";
 import type { Locale } from "@/lib/i18n/config";
+import { RotatingServiceText } from "@/components/home/rotating-service-text";
+import { MouseParticles } from "@/components/ui/mouse-particles"; // 👈 الاستيراد الجديد
 
 type HomeHeroProps = {
   locale: Locale;
@@ -10,7 +11,10 @@ export function HomeHero({ locale }: HomeHeroProps) {
   const isArabic = locale === "ar";
 
   return (
-    <section className="pt-10 pb-8 sm:pt-12 sm:pb-10">
+    <section className="relative overflow-hidden pt-10 pb-8 sm:pt-12 sm:pb-10">
+      {/* الخلفية المتحركة مثل Google Antigravity */}
+      <MouseParticles className="absolute inset-0 -z-10 h-full w-full pointer-events-none" />
+
       <Container>
         <div
           className="flex flex-col items-center text-center gap-6"
@@ -28,30 +32,20 @@ export function HomeHero({ locale }: HomeHeroProps) {
 
           {/* العنوان والنصوص */}
           <div className="space-y-4 max-w-2xl sm:max-w-3xl mx-auto">
-            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-semibold leading-snug tracking-tight text-softodev-text">
+            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold leading-snug tracking-tight text-softodev-text">
               {isArabic ? (
-                <>
-                  نطوّر{" "}
+                <span className="inline-flex items-baseline gap-1">
+                  <span>نطوّر</span>
                   <span className="text-softodev-primary font-semibold">
-                    مواقع
+                    <RotatingServiceText locale={locale} />
                   </span>
-                  ، متاجر إلكترونية، وأنظمة{" "}
-                  <span className="text-softodev-primary font-semibold">
-                    إدارة
-                  </span>{" "}
-                  مخصّصة لك.
-                </>
+                </span>
               ) : (
                 <>
-                  We build tailored{" "}
-                  <span className="text-softodev-primary font-semibold">
-                    websites
+                  <span>We build{" "}</span>
+                  <span className="text-softodev-primary font-semibold inline-flex min-w-[16ch] justify-start">
+                    <RotatingServiceText locale={locale} />
                   </span>
-                  , online stores, and{" "}
-                  <span className="text-softodev-primary font-semibold">
-                    management systems
-                  </span>
-                  .
                 </>
               )}
             </h1>
@@ -85,7 +79,7 @@ export function HomeHero({ locale }: HomeHeroProps) {
             </p>
           </div>
 
-          {/* CTA: زر واتساب + زر Shahm بنفس الحجم */}
+          {/* CTA: زر واتساب + زر Shahm – نفس الشكل بالعربي والإنجليزي */}
           <div className="w-full max-w-xl flex flex-col sm:flex-row-reverse sm:items-center sm:justify-center gap-2.5 sm:gap-3">
             {/* زر واتساب */}
             <a
@@ -95,21 +89,33 @@ export function HomeHero({ locale }: HomeHeroProps) {
               {isArabic ? "ابدأ على واتساب" : "Start on WhatsApp"}
             </a>
 
-            {/* زر Shahm */}
-            <button
-              type="button"
-              className="w-full sm:w-auto inline-flex items-center justify-center rounded-full bg-emerald-500 px-4 py-1.5 sm:px-5 sm:py-2 text-xs sm:text-sm font-semibold text-white shadow-soft hover:bg-emerald-600 transition-transform hover:-translate-y-0.5"
-              data-cal-link="sami7q/business-impact-call"
-              data-cal-namespace="shahm"
-              data-cal-config='{"layout":"month_view"}'
+            {/* زر Shahm مع صورة و Google Meet */}
+            <a
+              href="https://meet.google.com/fmt-cutt-wcy"
+              target="_blank"
+              rel="noreferrer"
+              className="
+                w-full sm:w-auto inline-flex items-center justify-center gap-2
+                rounded-full bg-emerald-500
+                px-4 py-1.5 sm:px-5 sm:py-2
+                text-xs sm:text-sm font-semibold text-white
+                shadow-soft hover:bg-emerald-600
+                transition-transform hover:-translate-y-0.5
+              "
             >
-              <span className="mr-2 flex h-6 w-6 sm:h-7 sm:w-7 items-center justify-center rounded-full bg-white/20 ring-2 ring-white/60 text-[10px] sm:text-[11px]">
-                S
+              <span className="flex h-6 w-6 sm:h-7 sm:w-7 items-center justify-center overflow-hidden rounded-full bg-white/10 ring-2 ring-white/60">
+                <img
+                  src="/shahm/Shahm.png"
+                  alt="Shahm"
+                  className="h-full w-full object-cover"
+                />
               </span>
-              {isArabic
-                ? "احجز جلسة مع Shahm"
-                : "Schedule a meeting with Shahm"}
-            </button>
+              <span>
+                {isArabic
+                  ? "جلسة مع Shahm على Google Meet"
+                  : "Meet with Shahm on Google Meet"}
+              </span>
+            </a>
           </div>
 
           {/* وصف صغير تحت الأزرار لـ Shahm */}
@@ -119,12 +125,8 @@ export function HomeHero({ locale }: HomeHeroProps) {
               : "Shahm – Your Personal Business Impact Guide"}
           </p>
 
-          {/* نص الدول */}
-          <p className="mt-2 text-[11px] text-softodev-muted">
-            {isArabic
-              ? "عملاءنا في السعودية، الإمارات، قطر، الكويت، البحرين، عُمان والعراق."
-              : "We work with clients in Saudi Arabia, the UAE, Qatar, Kuwait, Bahrain, Oman, and Iraq."}
-          </p>
+          {/* نص الدول (جاهز لاحقاً) */}
+          <p className="mt-2 text-[11px] text-softodev-muted">{/* ... */}</p>
         </div>
       </Container>
     </section>
