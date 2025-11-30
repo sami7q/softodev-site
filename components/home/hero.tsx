@@ -89,9 +89,9 @@ export function HomeHero({ locale }: HomeHeroProps) {
               {isArabic ? "ابدأ على واتساب" : "Start on WhatsApp"}
             </a>
 
-            {/* زر Shahm مع صورة و Google Meet */}
+            {/* زر Shahm مع رابط Cal.com الجديد */}
             <a
-              href="https://meet.google.com/fmt-cutt-wcy"
+              href="https://cal.com/mohamad-shahm-r8bipu/30min"
               target="_blank"
               rel="noreferrer"
               className="
@@ -112,8 +112,8 @@ export function HomeHero({ locale }: HomeHeroProps) {
               </span>
               <span>
                 {isArabic
-                  ? "جلسة مع Shahm على Google Meet"
-                  : "Meet with Shahm on Google Meet"}
+                  ? "احجز جلسة مع Shahm (30 دقيقة)"
+                  : "Book a 30-min session with Shahm"}
               </span>
             </a>
           </div>

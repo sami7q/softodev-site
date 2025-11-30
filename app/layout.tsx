@@ -1,12 +1,13 @@
 // app/layout.tsx
-import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import type { ReactNode } from "react";
 import "./globals.css";
+import type { Metadata } from "next";
+import type { ReactNode } from "react";
+import { IBM_Plex_Sans_Arabic } from "next/font/google";
 import { siteUrl } from "@/lib/seo";
 
-const inter = Inter({
-  subsets: ["latin"],
+const ibmPlex = IBM_Plex_Sans_Arabic({
+  subsets: ["arabic", "latin"],
+  weight: ["300", "400", "500", "600", "700"],
   display: "swap",
 });
 
@@ -37,7 +38,9 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="ar">
-      <body className={`${inter.className} text-softodev-text antialiased`}>
+      <body
+        className={`${ibmPlex.className} text-softodev-text antialiased`}
+      >
         {children}
       </body>
     </html>
