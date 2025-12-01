@@ -1,10 +1,18 @@
 // app/sitemap.ts
 import type { MetadataRoute } from "next";
 import { locales } from "@/lib/i18n/config";
-import { getCanonicalUrl } from "@/lib/seo";
+import { getCanonicalUrl, siteUrl } from "@/lib/seo";
 
-// نفس السلوغز اللي نستخدمها في صفحات الخدمات
-const serviceSlugs = ["landing-pages", "ecommerce-stores", "management-systems"] as const;
+// نفس السلوغز اللي نستخدمها في صفحات الخدمات (المحدَّثة)
+const serviceSlugs = [
+  "landing-pages",
+  "ecommerce",
+  "websites",
+  "systems",
+  "marketing",
+  "branding",
+  "ai-bots",
+] as const;
 
 // نفس السلوغز اللي نستخدمها في البورتفوليو
 const projectSlugs = ["clinic-system", "landing-campaign", "store-launch"] as const;
@@ -12,10 +20,18 @@ const projectSlugs = ["clinic-system", "landing-campaign", "store-launch"] as co
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();
 
-  // الصفحات الثابتة الأساسية (بدون locale)
+  // الصفحات الثابتة الأساسية (تُستخدم مع كل locale)
   const staticPaths = ["/", "/services", "/pricing", "/portfolio", "/about", "/contact"];
 
   const entries: MetadataRoute.Sitemap = [];
+
+  // الروت بدون locale (softodev.net)
+  entries.push({
+    url: siteUrl,
+    lastModified: now,
+    changeFrequency: "weekly",
+    priority: 1,
+  });
 
   for (const locale of locales) {
     // الصفحات الثابتة
@@ -24,7 +40,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
         url: getCanonicalUrl(locale, path),
         lastModified: now,
         changeFrequency: "weekly",
-        priority: path === "/" ? 1 : 0.8,
+        priority: path === "/" ? 0.95 : 0.8,
       });
     }
 
@@ -34,7 +50,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
         url: getCanonicalUrl(locale, `/services/${slug}`),
         lastModified: now,
         changeFrequency: "monthly",
-        priority: 0.85,
+        priority: 0.7,
       });
     }
 
@@ -44,7 +60,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
         url: getCanonicalUrl(locale, `/portfolio/${slug}`),
         lastModified: now,
         changeFrequency: "monthly",
-        priority: 0.7,
+        priority: 0.6,
       });
     }
   }
