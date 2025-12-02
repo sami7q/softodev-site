@@ -12,16 +12,17 @@ export function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
 }
 
-export default async function LocaleLayout({
+export default function LocaleLayout({
   children,
   params,
 }: {
   children: ReactNode;
-  params: Promise<{ locale: string }>;
+  params: { locale: string };
 }) {
-  const { locale } = await params;
+  const { locale } = params;
 
   if (!locales.includes(locale as Locale)) notFound();
+
   const typedLocale = locale as Locale;
   const dir = typedLocale === "ar" ? "rtl" : "ltr";
 
