@@ -1,7 +1,8 @@
 import { Container } from "@/components/layout/container";
 import type { Locale } from "@/lib/i18n/config";
 import { RotatingServiceText } from "@/components/home/rotating-service-text";
-import { MouseParticles } from "@/components/ui/mouse-particles"; // 👈 الاستيراد الجديد
+import { MouseParticles } from "@/components/ui/mouse-particles";
+import { FloatingTechIcons } from "@/components/home/floating-tech-icons"; // 👈 مهم
 
 type HomeHeroProps = {
   locale: Locale;
@@ -13,7 +14,10 @@ export function HomeHero({ locale }: HomeHeroProps) {
   return (
     <section className="relative overflow-hidden pt-10 pb-8 sm:pt-12 sm:pb-10">
       {/* الخلفية المتحركة مثل Google Antigravity */}
-      <MouseParticles className="absolute inset-0 -z-10 h-full w-full pointer-events-none" />
+      <MouseParticles className="absolute inset-0 -z-20 h-full w-full pointer-events-none" />
+
+      {/* الأيقونات التي "تسبح" حول الهيرو */}
+      <FloatingTechIcons />
 
       <Container>
         <div

@@ -7,7 +7,7 @@ type Locale = "ar" | "en" | string;
 export function FloatingActions({
   locale,
   whatsappNumber,
-  phoneNumber,
+  phoneNumber: _phoneNumber, // kept for compatibility with existing usage
 }: {
   locale: Locale;
   whatsappNumber: string;
@@ -18,10 +18,8 @@ export function FloatingActions({
   const waHref = `https://wa.me/${whatsappNumber.replace("+", "")}?text=${encodeURIComponent(
     isRTL
       ? "مرحباً SoftoDev، أريد استشارة بخصوص مشروع."
-      : "Hi SoftoDev, I want a consultation about a project."
+      : "Hi SoftoDev, I want a consultation about a project.",
   )}`;
-
-  const callHref = `tel:${phoneNumber}`;
 
   return (
     <div
@@ -30,31 +28,24 @@ export function FloatingActions({
         "fixed z-[70] bottom-5",
         // Arabic right, English left
         isRTL ? "right-5" : "left-5",
-        "flex flex-col gap-2",
+        "flex flex-col",
       ].join(" ")}
     >
-      {/* WhatsApp – يبقى أخضر كبراند قوي وواضح */}
       <Link
         href={waHref}
         target="_blank"
         rel="noopener noreferrer"
-        className="group flex items-center gap-2 rounded-2xl bg-green-600 text-white px-4 py-3 shadow-soft hover:bg-green-500 transition"
+        className={`
+          inline-flex items-center justify-center
+          rounded-2xl bg-green-600 text-white
+          px-4 py-2
+          text-xs md:text-[13px] font-semibold
+          shadow-soft hover:bg-green-500
+          transition active:scale-[0.98]
+        `}
         aria-label="WhatsApp"
       >
-        <span className="text-sm font-semibold">
-          {isRTL ? "واتساب" : "WhatsApp"}
-        </span>
-      </Link>
-
-      {/* Call – الآن بألوان SoftoDev (أزرق) بدل كرت فاتح */}
-      <Link
-        href={callHref}
-        className="group flex items-center gap-2 rounded-2xl bg-softodev-primary text-white px-4 py-3 shadow-soft hover:bg-softodev-primaryDark transition"
-        aria-label="Call"
-      >
-        <span className="text-sm font-semibold">
-          {isRTL ? "اتصال" : "Call"}
-        </span>
+        {isRTL ? "واتساب" : "WhatsApp"}
       </Link>
     </div>
   );

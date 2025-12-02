@@ -46,6 +46,30 @@ module.exports = {
       boxShadow: {
         soft: "0 18px 45px rgba(15, 23, 42, 0.08)",
       },
+
+      // 👇 الإضافات الجديدة للأنيميشن
+      keyframes: {
+        "tech-orbit-1": {
+          "0%": { transform: "translate3d(-8px, -6px, 0) rotate(-2deg)" },
+          "50%": { transform: "translate3d(18px, 10px, 0) rotate(4deg)" },
+          "100%": { transform: "translate3d(-12px, -4px, 0) rotate(-3deg)" },
+        },
+        "tech-orbit-2": {
+          "0%": { transform: "translate3d(6px, 10px, 0) rotate(0deg)" },
+          "50%": { transform: "translate3d(-20px, -6px, 0) rotate(-5deg)" },
+          "100%": { transform: "translate3d(10px, 8px, 0) rotate(3deg)" },
+        },
+        "tech-orbit-3": {
+          "0%": { transform: "translate3d(-4px, 8px, 0) rotate(2deg)" },
+          "50%": { transform: "translate3d(16px, -10px, 0) rotate(-4deg)" },
+          "100%": { transform: "translate3d(-6px, 6px, 0) rotate(2deg)" },
+        },
+      },
+      animation: {
+        "tech-orbit-1": "tech-orbit-1 22s ease-in-out infinite alternate",
+        "tech-orbit-2": "tech-orbit-2 26s ease-in-out infinite alternate",
+        "tech-orbit-3": "tech-orbit-3 30s ease-in-out infinite alternate",
+      },
     },
   },
   plugins: [],

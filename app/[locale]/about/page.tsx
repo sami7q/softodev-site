@@ -52,7 +52,10 @@ export default async function AboutPage({
 
       <Container className="relative z-10 space-y-10 md:space-y-12">
         {/* Header */}
-        <div className={`max-w-3xl ${align} space-y-3`}>
+        <div
+          className={`max-w-3xl ${align} space-y-3`}
+          dir={isArabic ? "rtl" : "ltr"}
+        >
           <p className="inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.25em] text-softodev-muted">
             <span className="inline-block h-[1px] w-6 bg-softodev-primary/70" />
             <span>{isArabic ? "عن الشركة" : "ABOUT"}</span>
@@ -118,6 +121,17 @@ export default async function AboutPage({
               ${align}
             `}
           >
+            {/* شريط علوي + glow */}
+            <div className="pointer-events-none absolute inset-x-0 top-0 h-1.5 bg-gradient-to-r from-softodev-primary via-softodev-primaryDark to-softodev-primary/80" />
+            <div
+              className="
+                pointer-events-none absolute inset-0 -z-10
+                opacity-0 group-hover:opacity-100
+                transition-opacity duration-300
+                bg-gradient-to-br from-softodev-primarySoft/70 via-softodev-surface/80 to-softodev-bg/90
+              "
+            />
+
             <h2 className="text-base md:text-[15px] font-extrabold text-softodev-text">
               {isArabic ? "طريقة التفكير" : "How we think"}
             </h2>
@@ -142,6 +156,17 @@ export default async function AboutPage({
               ${align}
             `}
           >
+            {/* شريط علوي + glow */}
+            <div className="pointer-events-none absolute inset-x-0 top-0 h-1.5 bg-gradient-to-r from-softodev-primary via-softodev-primaryDark to-softodev-primary/80" />
+            <div
+              className="
+                pointer-events-none absolute inset-0 -z-10
+                opacity-0 group-hover:opacity-100
+                transition-opacity duration-300
+                bg-gradient-to-br from-softodev-primarySoft/70 via-softodev-surface/80 to-softodev-bg/90
+              "
+            />
+
             <h2 className="text-base md:text-[15px] font-extrabold text-softodev-text">
               {isArabic ? "من نخدم؟" : "Who we serve"}
             </h2>
@@ -166,6 +191,17 @@ export default async function AboutPage({
               ${align}
             `}
           >
+            {/* شريط علوي + glow */}
+            <div className="pointer-events-none absolute inset-x-0 top-0 h-1.5 bg-gradient-to-r from-softodev-primary via-softodev-primaryDark to-softodev-primary/80" />
+            <div
+              className="
+                pointer-events-none absolute inset-0 -z-10
+                opacity-0 group-hover:opacity-100
+                transition-opacity duration-300
+                bg-gradient-to-br from-softodev-primarySoft/70 via-softodev-surface/80 to-softodev-bg/90
+              "
+            />
+
             <h2 className="text-base md:text-[15px] font-extrabold text-softodev-text">
               {isArabic ? "ما الذي يميزنا؟" : "What makes us different?"}
             </h2>
@@ -196,6 +232,17 @@ export default async function AboutPage({
               ${align}
             `}
           >
+            {/* شريط علوي + glow */}
+            <div className="pointer-events-none absolute inset-x-0 top-0 h-1.5 bg-gradient-to-r from-softodev-primary via-softodev-primaryDark to-softodev-primary/80" />
+            <div
+              className="
+                pointer-events-none absolute inset-0 -z-10
+                opacity-0 group-hover:opacity-100
+                transition-opacity duration-300
+                bg-gradient-to-br from-softodev-primarySoft/70 via-softodev-surface/80 to-softodev-bg/90
+              "
+            />
+
             <h2 className="text-base md:text-[15px] font-extrabold text-softodev-text">
               {isArabic ? "الأسواق التي نستهدفها" : "Target markets"}
             </h2>

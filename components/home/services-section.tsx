@@ -209,7 +209,7 @@ export function HomeServicesSection({ locale }: HomeServicesSectionProps) {
   return (
     <section className="py-10 sm:py-16 bg-softodev-surface/40">
       <Container>
-        {/* العنوان */}
+        {/* Section header */}
         <div
           className="max-w-3xl mx-auto text-center"
           dir={isArabic ? "rtl" : "ltr"}
@@ -255,8 +255,10 @@ export function HomeServicesSection({ locale }: HomeServicesSectionProps) {
               <>
                 كل بطاقة تمثّل{" "}
                 <span className="text-softodev-primary">حلاً حقيقيًا</span>{" "}
-                <span className="text-softodev-primary">قابلًا للتنفيذ</span>،
-                وليس مجرد عنوان تسويقي.
+                <span className="text-softodev-primary">
+                  قابلًا للتنفيذ
+                </span>
+                ، وليس مجرد عنوان تسويقي.
               </>
             ) : (
               <>
@@ -271,7 +273,7 @@ export function HomeServicesSection({ locale }: HomeServicesSectionProps) {
           </p>
         </div>
 
-        {/* البطاقات */}
+        {/* Cards */}
         <div
           className="mt-8 sm:mt-10 grid gap-6 md:grid-cols-2 xl:grid-cols-3"
           dir={isArabic ? "rtl" : "ltr"}
@@ -280,13 +282,31 @@ export function HomeServicesSection({ locale }: HomeServicesSectionProps) {
             const isFeatured = index === 0;
 
             return (
-              <article key={service.id} className="relative group">
-                {/* هالة خارجية ناعمة */}
-                <div className="pointer-events-none absolute inset-0 rounded-[28px] bg-gradient-to-br from-softodev-primary/18 via-softodev-primary/0 to-emerald-400/18 opacity-0 blur-2xl transition-opacity duration-300 group-hover:opacity-100" />
+              <article key={service.id} className="relative group h-full">
+                {/* soft outer glow on hover */}
+                <div className="pointer-events-none absolute inset-0 rounded-[30px] bg-gradient-to-br from-softodev-primary/18 via-softodev-primary/0 to-emerald-400/18 opacity-0 blur-2xl transition-opacity duration-300 group-hover:opacity-100" />
 
-                {/* جسم البطاقة */}
-                <div className="relative flex h-full flex-col rounded-[28px] border border-softodev-border/80 bg-gradient-to-b from-white/95 via-softodev-surface to-softodev-bg/80 shadow-[0_22px_60px_rgba(15,23,42,0.18)] overflow-hidden">
-                  {/* شريط علوي */}
+                {/* main card */}
+                <div
+                  className={`
+                    relative flex h-full flex-col rounded-[30px] overflow-hidden
+                    border border-softodev-border/80
+                    bg-gradient-to-b from-white/95 via-softodev-surface to-softodev-bg/80
+                    shadow-soft
+                    transition-transform duration-300
+                    group-hover:-translate-y-1 group-hover:shadow-[0_26px_70px_rgba(15,23,42,0.22)]
+                  `}
+                >
+                  {/* top stripe */}
+                  <div
+                    className={
+                      isFeatured
+                        ? "h-1 w-full bg-gradient-to-r from-[#6366F1] via-[#A855F7] to-[#EC4899]"
+                        : "h-1 w-full bg-softodev-primary/70"
+                    }
+                  />
+
+                  {/* header row */}
                   <div className="flex items-center justify-between px-4 pt-4 pb-3 sm:px-5 sm:pt-5 sm:pb-4 border-b border-softodev-border/60 bg-softodev-bg/70 backdrop-blur-md">
                     <div className="flex items-center gap-2">
                       <div className="flex h-9 w-9 items-center justify-center rounded-2xl bg-softodev-primary/10 text-[11px] font-semibold text-softodev-primary">
@@ -296,9 +316,9 @@ export function HomeServicesSection({ locale }: HomeServicesSectionProps) {
                         <span className="text-[11px] font-semibold text-softodev-text">
                           {service.label}
                         </span>
-                        <span className="text-[10px] text-softodev-muted">
+                        <span className="text-[11px] text-softodev-muted">
                           {isArabic
-                            ? "حل متكامل مُدار لك بالكامل"
+                            ? "حل مُدار بالكامل لك"
                             : "Done-for-you solution"}
                         </span>
                       </div>
@@ -316,7 +336,7 @@ export function HomeServicesSection({ locale }: HomeServicesSectionProps) {
                     </div>
                   </div>
 
-                  {/* المحتوى */}
+                  {/* content */}
                   <div className="flex flex-1 flex-col px-4 pb-4 pt-3 sm:px-5 sm:pb-5 sm:pt-4">
                     <div>
                       <h3 className="text-sm sm:text-base font-semibold text-softodev-text">
@@ -336,9 +356,9 @@ export function HomeServicesSection({ locale }: HomeServicesSectionProps) {
                       ))}
                     </ul>
 
-                    {/* CTA + Metrics */}
+                    {/* CTA + metrics */}
                     <div className="mt-4 pt-3 border-t border-softodev-border/50 flex flex-col gap-3">
-                      {/* الأزرار */}
+                      {/* buttons */}
                       <div className="flex flex-wrap gap-2">
                         <a
                           href={isArabic ? "/ar/contact" : "/en/contact"}
@@ -360,7 +380,7 @@ export function HomeServicesSection({ locale }: HomeServicesSectionProps) {
                         </a>
                       </div>
 
-                      {/* المؤشرات */}
+                      {/* metrics chips */}
                       <div className="flex flex-wrap gap-2 sm:justify-end text-[11px] sm:text-[12px]">
                         <div className="inline-flex items-baseline gap-1 rounded-full bg-softodev-primarySoft/70 px-3 py-1">
                           <span className="font-semibold text-softodev-primary">

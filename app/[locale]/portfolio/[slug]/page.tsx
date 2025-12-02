@@ -74,10 +74,10 @@ export default async function ProjectDetailPage({
 
   const whatsappHref = isArabic
     ? `https://wa.me/905015954826?text=${encodeURIComponent(
-        `مرحباً SoftoDev، أريد مناقشة مشروع مشابه لـ: ${project.name.ar}`
+        `مرحباً SoftoDev، أريد مناقشة مشروع مشابه لـ: ${project.name.ar}`,
       )}`
     : `https://wa.me/905015954826?text=${encodeURIComponent(
-        `Hi SoftoDev, I’d like to discuss a project similar to: ${project.name.en}`
+        `Hi SoftoDev, I’d like to discuss a project similar to: ${project.name.en}`,
       )}`;
 
   return (
@@ -92,7 +92,10 @@ export default async function ProjectDetailPage({
 
         <Container className="relative z-10 space-y-10 md:space-y-12">
           {/* Hero */}
-          <div className={`max-w-3xl ${align} space-y-3`}>
+          <div
+            className={`max-w-3xl ${align} space-y-3`}
+            dir={isArabic ? "rtl" : "ltr"}
+          >
             <p className="inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.25em] text-softodev-muted">
               <span className="inline-block h-[1px] w-6 bg-softodev-primary/70" />
               <span>{isArabic ? "دراسة حالة" : "CASE STUDY"}</span>
@@ -123,7 +126,7 @@ export default async function ProjectDetailPage({
               </span>
             </div>
 
-            {/* CTAs – نفس نمط الأزرار الصغيرة في باقي الصفحات */}
+            {/* CTAs – أزرار صغيرة بنفس ستايل الموقع كله */}
             <div
               className={`mt-3 flex flex-wrap gap-2.5 ${
                 isArabic ? "justify-end" : "justify-start"
@@ -137,10 +140,12 @@ export default async function ProjectDetailPage({
                   inline-flex items-center justify-center
                   rounded-full bg-softodev-primary
                   px-3 py-1.5
-                  text-[11px] md:text-xs font-semibold text-white
+                  text-[10px] sm:text-[11px] font-semibold leading-none text-white
                   shadow-soft
                   hover:bg-softodev-primaryDark
-                  transition
+                  hover:shadow-[0_12px_30px_rgba(37,99,235,0.35)]
+                  transition active:scale-[0.98]
+                  whitespace-nowrap
                 "
               >
                 {isArabic
@@ -157,9 +162,10 @@ export default async function ProjectDetailPage({
                     inline-flex items-center justify-center
                     rounded-full border border-softodev-border
                     bg-softodev-surface/90 px-3 py-1.5
-                    text-[11px] md:text-xs font-semibold text-softodev-text
+                    text-[10px] sm:text-[11px] font-semibold leading-none text-softodev-text
                     hover:border-softodev-primary/40 hover:bg-softodev-primarySoft/40
-                    transition
+                    transition active:scale-[0.98]
+                    whitespace-nowrap
                   "
                 >
                   {isArabic ? "زيارة الموقع المباشر" : "Visit live site"}
@@ -172,9 +178,10 @@ export default async function ProjectDetailPage({
                   inline-flex items-center justify-center
                   rounded-full border border-softodev-border
                   bg-softodev-surface/90 px-3 py-1.5
-                  text-[11px] md:text-xs font-semibold text-softodev-text
+                  text-[10px] sm:text-[11px] font-semibold leading-none text-softodev-text
                   hover:border-softodev-primary/40 hover:bg-softodev-primarySoft/40
-                  transition
+                  transition active:scale-[0.98]
+                  whitespace-nowrap
                 "
               >
                 {isArabic ? "العودة إلى الأعمال" : "Back to portfolio"}

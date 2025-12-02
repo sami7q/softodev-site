@@ -40,7 +40,7 @@ export function ContactForm({ locale }: ContactFormProps) {
   function handleChange(
     e: React.ChangeEvent<
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-    >
+    >,
   ) {
     const { name, value } = e.target;
     setFormState((prev) => ({ ...prev, [name]: value }));
@@ -191,7 +191,9 @@ export function ContactForm({ locale }: ContactFormProps) {
             {isArabic ? "موقع تعريفي كامل" : "Full website"}
           </option>
           <option value="system">
-            {isArabic ? "نظام برمجي / نظام إدارة" : "Business / management system"}
+            {isArabic
+              ? "نظام برمجي / نظام إدارة"
+              : "Business / management system"}
           </option>
           <option value="marketing">
             {isArabic ? "خدمات التسويق الرقمي" : "Digital marketing services"}
@@ -226,26 +228,62 @@ export function ContactForm({ locale }: ContactFormProps) {
         />
       </div>
 
+      {/* CTA buttons – نسخة أنعم للموبايل واللابتوب مع شعار واتساب صغير */}
       <div
-        className={`mt-4 flex gap-3 text-xs ${
-          isArabic ? "justify-end" : "justify-start"
+        className={`mt-4 flex flex-col sm:flex-row sm:flex-wrap gap-2 ${
+          isArabic ? "sm:justify-end" : "sm:justify-start"
         }`}
       >
+        {/* زر الإرسال عبر واتساب – فل وِدث على الموبايل، صغير على الديسكتوب */}
         <button
           type="submit"
-          className="inline-flex items-center rounded-full bg-softodev-primary px-5 py-2 font-semibold text-white shadow-soft hover:bg-blue-700"
+          className={`
+            inline-flex items-center gap-1.5
+            w-full sm:w-auto
+            justify-center
+            rounded-full bg-softodev-primary
+            px-3 sm:px-4 py-1.5
+            text-[11px] sm:text-xs font-semibold leading-none text-white
+            shadow-soft hover:bg-softodev-primaryDark
+            transition active:scale-[0.98]
+            ${isArabic ? "flex-row-reverse" : ""}
+          `}
         >
-          {isArabic ? "إرسال الطلب عبر الواتساب" : "Send request on WhatsApp"}
+          <span className="flex h-3 w-3 sm:h-3.5 sm:w-3.5 items-center justify-center rounded-full bg-[#25D366] text-[7px] sm:text-[8px] font-bold text-white">
+            W
+          </span>
+          <span className="truncate">
+            {isArabic
+              ? "إرسال الطلب عبر الواتساب"
+              : "Send request on WhatsApp"}
+          </span>
         </button>
+
+        {/* زر فتح المحادثة – فل وِدث تحت، أرفع شوي كـ ثانوي */}
         <a
           href="https://wa.me/905015954826"
-          className="inline-flex items-center rounded-full border border-softodev-border bg-softodev-surface px-5 py-2 font-semibold text-softodev-text hover:bg-softodev-primarySoft/70"
           target="_blank"
           rel="noreferrer"
+          className={`
+            inline-flex items-center gap-1.5
+            w-full sm:w-auto
+            justify-center
+            rounded-full border border-softodev-border
+            bg-softodev-surface px-3 sm:px-4 py-1.5
+            text-[11px] sm:text-xs font-semibold leading-none text-softodev-text
+            hover:bg-softodev-primarySoft/70
+            transition active:scale-[0.98]
+            ${isArabic ? "flex-row-reverse" : ""}
+          `}
         >
-          {isArabic
-            ? "فتح محادثة واتساب مباشرة"
-            : "Open WhatsApp chat directly"}
+          <span className="flex h-3 w-3 sm:h-3.5 sm:w-3.5 items-center justify-center rounded-full bg-[#25D366] text-[7px] sm:text-[8px] font-bold text-white">
+            W
+          </span>
+          <span className="truncate">
+            {isArabic
+              ? "فتح محادثة واتساب مباشرة"
+              : "Open WhatsApp chat directly"}
+          </span>
         </a>
       </div>
 

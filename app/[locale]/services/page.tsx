@@ -221,7 +221,7 @@ export default async function ServicesPage({
 
   return (
     <section className="relative isolate py-12 md:py-16 bg-softodev-bg/70 overflow-hidden">
-      {/* خلفية خفيفة متناسقة مع الهوم */}
+      {/* خلفية ناعمة متناسقة مع الهوم */}
       <div className="pointer-events-none absolute inset-0 -z-10">
         <div className="absolute -top-24 -left-20 h-72 w-72 rounded-full bg-softodev-primary/12 blur-3xl" />
         <div className="absolute top-1/3 right-0 h-96 w-96 rounded-full bg-softodev-primarySoft/40 blur-3xl" />
@@ -230,7 +230,10 @@ export default async function ServicesPage({
 
       <Container className="relative z-10 space-y-10 md:space-y-12">
         {/* Header */}
-        <div className={`max-w-3xl ${align} space-y-3`}>
+        <div
+          className={`max-w-3xl ${align} space-y-3`}
+          dir={isArabic ? "rtl" : "ltr"}
+        >
           <p className="inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.25em] text-softodev-muted">
             <span className="inline-block h-[1px] w-6 bg-softodev-primary/70" />
             <span>{isArabic ? "الخدمات" : "SERVICES"}</span>
@@ -240,9 +243,7 @@ export default async function ServicesPage({
             {isArabic ? (
               <>
                 <span>خدمات برمجية وتسويقية </span>
-                <span className="text-softodev-primary">
-                  تغطي رحلة مشروعك
-                </span>
+                <span className="text-softodev-primary">تغطي رحلة مشروعك</span>
                 <span> من الانطلاق إلى النمو.</span>
               </>
             ) : (
@@ -256,7 +257,7 @@ export default async function ServicesPage({
             )}
           </h1>
 
-          <p className="text-sm md:text[15px] leading-relaxed text-softodev-muted">
+          <p className="text-sm md:text-[15px] leading-relaxed text-softodev-muted">
             {isArabic ? (
               <>
                 يمكنك البدء من{" "}
@@ -313,6 +314,9 @@ export default async function ServicesPage({
                 hover:border-softodev-primary/45
               "
             >
+              {/* شريط علوي ملون */}
+              <div className="pointer-events-none absolute inset-x-0 top-0 h-1.5 bg-gradient-to-r from-softodev-primary via-softodev-primaryDark to-softodev-primary/80" />
+
               {/* glow overlay */}
               <div
                 className="
@@ -327,10 +331,12 @@ export default async function ServicesPage({
               <div className="flex items-start justify-between gap-3">
                 <div className="space-y-2">
                   <div className="flex items-center gap-2 text-[11px] font-semibold text-softodev-muted">
-                    <span className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-softodev-primarySoft text-[10px] text-softodev-primary">
+                    <span className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-softodev-primarySoft text-[10px] text-softodev-primary">
                       {service.badge}
                     </span>
-                    <span>{isArabic ? "خدمة" : "Service"}</span>
+                    <span>
+                      {isArabic ? "حل مُدار بالكامل" : "Done-for-you service"}
+                    </span>
                   </div>
                   <h2 className="text-base md:text-lg font-extrabold text-softodev-text">
                     {service.title}
@@ -354,46 +360,64 @@ export default async function ServicesPage({
               {/* Divider */}
               <div className="mt-5 border-t border-softodev-border/70" />
 
-              {/* CTA row – متجاوب */}
-              <div className="mt-3 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2.5">
+              {/* CTA row – نسخة أخف للأزرار */}
+              <div className="mt-3 flex flex-col gap-1.5">
+                {/* زر أساسي أصغر */}
                 <Link
                   href={`/${locale}/contact`}
                   className="
                     inline-flex items-center justify-center
+                    self-start
                     rounded-full bg-softodev-primary
-                    px-3.5 py-1.5
+                    px-3 py-1.5
                     text-[11px] md:text-xs font-semibold text-white
                     shadow-soft
                     hover:bg-softodev-primaryDark
+                    hover:shadow-[0_12px_30px_rgba(37,99,235,0.35)]
                     transition
                   "
                 >
                   {isArabic
-                    ? "اطلب عرض سعر لهذه الخدمة"
-                    : "Request a quote for this service"}
-                  <span className="ml-1.5 text-[13px]">
+                    ? "اطلب هذه الخدمة"
+                    : "Request this service"}
+                  <span
+                    className={
+                      isArabic
+                        ? "mr-1.5 text-[13px]"
+                        : "ml-1.5 text-[13px]"
+                    }
+                  >
                     {isArabic ? "←" : "→"}
                   </span>
                 </Link>
 
+                {/* رابط واتساب خفيف كـ text-link */}
                 <a
                   href={`https://wa.me/905015954826?text=${encodeURIComponent(
                     isArabic
                       ? `مرحباً SoftoDev، أريد خدمة: ${service.title}`
-                      : `Hi SoftoDev, I’m interested in: ${service.title}`
+                      : `Hi SoftoDev, I’m interested in: ${service.title}`,
                   )}`}
                   target="_blank"
                   rel="noreferrer"
-                  className="
-                    inline-flex items-center justify-center
-                    rounded-full border border-softodev-border
-                    bg-softodev-bg/80 px-3 py-1.5
-                    text-[11px] md:text-xs text-softodev-text
-                    hover:border-softodev-primary/60 hover:bg-softodev-primarySoft/40
-                    transition
-                  "
+                  className={`
+                    inline-flex items-center gap-1.5
+                    text-[11px] md:text-xs
+                    ${
+                      isArabic
+                        ? "self-start text-softodev-muted"
+                        : "self-start text-softodev-muted"
+                    }
+                    hover:text-softodev-primary
+                    transition-colors
+                  `}
                 >
-                  {isArabic ? "سؤال سريع على واتساب" : "Quick question on WhatsApp"}
+                  <span className="text-sm">💬</span>
+                  <span>
+                    {isArabic
+                      ? "سؤال سريع على واتساب"
+                      : "Quick question on WhatsApp"}
+                  </span>
                 </a>
               </div>
             </article>

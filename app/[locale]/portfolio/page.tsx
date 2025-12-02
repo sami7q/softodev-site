@@ -57,7 +57,10 @@ export default async function PortfolioPage({
 
       <Container className="relative z-10 space-y-10 md:space-y-12">
         {/* Header */}
-        <div className={`max-w-3xl ${align} space-y-3`}>
+        <div
+          className={`max-w-3xl ${align} space-y-3`}
+          dir={isArabic ? "rtl" : "ltr"}
+        >
           <p className="inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.25em] text-softodev-muted">
             <span className="inline-block h-[1px] w-6 bg-softodev-primary/70" />
             <span>{isArabic ? "الأعمال" : "PORTFOLIO"}</span>
@@ -123,6 +126,9 @@ export default async function PortfolioPage({
                 hover:border-softodev-primary/45
               "
             >
+              {/* شريط علوي ملون مثل الخدمات/التسعير */}
+              <div className="pointer-events-none absolute inset-x-0 top-0 h-1.5 bg-gradient-to-r from-softodev-primary via-softodev-primaryDark to-softodev-primary/80" />
+
               {/* glow overlay */}
               <div
                 className="
@@ -170,13 +176,24 @@ export default async function PortfolioPage({
                 <span>{project.region}</span>
               </div>
 
+              {/* CTA */}
               <div
                 className={`
                   mt-3 text-[11px] md:text-sm font-semibold text-softodev-primary
-                  ${align}
+                  ${align} flex items-center gap-1
                 `}
               >
-                {isArabic ? "عرض تفاصيل المشروع ←" : "View case study →"}
+                {isArabic ? (
+                  <>
+                    <span>عرض تفاصيل المشروع</span>
+                    <span className="text-[13px]">←</span>
+                  </>
+                ) : (
+                  <>
+                    <span>View case study</span>
+                    <span className="text-[13px]">→</span>
+                  </>
+                )}
               </div>
             </Link>
           ))}

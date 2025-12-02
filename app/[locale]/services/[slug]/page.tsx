@@ -617,7 +617,7 @@ export default async function ServiceDetailPage({
   return (
     <>
       <section className="relative isolate py-12 md:py-16 bg-softodev-bg/70 overflow-hidden">
-        {/* خلفية بنفس نمط صفحة الخدمات / الأسعار */}
+        {/* خلفية بنفس نمط صفحة الخدمات */}
         <div className="pointer-events-none absolute inset-0 -z-10">
           <div className="absolute -top-24 -left-20 h-72 w-72 rounded-full bg-softodev-primary/12 blur-3xl" />
           <div className="absolute top-1/3 right-0 h-96 w-96 rounded-full bg-softodev-primarySoft/40 blur-3xl" />
@@ -626,7 +626,7 @@ export default async function ServiceDetailPage({
 
         <Container className="relative z-10 space-y-8 md:space-y-10">
           {/* Hero */}
-          <div className={`max-w-3xl ${align} space-y-3`}>
+          <div className={`max-w-3xl ${align} space-y-3`} dir={isArabic ? "rtl" : "ltr"}>
             <p className="inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.25em] text-softodev-muted">
               <span className="inline-block h-[1px] w-6 bg-softodev-primary/70" />
               <span>{isArabic ? "خدمة SoftoDev" : "SOFTODEV SERVICE"}</span>
@@ -646,7 +646,7 @@ export default async function ServiceDetailPage({
                 : "This service is tailored for GCC and Iraqi markets in language, messaging, and user experience."}
             </p>
 
-            {/* CTA row – نفس روح الخدمات/الأسعار، أزرار صغيرة */}
+            {/* CTA */}
             <div
               className={`mt-3 flex flex-wrap gap-2.5 ${
                 isArabic ? "justify-end" : "justify-start"
@@ -662,15 +662,7 @@ export default async function ServiceDetailPage({
                 }
                 target="_blank"
                 rel="noreferrer"
-                className="
-                  inline-flex items-center justify-center
-                  rounded-full bg-softodev-primary
-                  px-3 py-1.5
-                  text-[11px] md:text-xs font-semibold text-white
-                  shadow-soft
-                  hover:bg-softodev-primaryDark
-                  transition
-                "
+                className="inline-flex items-center justify-center rounded-full bg-softodev-primary px-3 py-1.5 text-[11px] md:text-xs font-semibold text-white shadow-soft hover:bg-softodev-primaryDark transition"
               >
                 {isArabic
                   ? "ناقشنا فكرتك على واتساب"
@@ -679,14 +671,7 @@ export default async function ServiceDetailPage({
 
               <Link
                 href={`/${locale}/contact`}
-                className="
-                  inline-flex items-center justify-center
-                  rounded-full border border-softodev-border
-                  bg-softodev-surface/90 px-3 py-1.5
-                  text-[11px] md:text-xs font-semibold text-softodev-text
-                  hover:bg-softodev-primarySoft/60
-                  transition
-                "
+                className="inline-flex items-center justify-center rounded-full border border-softodev-border bg-softodev-surface/90 px-3 py-1.5 text-[11px] md:text-xs font-semibold text-softodev-text hover:bg-softodev-primarySoft/60 transition"
               >
                 {isArabic ? "اطلب عرض سعر" : "Get a quote"}
               </Link>
@@ -698,24 +683,16 @@ export default async function ServiceDetailPage({
             className="grid gap-6 md:gap-7 md:grid-cols-[minmax(0,1.5fr)_minmax(0,1.2fr)]"
             dir={isArabic ? "rtl" : "ltr"}
           >
-            {/* Left side: benefits + audience + FAQ */}
+            {/* Left side */}
             <div className="space-y-5">
               {/* Benefits card */}
               <article
-                className={`
-                  group relative h-full
-                  overflow-hidden rounded-[26px]
-                  border border-softodev-border/70
-                  bg-softodev-surface/95
-                  p-4 md:p-5
-                  shadow-soft
-                  transition-all duration-300
-                  hover:-translate-y-1 hover:shadow-[0_24px_60px_rgba(15,23,42,0.16)]
-                  hover:border-softodev-primary/45
-                  ${align}
-                `}
+                className={`group relative h-full overflow-hidden rounded-[26px] border border-softodev-border/70 bg-softodev-surface/95 p-4 md:p-5 shadow-soft transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_24px_60px_rgba(15,23,42,0.16)] hover:border-softodev-primary/45 ${align}`}
               >
-                <h2 className="text-sm md:text-base font-semibold text-softodev-text">
+                {/* شريط علوي ملون */}
+                <div className="pointer-events-none absolute inset-x-0 top-0 h-1.5 bg-gradient-to-r from-softodev-primary via-softodev-primaryDark to-softodev-primary/80" />
+
+                <h2 className="mt-3 text-sm md:text-base font-semibold text-softodev-text">
                   {isArabic
                     ? "ماذا ستحصل من هذه الخدمة؟"
                     : "What you get with this service"}
@@ -732,13 +709,7 @@ export default async function ServiceDetailPage({
 
               {/* Audience card */}
               <article
-                className={`
-                  rounded-[22px] border border-softodev-border/60
-                  bg-softodev-primarySoft/70
-                  px-4 py-4
-                  text-xs md:text-[13px] text-softodev-text
-                  ${align}
-                `}
+                className={`rounded-[22px] border border-softodev-border/60 bg-softodev-primarySoft/70 px-4 py-4 text-xs md:text-[13px] text-softodev-text ${align}`}
               >
                 <div className="font-semibold">
                   {isArabic ? "لمن هذه الخدمة؟" : "Who is this for?"}
@@ -750,12 +721,7 @@ export default async function ServiceDetailPage({
 
               {/* FAQ card */}
               <article
-                className={`
-                  rounded-[26px] border border-softodev-border/70
-                  bg-softodev-surface/95
-                  p-4 md:p-5
-                  ${align}
-                `}
+                className={`rounded-[26px] border border-softodev-border/70 bg-softodev-surface/95 p-4 md:p-5 ${align}`}
               >
                 <h2 className="text-sm md:text-base font-semibold text-softodev-text">
                   {isArabic ? "أسئلة شائعة" : "Frequently asked questions"}
@@ -764,10 +730,7 @@ export default async function ServiceDetailPage({
                   {service.faq[langKey].map((item, idx) => (
                     <div
                       key={idx}
-                      className="
-                        rounded-2xl border border-softodev-border/60
-                        bg-softodev-bg/60 px-3 py-2
-                      "
+                      className="rounded-2xl border border-softodev-border/60 bg-softodev-bg/60 px-3 py-2"
                     >
                       <p className="text-[12px] md:text-[13px] font-semibold text-softodev-text">
                         {item.q}
@@ -781,14 +744,7 @@ export default async function ServiceDetailPage({
 
             {/* Right side: process */}
             <aside
-              className={`
-                space-y-4 rounded-[26px]
-                border border-softodev-border/70
-                bg-softodev-surface/95
-                p-4 md:p-5
-                shadow-soft
-                ${align}
-              `}
+              className={`space-y-4 rounded-[26px] border border-softodev-border/70 bg-softodev-surface/95 p-4 md:p-5 shadow-soft ${align}`}
             >
               <h2 className="text-sm md:text-base font-semibold text-softodev-text">
                 {isArabic ? "كيف يتم تنفيذ العمل؟" : "How the process works"}
@@ -798,11 +754,7 @@ export default async function ServiceDetailPage({
                 {service.process[langKey].map((step, idx) => (
                   <li
                     key={idx}
-                    className="
-                      flex items-start gap-2
-                      rounded-2xl border border-softodev-border/60
-                      bg-softodev-bg/60 px-3 py-2
-                    "
+                    className="flex items-start gap-2 rounded-2xl border border-softodev-border/60 bg-softodev-bg/60 px-3 py-2"
                   >
                     <span className="mt-0.5 flex h-5 w-5 flex-none items-center justify-center rounded-full bg-softodev-primarySoft text-[11px] font-semibold text-softodev-text">
                       {idx + 1}

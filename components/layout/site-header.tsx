@@ -17,10 +17,11 @@ export function SiteHeader({ locale }: { locale: Locale }) {
 
   const navItems = useMemo(
     () => [
+      { href: `/${locale}`, label: isRTL ? "الرئيسية" : "Home" },
       { href: `/${locale}/services`, label: isRTL ? "الخدمات" : "Services" },
-      { href: `/${locale}/pricing`, label: isRTL ? "الأسعار" : "Pricing" },
       { href: `/${locale}/portfolio`, label: isRTL ? "الأعمال" : "Portfolio" },
       { href: `/${locale}/about`, label: isRTL ? "من نحن" : "About" },
+      { href: `/${locale}/pricing`, label: isRTL ? "الأسعار" : "Pricing" },
       { href: `/${locale}/contact`, label: isRTL ? "تواصل" : "Contact" },
     ],
     [locale, isRTL]
@@ -49,7 +50,6 @@ export function SiteHeader({ locale }: { locale: Locale }) {
               className="group flex items-center gap-3"
               aria-label="SoftoDev Home"
             >
-              {/* لوغو أكبر بدون أي إطار */}
               <div className="flex items-center h-11 sm:h-12">
                 <img
                   src="/logo/logo.png"
@@ -172,11 +172,13 @@ function MobileMenu({
         ].join(" ")}
       />
 
-      {/* Panel */}
+      {/* Panel (أضيق + أصغر) */}
       <div
         dir={isRTL ? "rtl" : "ltr"}
         className={[
-          "absolute top-0 bottom-0 w-[86%] max-w-sm bg-softodev-bg border-softodev-border shadow-2xl transition-transform border",
+          "absolute top-0 bottom-0",
+          "w-[78%] max-w-[280px]", // 👈 هنا صغّرنا السايدبار
+          "bg-softodev-bg border-softodev-border shadow-2xl transition-transform border",
           isRTL ? "right-0" : "left-0",
           open
             ? "translate-x-0"
@@ -186,7 +188,7 @@ function MobileMenu({
         ].join(" ")}
       >
         {/* Header داخل السلايد أوفر */}
-        <div className="relative p-4 border-b border-softodev-border bg-softodev-surface/80">
+        <div className="relative p-3 border-b border-softodev-border bg-softodev-surface/80">
           <div className="pointer-events-none absolute inset-0 -z-10">
             <div className="absolute -top-10 left-4 h-24 w-24 rounded-full bg-softodev-primary/18 blur-2xl" />
             <div className="absolute -bottom-10 right-4 h-24 w-24 rounded-full bg-softodev-primary/12 blur-2xl" />
@@ -194,15 +196,14 @@ function MobileMenu({
 
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              {/* لوغو أكبر في الموبايل أيضاً */}
-              <div className="flex items-center h-9">
+              <div className="flex items-center h-8">
                 <img
                   src="/logo/logo.png"
                   alt="SoftoDev logo"
-                  className="h-8 w-auto object-contain"
+                  className="h-7 w-auto object-contain"
                 />
               </div>
-              <span className="font-extrabold text-softodev-text">
+              <span className="text-sm font-extrabold text-softodev-text">
                 {isRTL ? "القائمة" : "Menu"}
               </span>
             </div>
@@ -210,7 +211,7 @@ function MobileMenu({
             <button
               aria-label="Close menu"
               onClick={() => setOpen(false)}
-              className="h-9 w-9 rounded-lg hover:bg-softodev-bg grid place-items-center"
+              className="h-8 w-8 rounded-lg hover:bg-softodev-bg grid place-items-center text-sm"
             >
               ✕
             </button>
@@ -218,7 +219,7 @@ function MobileMenu({
         </div>
 
         {/* Links */}
-        <nav className="p-3 space-y-1">
+        <nav className="p-2 space-y-1">
           {navItems.map((item) => {
             const active = pathname === item.href;
             return (
@@ -226,7 +227,7 @@ function MobileMenu({
                 key={item.href}
                 href={item.href}
                 className={[
-                  "block px-3 py-3 rounded-2xl text-base font-semibold transition",
+                  "block px-3 py-2.5 rounded-2xl text-sm font-semibold transition", // 👈 نصغّر الخط والـ padding
                   active
                     ? "text-softodev-primary bg-softodev-surface border border-softodev-border shadow-soft"
                     : "text-softodev-text hover:bg-softodev-surface/70 hover:border-softodev-border border border-transparent",
@@ -242,14 +243,14 @@ function MobileMenu({
         <div className="p-3 border-t border-softodev-border space-y-2">
           <Link
             href={switchLocaleHref}
-            className="block text-center px-3 py-2.5 rounded-xl border border-softodev-border bg-softodev-surface font-bold text-softodev-text"
+            className="block text-center px-3 py-2.5 rounded-xl border border-softodev-border bg-softodev-surface text-sm font-bold text-softodev-text"
           >
             {isRTL ? "English" : "العربية"}
           </Link>
 
           <Link
             href={`/${locale}/contact`}
-            className="block text-center px-3 py-2.5 rounded-xl bg-gradient-to-r from-softodev-primary to-softodev-primaryDark text-white font-bold shadow-soft"
+            className="block text-center px-3 py-2.5 rounded-xl bg-gradient-to-r from-softodev-primary to-softodev-primaryDark text-white text-sm font-bold shadow-soft"
           >
             {isRTL ? "استشارة مجانية" : "Free consultation"}
           </Link>

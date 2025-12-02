@@ -35,12 +35,10 @@ export function HomeBrandStrip({ locale }: HomeBrandStripProps) {
           dir={isArabic ? "rtl" : "ltr"}
         >
           <span className="font-semibold">
-            {isArabic ? "ثقة العملاء في" : "Trusted by clients in"}
+            {isArabic ? "ثقة العملاء" : "Trusted by clients"}
           </span>
           <span className="hidden sm:inline-block">
-            {isArabic
-              ? "السعودية، الإمارات، قطر، الكويت، العراق وأكثر"
-              : "Saudi Arabia, UAE, Qatar, Kuwait, Iraq & more"}
+           
           </span>
         </div>
 

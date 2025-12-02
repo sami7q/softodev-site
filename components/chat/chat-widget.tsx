@@ -364,9 +364,7 @@ export default function ChatWidget({ mode = "hardcoded" }: { mode?: ChatMode }) 
   const isRTL = locale === "ar";
   const t = isRTL ? COPY.ar : COPY.en;
 
-  // ✅ أماكن الـ chatbot بالنسبة للواتساب:
-  // - الواتساب:  AR => right-5 / EN => left-5  (من FloatingActions)
-  // - الـ chatbot: AR => left-5  / EN => right-5  (هنا)
+  // نفس المنطق القديم: الويدجت ينعكس حسب اللغة
   const floatingSideClass = isRTL ? "left-5" : "right-5";
   const panelSideClass = floatingSideClass;
 
@@ -507,14 +505,16 @@ export default function ChatWidget({ mode = "hardcoded" }: { mode?: ChatMode }) 
 
   return (
     <div dir={isRTL ? "rtl" : "ltr"} className="fixed z-[9999]">
-      {/* Floating button */}
+      {/* Floating button – نفس مكانه القديم لكن أصغر */}      
       <button
         aria-label="Open chat"
         onClick={() => setOpen((v) => !v)}
         className={[
           "fixed bottom-5",
           floatingSideClass,
-          "h-14 w-14 rounded-full shadow-soft",
+          // 👇 هنا التصغير فقط
+          "h-10 w-10 sm:h-11 sm:w-11",
+          "rounded-full shadow-soft",
           "bg-softodev-primary text-white hover:bg-softodev-primaryDark",
           "flex items-center justify-center",
           "transition-all active:scale-95",
@@ -523,8 +523,8 @@ export default function ChatWidget({ mode = "hardcoded" }: { mode?: ChatMode }) 
       >
         {/* icon */}
         <svg
-          width="24"
-          height="24"
+          width="18"
+          height="18"
           viewBox="0 0 24 24"
           fill="none"
           className="opacity-95"
