@@ -14,9 +14,13 @@ export function HomeHero({ locale }: HomeHeroProps) {
   return (
     <section className="relative overflow-hidden pt-10 pb-8 sm:pt-12 sm:pb-10">
       {/* الخلفية المتحركة مثل Google Antigravity */}
-      <MouseParticles className="absolute inset-0 -z-20 h-full w-full pointer-events-none" />
+      <MouseParticles
+        className="absolute inset-0 -z-20 h-full w-full pointer-events-none"
+        dotColor="rgba(30, 90, 239, 0.8)" // 💙 أزرق SoftoDev
+        backgroundAlpha={0.04}            // لمسة خفيفة جداً على الخلفية
+      />
 
-      {/* الأيقونات التي "تسبح" حول الهيرو */}
+      {/* الأيقونات التي "تسبح" وتهرب من الماوس حول الهيرو */}
       <FloatingTechIcons />
 
       <Container>

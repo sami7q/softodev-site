@@ -57,14 +57,14 @@ body {
 /* ✅ زوم خفيـف فقط على الشاشات الأكبر (مسحوب شوي لبرا) */
 @media (min-width: 1024px) {
   body {
-    zoom: 1.06;       /* كان 1.15 → الآن زوم خفيف */
+    zoom: 1.06; /* كان 1.15 → الآن زوم خفيف */
     transform-origin: top center;
   }
 }
 
 @media (min-width: 1440px) {
   body {
-    zoom: 1.12;       /* كان 1.25 → أقل بوضوح */
+    zoom: 1.12; /* كان 1.25 → أقل بوضوح */
     transform-origin: top center;
   }
 }
@@ -97,10 +97,11 @@ body {
   .marquee-container .brand-logo {
     filter: none;
     opacity: 0.9;
+    transform: translateY(0); /* 👈 الأساس: ما طالع ولا نازل */
     transition:
       filter 150ms ease-out,
       opacity 150ms ease-out,
-      transform 150ms ease-out;
+      transform 180ms ease-out;
   }
 
   /* لما نحط الماوس على الشريط: كل اللوجوهات تصير رمادية وخافتة */
@@ -109,11 +110,11 @@ body {
     opacity: 0.35;
   }
 
-  /* اللوجو اللي عليه الماوس يبقى ملوّن ويكبر شوي */
+  /* اللوجو اللي عليه الماوس يبقى ملوّن + يطلع شوي لفوق + يكبر بسيط */
   .marquee-container .brand-item:hover .brand-logo {
     filter: none !important;
     opacity: 1 !important;
-    transform: scale(1.03);
+    transform: translateY(-4px) scale(1.04); /* 👈 هنا الطلعة */
   }
 
   /* الحركة: من 0 إلى -50% مع تكرار اللستة = لوب مستمر */

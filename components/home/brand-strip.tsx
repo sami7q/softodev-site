@@ -24,8 +24,8 @@ export function HomeBrandStrip({ locale }: HomeBrandStripProps) {
       {/* خلفية النقاط المتحركة خلف شريط البراندات */}
       <MouseParticles
         className="absolute inset-0 -z-10 h-full w-full pointer-events-none"
-        dotColor="rgba(15, 23, 42, 0.25)"     // نقاط غامقة خفيفة
-        backgroundAlpha={0.18}                // شفافية ناعمة
+        dotColor="rgba(15, 23, 42, 0.25)" // نقاط غامقة خفيفة
+        backgroundAlpha={0.18} // شفافية ناعمة
       />
 
       <Container className="py-5 sm:py-6">
@@ -37,9 +37,7 @@ export function HomeBrandStrip({ locale }: HomeBrandStripProps) {
           <span className="font-semibold">
             {isArabic ? "ثقة العملاء" : "Trusted by clients"}
           </span>
-          <span className="hidden sm:inline-block">
-           
-          </span>
+          <span className="hidden sm:inline-block">{/* space */}</span>
         </div>
 
         {/* الشريط المتحرك – LTR ثابت عشان يشتغل بنفس الشكل في اللغتين */}
@@ -48,14 +46,19 @@ export function HomeBrandStrip({ locale }: HomeBrandStripProps) {
             {[...brands, ...brands].map((brand, idx) => (
               <div
                 key={`${brand.alt}-${idx}`}
-                className="brand-item px-10 sm:px-16 flex items-center justify-center"
+                className="brand-item group px-10 sm:px-16 flex items-center justify-center"
               >
                 <Image
                   src={brand.src}
                   alt={brand.alt}
                   width={190}
                   height={52}
-                  className="brand-logo h-10 sm:h-12 w-auto object-contain"
+                  className="
+                    brand-logo
+                    h-10 sm:h-12 w-auto object-contain
+                    transition-transform duration-200 ease-out
+                    group-hover:-translate-y-1.5 group-hover:scale-[1.02]
+                  "
                 />
               </div>
             ))}
