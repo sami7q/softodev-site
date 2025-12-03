@@ -24,7 +24,6 @@ export const siteUrl = getBaseUrl();
  */
 export function getCanonicalUrl(locale: Locale, path: string): string {
   const base = getBaseUrl();
-
   const cleanPath = path.startsWith("/") ? path : `/${path}`;
 
   // نضيف /ar أو /en في البداية

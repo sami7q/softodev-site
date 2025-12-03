@@ -152,7 +152,7 @@ export function ContactForm({ locale }: ContactFormProps) {
             value={formState.email}
             onChange={handleChange}
             className="w-full rounded-2xl border border-softodev-border/80 bg-gray-50 px-3 py-2 text-xs outline-none ring-0 focus:border-softodev-primary focus:bg-white"
-            placeholder="you@example.com"
+            placeholder="info@softodev.net"
           />
         </div>
       </div>

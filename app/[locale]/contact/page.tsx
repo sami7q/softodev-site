@@ -194,7 +194,7 @@ export default async function ContactPage({
                     href="mailto:sami22eng@gmail.com"
                     className="font-bold text-softodev-primary hover:underline"
                   >
-                    sami22eng@gmail.com
+                    info@softodev.net
                   </a>
                 </div>
               </div>

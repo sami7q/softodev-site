@@ -12,34 +12,38 @@ const readex = Readex_Pro({
   display: "swap",
 });
 
+const baseTitle = "SoftoDev | IT Solutions, Software & Web Development";
+const baseDescription =
+  "SoftoDev is an IT solutions studio that builds fast, modern websites, e-commerce stores, management systems, and AI-powered tools for businesses. SoftoDev شركة حلول برمجية متخصصة في برمجة المواقع والمتاجر الإلكترونية وأنظمة الإدارة المخصصة لمساعدة الشركات على النمو والتحول الرقمي.";
+
 export const metadata: Metadata = {
   title: {
-    default: "SoftoDev | Software & Web Development Agency",
+    default: baseTitle,
     template: "%s | SoftoDev",
   },
-  description:
-    "SoftoDev builds fast, modern websites, e-commerce stores, and management systems tailored for the GCC and Iraq market.",
+  description: baseDescription,
   metadataBase: new URL(siteUrl),
+  applicationName: "SoftoDev",
+
   openGraph: {
     type: "website",
     url: siteUrl,
     siteName: "SoftoDev",
-    title: "SoftoDev | Software & Web Development Agency",
-    description:
-      "SoftoDev builds fast, modern websites, e-commerce stores, and management systems tailored for the GCC and Iraq market.",
+    title: baseTitle,
+    description: baseDescription,
   },
+
   twitter: {
     card: "summary_large_image",
-    title: "SoftoDev | Software & Web Development Agency",
-    description:
-      "SoftoDev builds fast, modern websites, e-commerce stores, and management systems tailored for the GCC and Iraq market.",
+    title: baseTitle,
+    description: baseDescription,
   },
+
   icons: {
     icon: "/favicon.ico",
     shortcut: "/favicon.ico",
     apple: "/apple-touch-icon.png",
   },
-  applicationName: "SoftoDev",
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {

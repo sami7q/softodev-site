@@ -30,7 +30,7 @@ export function HomeImpactSection({ locale }: HomeImpactSectionProps) {
         "Stop losing visitors because your website is slow or confusing. We design flows that feel simple and obvious.",
       bullets: [
         "Clear calls-to-action on every key page.",
-        "Mobile-first layouts tuned for Gulf markets.",
+        "Mobile-first layouts tuned for your audience.",
         "Copy and structure built to convert, not just look pretty.",
       ],
     },
@@ -63,7 +63,7 @@ export function HomeImpactSection({ locale }: HomeImpactSectionProps) {
         "لا تخسر الزوار بسبب موقع بطيء أو مربك. نصمّم مسارات بسيطة وواضحة تحوّل الزيارة إلى فعل.",
       bullets: [
         "أزرار دعوة لاتخاذ إجراء واضحة في الصفحات المهمة.",
-        "تصميم يراعي استخدام الجوال وسلوك المستخدم في الخليج.",
+        "تصميم يراعي استخدام الجوال وسلوك المستخدم.",
         "نصوص وهيكلة هدفها التحويل، ليس الشكل فقط.",
       ],
     },
@@ -93,18 +93,24 @@ export function HomeImpactSection({ locale }: HomeImpactSectionProps) {
   const impactCards = isArabic ? impactCardsAr : impactCardsEn;
 
   return (
-    <section className="py-10 sm:py-16 bg-softodev-bg/60">
+    <section className="relative py-12 sm:py-16">
+      {/* background */}
+      <div className="pointer-events-none absolute inset-0 -z-10 bg-gradient-to-b from-softodev-bg via-softodev-surface/80 to-softodev-bg" />
+      <div className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-32 bg-gradient-to-b from-softodev-primary/10 to-transparent" />
+
       <Container>
         {/* العنوان */}
         <div
           className="max-w-3xl mx-auto text-center"
           dir={isArabic ? "rtl" : "ltr"}
         >
-          {/* Badge بسيط بدون إيموجي */}
-          <div className="inline-flex items-center gap-2 rounded-full bg-amber-50 px-3 py-1 text-[11px] font-medium text-amber-700 border border-amber-200">
+          {/* Badge */}
+          <div className="inline-flex items-center gap-2 rounded-full bg-amber-50 px-3.5 py-1.5 text-[11px] font-medium text-amber-700 border border-amber-200 shadow-[0_10px_30px_rgba(250,204,21,0.25)]">
             <span className="inline-flex h-1.5 w-1.5 rounded-full bg-amber-500" />
             <span>
-              {isArabic ? "توقّف عن خسارة العملاء" : "Stop losing opportunities"}
+              {isArabic
+                ? "توقّف عن خسارة العملاء"
+                : "Stop losing opportunities"}
             </span>
           </div>
 
@@ -165,22 +171,30 @@ export function HomeImpactSection({ locale }: HomeImpactSectionProps) {
 
         {/* الإحصائيات */}
         <div
-          className="mt-8 grid gap-4 sm:gap-6 grid-cols-2 md:grid-cols-4 max-w-3xl mx-auto"
+          className="mt-8 sm:mt-9 max-w-4xl mx-auto"
           dir={isArabic ? "rtl" : "ltr"}
         >
-          {impactStats.map((item) => (
-            <div
-              key={item.label}
-              className="flex flex-col items-center justify-center rounded-2xl border border-softodev-border/70 bg-softodev-surface/95 shadow-soft px-3 py-4"
-            >
-              <div className="text-lg sm:text-xl font-semibold text-softodev-primary">
-                {item.value}
-              </div>
-              <div className="mt-1 text-[11px] sm:text-xs text-softodev-muted text-center">
-                {item.label}
-              </div>
+          <div className="rounded-3xl bg-softodev-surface/80 border border-softodev-border/70 shadow-[0_22px_60px_rgba(15,23,42,0.14)] px-4 py-4 sm:px-6 sm:py-5">
+            <div className="grid gap-3 sm:gap-4 grid-cols-2 md:grid-cols-4">
+              {impactStats.map((item, idx) => (
+                <div
+                  key={item.label}
+                  className={`flex flex-col items-center justify-center rounded-2xl px-3 py-3 sm:px-3.5 sm:py-3.5 text-center ${
+                    idx === 0
+                      ? "bg-softodev-primarySoft/80 border border-softodev-primary/40"
+                      : "bg-softodev-bg/70 border border-softodev-border/60"
+                  }`}
+                >
+                  <div className="text-base sm:text-lg font-semibold text-softodev-primary">
+                    {item.value}
+                  </div>
+                  <div className="mt-1 text-[11px] sm:text-xs text-softodev-muted">
+                    {item.label}
+                  </div>
+                </div>
+              ))}
             </div>
-          ))}
+          </div>
         </div>
 
         {/* الكروت */}
@@ -188,12 +202,20 @@ export function HomeImpactSection({ locale }: HomeImpactSectionProps) {
           className="mt-10 grid gap-6 md:grid-cols-3"
           dir={isArabic ? "rtl" : "ltr"}
         >
-          {impactCards.map((card) => (
-            <article key={card.title} className="relative group">
+          {impactCards.map((card, index) => (
+            <article key={card.title} className="relative group h-full">
               {/* glow */}
-              <div className="pointer-events-none absolute inset-0 rounded-[24px] bg-gradient-to-br from-softodev-primary/14 via-softodev-primary/0 to-emerald-400/16 opacity-0 blur-xl transition-opacity duration-300 group-hover:opacity-100" />
+              <div className="pointer-events-none absolute inset-0 rounded-[24px] bg-gradient-to-br from-softodev-primary/16 via-softodev-primary/0 to-emerald-400/20 opacity-0 blur-xl transition-opacity duration-300 group-hover:opacity-100" />
 
-              <div className="relative h-full rounded-[24px] border border-softodev-border/80 bg-gradient-to-b from-white via-softodev-surface to-softodev-bg/80 shadow-[0_18px_45px_rgba(15,23,42,0.12)] p-5 sm:p-6 overflow-hidden">
+              <div className="relative h-full rounded-[24px] border border-softodev-border/80 bg-gradient-to-b from-white via-softodev-surface to-softodev-bg/85 shadow-[0_18px_45px_rgba(15,23,42,0.14)] p-5 sm:p-6 overflow-hidden">
+                {/* small index badge */}
+                <div className="mb-2 flex items-center justify-between text-[11px] text-softodev-muted">
+                  <span className="inline-flex items-center gap-1 rounded-full bg-softodev-primarySoft/60 px-2 py-0.5 text-[10px] font-medium text-softodev-primary">
+                    {isArabic ? "نقطة قوة" : "Advantage"}{" "}
+                    <span>{index + 1}</span>
+                  </span>
+                </div>
+
                 <h3 className="text-sm sm:text-base font-semibold text-softodev-text">
                   {card.title}
                 </h3>
@@ -210,10 +232,12 @@ export function HomeImpactSection({ locale }: HomeImpactSectionProps) {
                   ))}
                 </ul>
 
-                {/* زر أنيق بدل رابط مع خط */}
+                {/* CTA */}
                 <a
                   href="https://wa.me/905015954826"
-                  className="mt-4 inline-flex items-center gap-1.5 rounded-full border border-softodev-primary/40 bg-softodev-primarySoft/50 px-3.5 py-1.5 text-[11px] sm:text-[12px] font-semibold text-softodev-primary hover:bg-softodev-primary hover:text-white transition-colors"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-4 inline-flex items-center gap-1.5 rounded-full border border-softodev-primary/40 bg-softodev-primarySoft/60 px-3.5 py-1.5 text-[11px] sm:text-[12px] font-semibold text-softodev-primary hover:bg-softodev-primary hover:text-white transition-colors"
                 >
                   {isArabic
                     ? "اسألنا كيف نطبّق هذا في مشروعك"

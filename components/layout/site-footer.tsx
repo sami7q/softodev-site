@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import type { ReactNode } from "react";
 
 type Locale = "ar" | "en" | string;
 
@@ -70,23 +71,7 @@ export function SiteFooter({ locale }: { locale: Locale }) {
           {/* Brand + mini form */}
           <div className={isRTL ? "text-right" : "text-left"}>
             {/* Brand – لوغو فقط بدون مربع، بحجم أكبر */}
-            <div className="flex items-center mb-3 justify-start">
-              <div className="flex items-center h-9 sm:h-10">
-                <Image
-                  src="/logo/logo.png"
-                  alt="SoftoDev logo"
-                  width={140}
-                  height={40}
-                  className="h-8 sm:h-9 w-auto object-contain"
-                />
-              </div>
-            </div>
-
-            <p className="text-xs sm:text-sm text-white/80 leading-relaxed mb-4 max-w-md">
-              {isRTL
-                ? "نطوّر مواقع، متاجر وأنظمة إدارة بسيطة وسريعة لسوق الخليج والعراق، مع تركيز على الأداء وتجربة المستخدم."
-                : "We build clean, fast websites, stores, and management systems for the GCC & Iraq market, with a focus on performance and UX."}
-            </p>
+            
 
             {/* mini contact form – صغير ومرتب */}
             <div className="rounded-2xl bg-white/6 border border-white/12 p-4 sm:p-5 shadow-soft max-w-md">
@@ -96,7 +81,7 @@ export function SiteFooter({ locale }: { locale: Locale }) {
 
               <form
                 className="space-y-3"
-                action="mailto:sami22eng@gmail.com"
+                action="info@softodev.net"
                 method="POST"
                 encType="text/plain"
               >
@@ -112,7 +97,9 @@ export function SiteFooter({ locale }: { locale: Locale }) {
                       required
                       autoComplete="name"
                       placeholder={
-                        isRTL ? "مثال: أحمد من الرياض" : "e.g. Ahmed from Riyadh"
+                        isRTL
+                          ? "مثال: أحمد – صاحب مشروع"
+                          : "e.g. Ahmed – business owner"
                       }
                       className="w-full rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 text-[11px] text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-softodev-primary/70"
                     />
@@ -223,29 +210,127 @@ export function SiteFooter({ locale }: { locale: Locale }) {
         </div>
 
         {/* الشريط السفلي */}
-        <div className="pt-4 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-3 text-[11px] sm:text-xs text-white/60">
+        <div
+          className={`pt-4 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-3 text-[11px] sm:text-xs text-white/60 ${
+            isRTL ? "sm:flex-row-reverse" : ""
+          }`}
+        >
           <div>
             © {new Date().getFullYear()} SoftoDev.{" "}
             {isRTL ? "كل الحقوق محفوظة." : "All rights reserved."}
           </div>
 
-          <div className="flex items-center gap-2">
-            <Link
-              href={`/${locale}/privacy`}
-              className="hover:text-white transition"
-            >
-              {isRTL ? "الخصوصية" : "Privacy"}
-            </Link>
+          <div className="flex items-center gap-4">
+            <div className="flex items-center gap-2">
+              <Link
+                href={`/${locale}/privacy`}
+                className="hover:text-white transition"
+              >
+                {isRTL ? "الخصوصية" : "Privacy"}
+              </Link>
             <span>•</span>
-            <Link
-              href={`/${locale}/terms`}
-              className="hover:text-white transition"
-            >
-              {isRTL ? "الشروط" : "Terms"}
-            </Link>
+              <Link
+                href={`/${locale}/terms`}
+                className="hover:text-white transition"
+              >
+                {isRTL ? "الشروط" : "Terms"}
+              </Link>
+            </div>
+
+            {/* Social icons – بدون روابط الآن */}
+            <div className="flex items-center gap-2">
+              <span className="text-[10px] sm:text-[11px] text-white/60">
+                {isRTL ? "تابعنا" : "Follow us"}
+              </span>
+              <SocialIcon
+                label="Facebook"
+                ariaLabel={isRTL ? "صفحة فيسبوك" : "Facebook page"}
+              >
+                <FacebookIcon className="h-3.5 w-3.5" />
+              </SocialIcon>
+              <SocialIcon
+                label="LinkedIn"
+                ariaLabel={isRTL ? "صفحة لينكدإن" : "LinkedIn page"}
+              >
+                <LinkedInIcon className="h-3.5 w-3.5" />
+              </SocialIcon>
+              <SocialIcon
+                label="Instagram"
+                ariaLabel={isRTL ? "حساب إنستغرام" : "Instagram account"}
+              >
+                <InstagramIcon className="h-3.5 w-3.5" />
+              </SocialIcon>
+            </div>
           </div>
         </div>
       </div>
     </footer>
+  );
+}
+
+type SocialIconProps = {
+  label: string;
+  ariaLabel?: string;
+  children: ReactNode;
+};
+
+function SocialIcon({ label, ariaLabel, children }: SocialIconProps) {
+  return (
+    <button
+      type="button"
+      aria-label={ariaLabel ?? label}
+      className="
+        inline-flex h-8 w-8 items-center justify-center
+        rounded-full border border-white/20 bg-white/5
+        text-white/80 hover:text-white hover:border-white/70
+        shadow-sm hover:shadow-md transition-transform transition-colors
+        active:scale-95
+      "
+    >
+      {children}
+    </button>
+  );
+}
+
+/* ====== SVG Icons ====== */
+
+function FacebookIcon(props: React.SVGProps<SVGSVGElement>) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" {...props}>
+      <path
+        d="M14 8h2.5a1 1 0 0 0 1-1V5a1 1 0 0 0-1-1H14a4 4 0 0 0-4 4v3H8a1 1 0 0 0-1 1v2.1a1 1 0 0 0 1 1H10v5.2a1 1 0 0 0 1 1h2.1a1 1 0 0 0 1-1V14.1h2.1a1 1 0 0 0 1-1V11a1 1 0 0 0-1-1H14V8Z"
+        fill="currentColor"
+      />
+    </svg>
+  );
+}
+
+function LinkedInIcon(props: React.SVGProps<SVGSVGElement>) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" {...props}>
+      <path
+        d="M6 5.5A2 2 0 1 1 2 5.5a2 2 0 0 1 4 0Zm.2 4.1H2.8a.8.8 0 0 0-.8.8v8.1a.8.8 0 0 0 .8.8h3.4a.8.8 0 0 0 .8-.8v-8.1a.8.8 0 0 0-.8-.8Zm4.6 0H8.1a.8.8 0 0 0-.8.8v8.1a.8.8 0 0 0 .8.8h2.7a.8.8 0 0 0 .8-.8v-4.3c0-1.3.7-2.1 1.8-2.1 1 0 1.6.6 1.6 2.1v4.3a.8.8 0 0 0 .8.8h2.7a.8.8 0 0 0 .8-.8v-5.1c0-3-1.6-4.6-4.1-4.6-1.8 0-2.6.9-3.1 1.6h-.1l-.1-1.2a.8.8 0 0 0-.8-.7Z"
+        fill="currentColor"
+      />
+    </svg>
+  );
+}
+
+function InstagramIcon(props: React.SVGProps<SVGSVGElement>) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" {...props}>
+      <rect
+        x={3}
+        y={3}
+        width={18}
+        height={18}
+        rx={5}
+        ry={5}
+        stroke="currentColor"
+        strokeWidth={1.4}
+      />
+      <circle cx={12} cy={12} r={4} stroke="currentColor" strokeWidth={1.4} />
+      <circle cx={17} cy={7} r={1.1} fill="currentColor" />
+    </svg>
   );
 }
