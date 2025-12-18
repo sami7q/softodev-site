@@ -85,13 +85,13 @@ export function HomeServicesSection({ locale }: HomeServicesSectionProps) {
           dir={isArabic ? "rtl" : "ltr"}
         >
           <p className="text-[11px] sm:text-xs font-semibold tracking-[0.25em] uppercase text-softodev-muted">
-            {isArabic ? "خدماتنا" : "OUR SERVICES"}
+            {isArabic ? "خدماتنا" : ""}
           </p>
 
           <h2 className="mt-2 text-xl sm:text-2xl lg:text-3xl font-semibold text-softodev-text">
             {isArabic
-              ? "3 خدمات للمطاعم والكافيهات"
-              : "3 services for restaurants & cafés"}
+              ? "خدمات softodev الأساسية"
+              : "Our serveses "}
           </h2>
 
           <p className="mt-3 text-sm sm:text-base text-softodev-muted">
