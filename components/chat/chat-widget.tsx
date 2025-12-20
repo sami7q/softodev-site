@@ -28,6 +28,8 @@ const WHATSAPP_NUMBER =
 
 const STORAGE_KEY = "softodev_chat_history_v1";
 
+const PANEL_ID = "softodev-chat-panel";
+
 function uid() {
   return Math.random().toString(36).slice(2);
 }
@@ -191,7 +193,7 @@ function detectIntent(q: string) {
 
 function hardcodedReply(
   input: string,
-  locale: Locale
+  locale: Locale,
 ): { text: string; actions?: ChatAction[] } {
   const isEn = locale === "en";
   const t = isEn ? COPY.en : COPY.ar;
@@ -212,7 +214,7 @@ function hardcodedReply(
             href: buildWhatsappLink(
               isEn
                 ? "Hi SoftoDev, I want to build a project. My request is:"
-                : "مرحباً SoftoDev، أريد تنفيذ مشروع. طلبي هو:"
+                : "مرحباً SoftoDev، أريد تنفيذ مشروع. طلبي هو:",
             ),
           },
           {
@@ -270,7 +272,7 @@ function hardcodedReply(
             href: buildWhatsappLink(
               isEn
                 ? "Hi SoftoDev, I need a landing page. My business is:"
-                : "مرحباً SoftoDev، أريد صفحة هبوط. طبيعة عملي:"
+                : "مرحباً SoftoDev، أريد صفحة هبوط. طبيعة عملي:",
             ),
           },
         ],
@@ -316,7 +318,7 @@ function hardcodedReply(
             href: buildWhatsappLink(
               isEn
                 ? "Hi SoftoDev, I want an e-commerce store. My products are:"
-                : "مرحباً SoftoDev، أريد متجر إلكتروني. نوع المنتجات:"
+                : "مرحباً SoftoDev، أريد متجر إلكتروني. نوع المنتجات:",
             ),
           },
         ],
@@ -341,7 +343,7 @@ function hardcodedReply(
             href: buildWhatsappLink(
               isEn
                 ? "Hi SoftoDev, I need a management system/MVP. My idea is:"
-                : "مرحباً SoftoDev، أحتاج نظام إدارة/MVP. فكرتي هي:"
+                : "مرحباً SoftoDev، أحتاج نظام إدارة/MVP. فكرتي هي:",
             ),
           },
         ],
@@ -364,11 +366,11 @@ export default function ChatWidget({ mode = "hardcoded" }: { mode?: ChatMode }) 
   const isRTL = locale === "ar";
   const t = isRTL ? COPY.ar : COPY.en;
 
-  // نفس المنطق القديم: الويدجت ينعكس حسب اللغة
   const floatingSideClass = isRTL ? "left-5" : "right-5";
   const panelSideClass = floatingSideClass;
 
   const [open, setOpen] = useState(false);
+  const [mounted, setMounted] = useState(false); // ✅ keep DOM for close animation
   const [input, setInput] = useState("");
   const [isSending, setIsSending] = useState(false);
   const [unread, setUnread] = useState(0);
@@ -397,6 +399,18 @@ export default function ChatWidget({ mode = "hardcoded" }: { mode?: ChatMode }) 
 
   const faqs = useMemo(() => t.faqs, [t]);
 
+  // ✅ mount/unmount panel to avoid aria-hidden + focusables issue
+  useEffect(() => {
+    if (open) setMounted(true);
+  }, [open]);
+
+  useEffect(() => {
+    if (!open && mounted) {
+      const timer = setTimeout(() => setMounted(false), 220); // matches transition duration
+      return () => clearTimeout(timer);
+    }
+  }, [open, mounted]);
+
   // Persist history per locale
   useEffect(() => {
     try {
@@ -421,6 +435,15 @@ export default function ChatWidget({ mode = "hardcoded" }: { mode?: ChatMode }) 
     }
   }, [open]);
 
+  // close on ESC
+  useEffect(() => {
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setOpen(false);
+    };
+    if (open) window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [open]);
+
   function pushBotMessage(msg: Omit<Message, "id" | "ts">) {
     const botMsg: Message = { id: uid(), ts: Date.now(), ...msg };
     setMessages((prev) => [...prev, botMsg]);
@@ -442,7 +465,6 @@ export default function ChatWidget({ mode = "hardcoded" }: { mode?: ChatMode }) 
 
     if (mode === "hardcoded") {
       setIsSending(true);
-      // artificial short typing delay
       setTimeout(() => {
         const reply = hardcodedReply(text, locale);
         pushBotMessage({
@@ -455,7 +477,6 @@ export default function ChatWidget({ mode = "hardcoded" }: { mode?: ChatMode }) 
       return;
     }
 
-    // AI mode
     try {
       setIsSending(true);
       const aiReply = await sendChatToAI({
@@ -481,9 +502,7 @@ export default function ChatWidget({ mode = "hardcoded" }: { mode?: ChatMode }) 
             label: isRTL ? "واتساب" : "WhatsApp",
             kind: "whatsapp",
             href: buildWhatsappLink(
-              isRTL
-                ? "مرحباً SoftoDev، لدي سؤال:"
-                : "Hi SoftoDev, I have a question:"
+              isRTL ? "مرحباً SoftoDev، لدي سؤال:" : "Hi SoftoDev, I have a question:",
             ),
           },
         ],
@@ -503,16 +522,19 @@ export default function ChatWidget({ mode = "hardcoded" }: { mode?: ChatMode }) 
     window.open(action.href, "_blank", "noopener,noreferrer");
   }
 
+  const interactionDisabled = !open; // ✅ when closing/closed (but mounted), disable focus
+
   return (
     <div dir={isRTL ? "rtl" : "ltr"} className="fixed z-[9999]">
-      {/* Floating button – نفس مكانه القديم لكن أصغر */}      
+      {/* Floating button */}
       <button
         aria-label="Open chat"
+        aria-expanded={open}
+        aria-controls={PANEL_ID}
         onClick={() => setOpen((v) => !v)}
         className={[
           "fixed bottom-5",
           floatingSideClass,
-          // 👇 هنا التصغير فقط
           "h-10 w-10 sm:h-11 sm:w-11",
           "rounded-full shadow-soft",
           "bg-softodev-primary text-white hover:bg-softodev-primaryDark",
@@ -521,7 +543,6 @@ export default function ChatWidget({ mode = "hardcoded" }: { mode?: ChatMode }) 
           unread > 0 ? "animate-pulse" : "",
         ].join(" ")}
       >
-        {/* icon */}
         <svg
           width="18"
           height="18"
@@ -541,7 +562,6 @@ export default function ChatWidget({ mode = "hardcoded" }: { mode?: ChatMode }) 
           <circle cx="15.5" cy="12" r="1" fill="currentColor" />
         </svg>
 
-        {/* unread badge */}
         {unread > 0 && (
           <span className="absolute -top-1 -right-1 min-w-5 h-5 px-1 rounded-full bg-red-600 text-white text-[10px] grid place-items-center">
             {unread}
@@ -549,157 +569,165 @@ export default function ChatWidget({ mode = "hardcoded" }: { mode?: ChatMode }) 
         )}
       </button>
 
-      {/* Chat window */}
-      <div
-        className={[
-          "fixed bottom-24",
-          panelSideClass,
-          "w-[330px] sm:w-[360px]",
-          "h-[480px] max-h-[70vh]",
-          "bg-softodev-surface rounded-2xl shadow-2xl border border-softodev-border",
-          "flex flex-col overflow-hidden",
-          "transition-all duration-200 ease-out",
-          open
-            ? "opacity-100 translate-y-0 pointer-events-auto"
-            : "opacity-0 translate-y-3 pointer-events-none",
-        ].join(" ")}
-        aria-hidden={!open}
-      >
-        {/* Header */}
-        <div className="flex items-center justify-between px-4 py-3 bg-softodev-surfaceStrong border-b border-softodev-border">
-          <div className="font-semibold text-softodev-text">{t.title}</div>
-          <button
-            aria-label="Close chat"
-            onClick={() => setOpen(false)}
-            className="text-softodev-muted hover:text-softodev-text"
-          >
-            ✕
-          </button>
-        </div>
-
-        {/* Quick FAQ buttons */}
-        <div className="px-3 py-2 border-b border-softodev-border bg-softodev-surface">
-          <div className="text-xs font-medium text-softodev-muted mb-2">
-            {t.quickTitle}
-          </div>
-          <div className="flex flex-wrap gap-2">
-            {faqs.map((f) => (
-              <button
-                key={f.id}
-                onClick={() => handleSend(f.userText)}
-                className="text-xs px-3 py-1.5 rounded-full bg-softodev-bg hover:bg-softodev-surfaceStrong text-softodev-text border border-softodev-border/60 transition"
-              >
-                {f.label}
-              </button>
-            ))}
-          </div>
-        </div>
-
-        {/* Messages */}
+      {/* Chat window (mounted only when opening/closing) */}
+      {mounted && (
         <div
-          ref={scrollRef}
-          className="flex-1 overflow-y-auto px-3 py-3 space-y-3 bg-softodev-surface"
+          id={PANEL_ID}
+          role="dialog"
+          aria-modal="true"
+          aria-label={t.title}
+          className={[
+            "fixed bottom-24",
+            panelSideClass,
+            "w-[330px] sm:w-[360px]",
+            "h-[480px] max-h-[70vh]",
+            "bg-softodev-surface rounded-2xl shadow-2xl border border-softodev-border",
+            "flex flex-col overflow-hidden",
+            "transition-all duration-200 ease-out",
+            open
+              ? "opacity-100 translate-y-0 pointer-events-auto"
+              : "opacity-0 translate-y-3 pointer-events-none",
+          ].join(" ")}
         >
-          {messages.map((m) => {
-            const isUser = m.role === "user";
-            return (
-              <div
-                key={m.id}
-                className={[
-                  "flex",
-                  isUser
-                    ? isRTL
-                      ? "justify-start"
-                      : "justify-end"
-                    : isRTL
-                    ? "justify-end"
-                    : "justify-start",
-                ].join(" ")}
-              >
-                <div
-                  className={[
-                    "max-w-[85%] rounded-2xl px-3 py-2 text-sm leading-relaxed",
-                    isUser
-                      ? "bg-softodev-primary text-white"
-                      : "bg-softodev-bg text-softodev-text border border-softodev-border/70",
-                  ].join(" ")}
-                >
-                  <div className="whitespace-pre-wrap">{m.content}</div>
-
-                  {m.actions && m.actions.length > 0 && (
-                    <div className="mt-2 flex flex-wrap gap-2">
-                      {m.actions.map((a, idx) => (
-                        <button
-                          key={idx}
-                          onClick={() => onActionClick(a)}
-                          className={[
-                            "text-xs px-2.5 py-1 rounded-full",
-                            a.kind === "whatsapp"
-                              ? "bg-green-600 text-white hover:bg-green-700"
-                              : "bg-softodev-surface text-softodev-text border border-softodev-border hover:bg-softodev-bg",
-                          ].join(" ")}
-                        >
-                          {a.label}
-                        </button>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              </div>
-            );
-          })}
-
-          {isSending && (
-            <div
-              className={[
-                "flex",
-                isRTL ? "justify-end" : "justify-start",
-              ].join(" ")}
-            >
-              <div className="bg-softodev-bg text-softodev-muted rounded-2xl px-3 py-2 text-sm border border-softodev-border/70">
-                {isRTL ? "يكتب..." : "Typing..."}
-              </div>
-            </div>
-          )}
-        </div>
-
-        {/* Input */}
-        <div className="p-3 border-t border-softodev-border bg-softodev-surface">
-          <div className="flex items-center gap-2">
-            <input
-              ref={inputRef}
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              placeholder={t.placeholder}
-              className="flex-1 h-10 rounded-xl border border-softodev-border px-3 text-sm outline-none focus:ring-2 focus:ring-softodev-primarySoft"
-              onKeyDown={(e) => {
-                if (e.key === "Enter") {
-                  e.preventDefault();
-                  handleSend();
-                }
-              }}
-              disabled={isSending}
-            />
+          {/* Header */}
+          <div className="flex items-center justify-between px-4 py-3 bg-softodev-surfaceStrong border-b border-softodev-border">
+            <div className="font-semibold text-softodev-text">{t.title}</div>
             <button
-              onClick={() => handleSend()}
-              disabled={!input.trim() || isSending}
-              className="h-10 px-4 rounded-xl bg-softodev-primary text-white text-sm font-medium disabled:opacity-50 hover:bg-softodev-primaryDark transition"
+              aria-label="Close chat"
+              onClick={() => setOpen(false)}
+              disabled={interactionDisabled}
+              tabIndex={interactionDisabled ? -1 : 0}
+              className="text-softodev-muted hover:text-softodev-text disabled:opacity-50"
             >
-              {t.send}
+              ✕
             </button>
           </div>
 
-          <div className="mt-1 text-[11px] text-softodev-muted">
-            {mode === "ai"
-              ? isRTL
-                ? "الإجابات مولّدة بالذكاء الاصطناعي وقد تحتاج لتأكيد."
-                : "Replies are AI-generated and may need confirmation."
-              : isRTL
-              ? "إصدار تجريبي (FAQ)."
-              : "Beta FAQ version."}
+          {/* Quick FAQ buttons */}
+          <div className="px-3 py-2 border-b border-softodev-border bg-softodev-surface">
+            <div className="text-xs font-medium text-softodev-muted mb-2">
+              {t.quickTitle}
+            </div>
+            <div className="flex flex-wrap gap-2">
+              {faqs.map((f) => (
+                <button
+                  key={f.id}
+                  onClick={() => handleSend(f.userText)}
+                  disabled={interactionDisabled || isSending}
+                  tabIndex={interactionDisabled ? -1 : 0}
+                  className="text-xs px-3 py-1.5 rounded-full bg-softodev-bg hover:bg-softodev-surfaceStrong text-softodev-text border border-softodev-border/60 transition disabled:opacity-50"
+                >
+                  {f.label}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Messages */}
+          <div
+            ref={scrollRef}
+            className="flex-1 overflow-y-auto px-3 py-3 space-y-3 bg-softodev-surface"
+          >
+            {messages.map((m) => {
+              const isUser = m.role === "user";
+              return (
+                <div
+                  key={m.id}
+                  className={[
+                    "flex",
+                    isUser
+                      ? isRTL
+                        ? "justify-start"
+                        : "justify-end"
+                      : isRTL
+                      ? "justify-end"
+                      : "justify-start",
+                  ].join(" ")}
+                >
+                  <div
+                    className={[
+                      "max-w-[85%] rounded-2xl px-3 py-2 text-sm leading-relaxed",
+                      isUser
+                        ? "bg-softodev-primary text-white"
+                        : "bg-softodev-bg text-softodev-text border border-softodev-border/70",
+                    ].join(" ")}
+                  >
+                    <div className="whitespace-pre-wrap">{m.content}</div>
+
+                    {m.actions && m.actions.length > 0 && (
+                      <div className="mt-2 flex flex-wrap gap-2">
+                        {m.actions.map((a, idx) => (
+                          <button
+                            key={idx}
+                            onClick={() => onActionClick(a)}
+                            disabled={interactionDisabled}
+                            tabIndex={interactionDisabled ? -1 : 0}
+                            className={[
+                              "text-xs px-2.5 py-1 rounded-full disabled:opacity-50",
+                              a.kind === "whatsapp"
+                                ? "bg-green-600 text-white hover:bg-green-700"
+                                : "bg-softodev-surface text-softodev-text border border-softodev-border hover:bg-softodev-bg",
+                            ].join(" ")}
+                          >
+                            {a.label}
+                          </button>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                </div>
+              );
+            })}
+
+            {isSending && (
+              <div className={["flex", isRTL ? "justify-end" : "justify-start"].join(" ")}>
+                <div className="bg-softodev-bg text-softodev-muted rounded-2xl px-3 py-2 text-sm border border-softodev-border/70">
+                  {isRTL ? "يكتب..." : "Typing..."}
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Input */}
+          <div className="p-3 border-t border-softodev-border bg-softodev-surface">
+            <div className="flex items-center gap-2">
+              <input
+                ref={inputRef}
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                placeholder={t.placeholder}
+                className="flex-1 h-10 rounded-xl border border-softodev-border px-3 text-sm outline-none focus:ring-2 focus:ring-softodev-primarySoft disabled:opacity-60"
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    e.preventDefault();
+                    handleSend();
+                  }
+                }}
+                disabled={interactionDisabled || isSending}
+                tabIndex={interactionDisabled ? -1 : 0}
+              />
+              <button
+                onClick={() => handleSend()}
+                disabled={interactionDisabled || !input.trim() || isSending}
+                tabIndex={interactionDisabled ? -1 : 0}
+                className="h-10 px-4 rounded-xl bg-softodev-primary text-white text-sm font-medium disabled:opacity-50 hover:bg-softodev-primaryDark transition"
+              >
+                {t.send}
+              </button>
+            </div>
+
+            <div className="mt-1 text-[11px] text-softodev-muted">
+              {mode === "ai"
+                ? isRTL
+                  ? "الإجابات مولّدة بالذكاء الاصطناعي وقد تحتاج لتأكيد."
+                  : "Replies are AI-generated and may need confirmation."
+                : isRTL
+                ? "إصدار تجريبي (FAQ)."
+                : "Beta FAQ version."}
+            </div>
           </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }

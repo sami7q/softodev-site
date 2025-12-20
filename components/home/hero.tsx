@@ -87,33 +87,42 @@ export function HomeHero({ locale }: HomeHeroProps) {
           <div className="w-full max-w-xl flex flex-col sm:flex-row-reverse sm:items-center sm:justify-center gap-2.5 sm:gap-3">
             <a
               href="https://wa.me/905015954826"
-              className="w-full sm:w-auto inline-flex items-center justify-center rounded-full bg-softodev-primary px-4 py-1.5 sm:px-5 sm:py-2 text-xs sm:text-sm font-semibold text-white shadow-soft hover:bg-blue-700 transition-transform hover:-translate-y-0.5"
+              className="
+                w-full sm:w-auto inline-flex items-center justify-center
+                rounded-full bg-softodev-primary
+                px-4 py-1.5 sm:px-5 sm:py-2
+                text-xs sm:text-sm font-semibold text-white
+                shadow-soft hover:bg-softodev-primaryDark
+                transition-transform hover:-translate-y-0.5
+                focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-softodev-primarySoft
+              "
             >
               {isArabic ? "ابدأ على واتساب" : "Start on WhatsApp"}
             </a>
 
+            {/* ✅ Fix contrast: اجعل الأخضر أغمق */}
             <a
               href="https://cal.com/mohamad-shahm-r8bipu/30min"
               target="_blank"
-              rel="noreferrer"
+              rel="noreferrer noopener"
               className="
                 w-full sm:w-auto inline-flex items-center justify-center gap-2
-                rounded-full bg-emerald-500
+                rounded-full bg-emerald-700
                 px-4 py-1.5 sm:px-5 sm:py-2
                 text-xs sm:text-sm font-semibold text-white
-                shadow-soft hover:bg-emerald-600
+                shadow-soft hover:bg-emerald-800
                 transition-transform hover:-translate-y-0.5
+                focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-300
               "
             >
               <span className="relative flex h-6 w-6 sm:h-7 sm:w-7 items-center justify-center overflow-hidden rounded-full bg-white/10 ring-2 ring-white/60">
-                {/* ✅ بدل img: هذا سيقدّم نسخة مصغرة بدل تحميل PNG الكبير */}
                 <Image
                   src="/shahm/Shahm.png"
                   alt="Shahm"
                   fill
                   sizes="28px"
                   className="object-cover"
-                  quality={70}
+                  quality={75}
                 />
               </span>
 

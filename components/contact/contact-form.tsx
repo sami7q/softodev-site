@@ -103,9 +103,7 @@ export function ContactForm({ locale }: ContactFormProps) {
 
     const text =
       intro +
-      (isArabic
-        ? `الاسم: ${name || "-"}\n`
-        : `Name: ${name || "-"}\n`) +
+      (isArabic ? `الاسم: ${name || "-"}\n` : `Name: ${name || "-"}\n`) +
       (isArabic
         ? `البريد الإلكتروني: ${email || "-"}\n`
         : `Email: ${email || "-"}\n`) +
@@ -123,6 +121,13 @@ export function ContactForm({ locale }: ContactFormProps) {
     window.open(url, "_blank");
   }
 
+  // ✅ IDs ثابتة وربط labels معها (حل Lighthouse)
+  const nameId = "contact_full_name";
+  const emailId = "contact_email";
+  const whatsappId = "contact_whatsapp";
+  const projectTypeId = "contact_project_type";
+  const messageId = "contact_message";
+
   return (
     <form
       onSubmit={handleSubmit}
@@ -130,70 +135,83 @@ export function ContactForm({ locale }: ContactFormProps) {
     >
       <div className="grid gap-3 md:grid-cols-2">
         <div className={align}>
-          <label className="mb-1 block text-xs font-semibold text-softodev-text">
+          <label
+            htmlFor={nameId}
+            className="mb-1 block text-xs font-semibold text-softodev-text"
+          >
             {isArabic ? "الاسم الكامل" : "Full name"}
           </label>
           <input
+            id={nameId}
             name="name"
             type="text"
             value={formState.name}
             onChange={handleChange}
             className="w-full rounded-2xl border border-softodev-border/80 bg-gray-50 px-3 py-2 text-xs outline-none ring-0 focus:border-softodev-primary focus:bg-white"
             placeholder={isArabic ? "مثال: أحمد محمد" : "e.g. Ahmed Mohammed"}
+            autoComplete="name"
           />
         </div>
+
         <div className={align}>
-          <label className="mb-1 block text-xs font-semibold text-softodev-text">
+          <label
+            htmlFor={emailId}
+            className="mb-1 block text-xs font-semibold text-softodev-text"
+          >
             {isArabic ? "البريد الإلكتروني" : "Email"}
           </label>
           <input
+            id={emailId}
             name="email"
             type="email"
             value={formState.email}
             onChange={handleChange}
             className="w-full rounded-2xl border border-softodev-border/80 bg-gray-50 px-3 py-2 text-xs outline-none ring-0 focus:border-softodev-primary focus:bg-white"
             placeholder="info@softodev.net"
+            autoComplete="email"
           />
         </div>
       </div>
 
       <div className={`mt-3 ${align}`}>
-        <label className="mb-1 block text-xs font-semibold text-softodev-text">
+        <label
+          htmlFor={whatsappId}
+          className="mb-1 block text-xs font-semibold text-softodev-text"
+        >
           {isArabic ? "رقم الواتساب (اختياري)" : "WhatsApp number (optional)"}
         </label>
         <input
+          id={whatsappId}
           name="whatsapp"
           type="tel"
           value={formState.whatsapp}
           onChange={handleChange}
           className="w-full rounded-2xl border border-softodev-border/80 bg-gray-50 px-3 py-2 text-xs outline-none ring-0 focus:border-softodev-primary focus:bg-white"
           placeholder={isArabic ? "+966..." : "+966... or +90..."}
+          autoComplete="tel"
         />
       </div>
 
       <div className={`mt-3 ${align}`}>
-        <label className="mb-1 block text-xs font-semibold text-softodev-text">
+        <label
+          htmlFor={projectTypeId}
+          className="mb-1 block text-xs font-semibold text-softodev-text"
+        >
           {isArabic ? "نوع المشروع" : "Project type"}
         </label>
+
         <select
+          id={projectTypeId}
           name="projectType"
           value={formState.projectType}
           onChange={handleChange}
           className="w-full rounded-2xl border border-softodev-border/80 bg-gray-50 px-3 py-2 text-xs outline-none ring-0 focus:border-softodev-primary focus:bg-white"
         >
-          <option value="landing">
-            {isArabic ? "صفحة هبوط" : "Landing page"}
-          </option>
-          <option value="store">
-            {isArabic ? "متجر إلكتروني" : "Online store"}
-          </option>
-          <option value="website">
-            {isArabic ? "موقع تعريفي كامل" : "Full website"}
-          </option>
+          <option value="landing">{isArabic ? "صفحة هبوط" : "Landing page"}</option>
+          <option value="store">{isArabic ? "متجر إلكتروني" : "Online store"}</option>
+          <option value="website">{isArabic ? "موقع تعريفي كامل" : "Full website"}</option>
           <option value="system">
-            {isArabic
-              ? "نظام برمجي / نظام إدارة"
-              : "Business / management system"}
+            {isArabic ? "نظام برمجي / نظام إدارة" : "Business / management system"}
           </option>
           <option value="marketing">
             {isArabic ? "خدمات التسويق الرقمي" : "Digital marketing services"}
@@ -204,17 +222,19 @@ export function ContactForm({ locale }: ContactFormProps) {
           <option value="ai-bot">
             {isArabic ? "بوت ذكاء اصطناعي للموقع" : "AI bot for website"}
           </option>
-          <option value="other">
-            {isArabic ? "مشروع آخر" : "Other project"}
-          </option>
+          <option value="other">{isArabic ? "مشروع آخر" : "Other project"}</option>
         </select>
       </div>
 
       <div className={`mt-3 ${align}`}>
-        <label className="mb-1 block text-xs font-semibold text-softodev-text">
+        <label
+          htmlFor={messageId}
+          className="mb-1 block text-xs font-semibold text-softodev-text"
+        >
           {isArabic ? "وصف مختصر للمشروع" : "Short project description"}
         </label>
         <textarea
+          id={messageId}
           name="message"
           rows={4}
           value={formState.message}
@@ -228,13 +248,12 @@ export function ContactForm({ locale }: ContactFormProps) {
         />
       </div>
 
-      {/* CTA buttons – نسخة أنعم للموبايل واللابتوب مع شعار واتساب صغير */}
+      {/* CTA buttons */}
       <div
         className={`mt-4 flex flex-col sm:flex-row sm:flex-wrap gap-2 ${
           isArabic ? "sm:justify-end" : "sm:justify-start"
         }`}
       >
-        {/* زر الإرسال عبر واتساب – فل وِدث على الموبايل، صغير على الديسكتوب */}
         <button
           type="submit"
           className={`
@@ -253,13 +272,10 @@ export function ContactForm({ locale }: ContactFormProps) {
             W
           </span>
           <span className="truncate">
-            {isArabic
-              ? "إرسال الطلب عبر الواتساب"
-              : "Send request on WhatsApp"}
+            {isArabic ? "إرسال الطلب عبر الواتساب" : "Send request on WhatsApp"}
           </span>
         </button>
 
-        {/* زر فتح المحادثة – فل وِدث تحت، أرفع شوي كـ ثانوي */}
         <a
           href="https://wa.me/905015954826"
           target="_blank"
