@@ -1,18 +1,14 @@
+"use client";
+
 import Link from "next/link";
-import type { ReactNode } from "react";
+import type { ReactNode, FormEvent } from "react";
 
 type Locale = "ar" | "en" | string;
-
-type FooterItem = {
-  label: string;
-  href: string;
-  external?: boolean;
-};
 
 export function SiteFooter({ locale }: { locale: Locale }) {
   const isRTL = locale === "ar";
 
-  const cols: { title: string; items: FooterItem[] }[] = [
+  const cols = [
     {
       title: isRTL ? "الخدمات" : "Services",
       items: [
@@ -36,64 +32,72 @@ export function SiteFooter({ locale }: { locale: Locale }) {
       items: [
         { label: isRTL ? "واتساب" : "WhatsApp", href: "https://wa.me/905015954826", external: true },
         { label: isRTL ? "اتصال هاتفي" : "Call", href: "tel:+905015954826", external: true },
-        { label: "sami22eng@gmail.com", href: "mailto:sami22eng@gmail.com", external: true },
-      ],
+        { label: "info@softodev.net", href: "https://mail.google.com/mail/?view=cm&fs=1&to=info@softodev.net", external: true },
+      ] as any,
     },
   ];
 
-  // ✅ ids للـ accessibility (label -> input/select/textarea)
-  const nameId = "footer-qf-name";
-  const emailId = "footer-qf-email";
-  const projectTypeId = "footer-qf-project-type";
-  const messageId = "footer-qf-message";
+  function onQuickFormSubmit(e: FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    const fd = new FormData(e.currentTarget);
+
+    const name = String(fd.get("name") ?? "");
+    const email = String(fd.get("email") ?? "");
+    const projectType = String(fd.get("project_type") ?? "");
+    const message = String(fd.get("message") ?? "");
+
+    const subject = isRTL ? "طلب تواصل سريع من موقع SoftoDev" : "Quick inquiry from SoftoDev website";
+    const body =
+      (isRTL ? "تفاصيل الطلب:\n" : "Inquiry details:\n") +
+      `${isRTL ? "الاسم" : "Name"}: ${name || "-"}\n` +
+      `${isRTL ? "البريد" : "Email"}: ${email || "-"}\n` +
+      `${isRTL ? "نوع المشروع" : "Project type"}: ${projectType || "-"}\n\n` +
+      `${isRTL ? "الرسالة" : "Message"}:\n${message || "-"}`;
+
+    // ✅ Gmail compose (HTTPS) بدل mailto (يحل Lighthouse)
+    const url =
+      `https://mail.google.com/mail/?view=cm&fs=1` +
+      `&to=${encodeURIComponent("info@softodev.net")}` +
+      `&su=${encodeURIComponent(subject)}` +
+      `&body=${encodeURIComponent(body)}`;
+
+    window.open(url, "_blank", "noopener,noreferrer");
+  }
 
   return (
-    <footer
-      className="border-t border-white/10 bg-softodev-primaryDark text-white"
-      dir={isRTL ? "rtl" : "ltr"}
-    >
+    <footer className="border-t border-white/10 bg-softodev-primaryDark text-white" dir={isRTL ? "rtl" : "ltr"}>
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-12 space-y-8">
         <div className="grid grid-cols-1 md:grid-cols-[minmax(0,1.4fr)_minmax(0,1.3fr)] gap-8">
           {/* Brand + mini form */}
           <div className={isRTL ? "text-right" : "text-left"}>
             <div className="rounded-2xl bg-white/6 border border-white/12 p-4 sm:p-5 shadow-soft max-w-md">
-              <div className="text-[11px] font-semibold mb-2 text-white/90">
+              <div className="text-[11px] font-semibold mb-2 text-white/80">
                 {isRTL ? "طلب تواصل سريع" : "Quick project inquiry"}
               </div>
 
-              {/* ✅ mailto بدل info@... */}
-              <form
-                className="space-y-3"
-                action="mailto:info@softodev.net"
-                method="POST"
-                encType="text/plain"
-              >
+              <form className="space-y-3" onSubmit={onQuickFormSubmit}>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <div className="space-y-1">
-                    {/* ✅ label مرتبط */}
-                    <label htmlFor={nameId} className="block text-[11px] text-white/80">
+                    <label htmlFor="q_name" className="block text-[11px] text-white/70">
                       {isRTL ? "الاسم" : "Name"}
                     </label>
                     <input
-                      id={nameId}
+                      id="q_name"
                       name="name"
                       type="text"
                       required
                       autoComplete="name"
-                      placeholder={
-                        isRTL ? "مثال: أحمد – صاحب مشروع" : "e.g. Ahmed – business owner"
-                      }
+                      placeholder={isRTL ? "مثال: أحمد – صاحب مشروع" : "e.g. Ahmed – business owner"}
                       className="w-full rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 text-[11px] text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-softodev-primary/70"
                     />
                   </div>
 
                   <div className="space-y-1">
-                    {/* ✅ label مرتبط */}
-                    <label htmlFor={emailId} className="block text-[11px] text-white/80">
+                    <label htmlFor="q_email" className="block text-[11px] text-white/70">
                       {isRTL ? "البريد الإلكتروني" : "Email"}
                     </label>
                     <input
-                      id={emailId}
+                      id="q_email"
                       name="email"
                       type="email"
                       required
@@ -105,12 +109,11 @@ export function SiteFooter({ locale }: { locale: Locale }) {
                 </div>
 
                 <div className="space-y-1">
-                  {/* ✅ label مرتبط للـ select (هذا يحل تحذير Lighthouse) */}
-                  <label htmlFor={projectTypeId} className="block text-[11px] text-white/80">
+                  <label htmlFor="q_project_type" className="block text-[11px] text-white/70">
                     {isRTL ? "نوع المشروع" : "Project type"}
                   </label>
                   <select
-                    id={projectTypeId}
+                    id="q_project_type"
                     name="project_type"
                     className="w-full rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 text-[11px] text-slate-900 focus:outline-none focus:ring-2 focus:ring-softodev-primary/70"
                   >
@@ -123,18 +126,17 @@ export function SiteFooter({ locale }: { locale: Locale }) {
                 </div>
 
                 <div className="space-y-1">
-                  {/* ✅ label مرتبط */}
-                  <label htmlFor={messageId} className="block text-[11px] text-white/80">
+                  <label htmlFor="q_message" className="block text-[11px] text-white/70">
                     {isRTL ? "نبذة سريعة عن المشروع" : "Short project summary"}
                   </label>
                   <textarea
-                    id={messageId}
+                    id="q_message"
                     name="message"
                     rows={3}
                     placeholder={
                       isRTL
                         ? "مثال: نحتاج صفحة هبوط لمنتج جديد مع زر واتساب ونموذج تواصل."
-                        : "e.g. Need a landing page for a new product with WhatsApp CTA and contact form."
+                        : "e.g. Need a landing page with WhatsApp CTA and contact form."
                     }
                     className="w-full rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 text-[11px] text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-softodev-primary/70 resize-none"
                   />
@@ -144,50 +146,34 @@ export function SiteFooter({ locale }: { locale: Locale }) {
                   type="submit"
                   className="w-full inline-flex items-center justify-center rounded-lg bg-white text-[11px] font-semibold text-softodev-primaryDark px-3 py-2 shadow-soft hover:bg-slate-50 transition"
                 >
-                  {isRTL ? "إرسال التفاصيل عبر البريد" : "Send details via email"}
+                  {isRTL ? "إرسال التفاصيل (Gmail)" : "Send details (Gmail)"}
                 </button>
 
-                <p className="mt-1 text-[10px] text-white/70">
+                <p className="mt-1 text-[10px] text-white/50">
                   {isRTL
-                    ? "سيتم فتح تطبيق البريد لديك مع رسالة تحتوي على هذه التفاصيل."
-                    : "Your email app will open with these details pre-filled."}
+                    ? "سيتم فتح Gmail برسالة جاهزة بهذه التفاصيل."
+                    : "Gmail will open with these details pre-filled."}
                 </p>
               </form>
             </div>
           </div>
 
           {/* Links */}
-          <div
-            className={`grid grid-cols-2 sm:grid-cols-3 gap-6 sm:gap-8 ${
-              isRTL ? "text-right" : "text-left"
-            }`}
-          >
+          <div className={`grid grid-cols-2 sm:grid-cols-3 gap-6 sm:gap-8 ${isRTL ? "text-right" : "text-left"}`}>
             {cols.map((col) => (
               <div key={col.title}>
-                <div className="text-sm font-semibold text-white mb-2">
-                  {col.title}
-                </div>
-
+                <div className="text-sm font-semibold text-white mb-2">{col.title}</div>
                 <ul className="space-y-1.5">
-                  {col.items.map((it) => (
+                  {col.items.map((it: any) => (
                     <li key={it.label}>
-                      {it.external ? (
-                        <a
-                          href={it.href}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-xs sm:text-sm text-white/80 hover:text-white transition"
-                        >
-                          {it.label}
-                        </a>
-                      ) : (
-                        <Link
-                          href={it.href}
-                          className="text-xs sm:text-sm text-white/80 hover:text-white transition"
-                        >
-                          {it.label}
-                        </Link>
-                      )}
+                      <Link
+                        href={it.href}
+                        target={it.external ? "_blank" : undefined}
+                        rel={it.external ? "noopener noreferrer" : undefined}
+                        className="text-xs sm:text-sm text-white/70 hover:text-white transition"
+                      >
+                        {it.label}
+                      </Link>
                     </li>
                   ))}
                 </ul>
@@ -196,57 +182,37 @@ export function SiteFooter({ locale }: { locale: Locale }) {
           </div>
         </div>
 
-        {/* Bottom bar */}
         <div
-          className={`pt-4 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-3 text-[11px] sm:text-xs text-white/75 ${
+          className={`pt-4 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-3 text-[11px] sm:text-xs text-white/60 ${
             isRTL ? "sm:flex-row-reverse" : ""
           }`}
         >
-          <div className="text-white/80">
-            © {new Date().getFullYear()} SoftoDev.{" "}
-            {isRTL ? "كل الحقوق محفوظة." : "All rights reserved."}
+          <div>
+            © {new Date().getFullYear()} SoftoDev. {isRTL ? "كل الحقوق محفوظة." : "All rights reserved."}
           </div>
 
           <div className="flex items-center gap-4">
-            <div className="flex items-center gap-2 text-white/80">
+            <div className="flex items-center gap-2">
               <Link href={`/${locale}/privacy`} className="hover:text-white transition">
                 {isRTL ? "الخصوصية" : "Privacy"}
               </Link>
-              <span className="text-white/50">•</span>
+              <span>•</span>
               <Link href={`/${locale}/terms`} className="hover:text-white transition">
                 {isRTL ? "الشروط" : "Terms"}
               </Link>
             </div>
 
             <div className="flex items-center gap-2">
-              <span className="text-[10px] sm:text-[11px] text-white/75">
-                {isRTL ? "تابعنا" : "Follow us"}
-              </span>
-
-              {/* ✅ خلّيناها <a> بدل button حتى ما يعتبرها تفاعلية بدون رابط */}
-              <SocialLink
-                href="#"
-                ariaLabel={isRTL ? "صفحة فيسبوك" : "Facebook page"}
-                label="Facebook"
-              >
+              <span className="text-[10px] sm:text-[11px] text-white/60">{isRTL ? "تابعنا" : "Follow us"}</span>
+              <SocialIcon label="Facebook" ariaLabel={isRTL ? "صفحة فيسبوك" : "Facebook page"}>
                 <FacebookIcon className="h-3.5 w-3.5" />
-              </SocialLink>
-
-              <SocialLink
-                href="#"
-                ariaLabel={isRTL ? "صفحة لينكدإن" : "LinkedIn page"}
-                label="LinkedIn"
-              >
+              </SocialIcon>
+              <SocialIcon label="LinkedIn" ariaLabel={isRTL ? "صفحة لينكدإن" : "LinkedIn page"}>
                 <LinkedInIcon className="h-3.5 w-3.5" />
-              </SocialLink>
-
-              <SocialLink
-                href="#"
-                ariaLabel={isRTL ? "حساب إنستغرام" : "Instagram account"}
-                label="Instagram"
-              >
+              </SocialIcon>
+              <SocialIcon label="Instagram" ariaLabel={isRTL ? "حساب إنستغرام" : "Instagram account"}>
                 <InstagramIcon className="h-3.5 w-3.5" />
-              </SocialLink>
+              </SocialIcon>
             </div>
           </div>
         </div>
@@ -255,32 +221,19 @@ export function SiteFooter({ locale }: { locale: Locale }) {
   );
 }
 
-type SocialLinkProps = {
-  href: string;
-  label: string;
-  ariaLabel?: string;
-  children: ReactNode;
-};
+type SocialIconProps = { label: string; ariaLabel?: string; children: ReactNode };
 
-function SocialLink({ href, label, ariaLabel, children }: SocialLinkProps) {
+function SocialIcon({ label, ariaLabel, children }: SocialIconProps) {
   return (
-    <a
-      href={href}
+    <button
+      type="button"
       aria-label={ariaLabel ?? label}
-      className="
-        inline-flex h-8 w-8 items-center justify-center
-        rounded-full border border-white/25 bg-white/8
-        text-white/85 hover:text-white hover:border-white/70
-        shadow-sm hover:shadow-md transition-transform transition-colors
-        active:scale-95
-      "
+      className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-white/20 bg-white/5 text-white/80 hover:text-white hover:border-white/70 shadow-sm hover:shadow-md transition-transform transition-colors active:scale-95"
     >
       {children}
-    </a>
+    </button>
   );
 }
-
-/* ====== SVG Icons ====== */
 
 function FacebookIcon(props: React.SVGProps<SVGSVGElement>) {
   return (
@@ -292,7 +245,6 @@ function FacebookIcon(props: React.SVGProps<SVGSVGElement>) {
     </svg>
   );
 }
-
 function LinkedInIcon(props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg viewBox="0 0 24 24" fill="none" {...props}>
@@ -303,20 +255,10 @@ function LinkedInIcon(props: React.SVGProps<SVGSVGElement>) {
     </svg>
   );
 }
-
 function InstagramIcon(props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg viewBox="0 0 24 24" fill="none" {...props}>
-      <rect
-        x={3}
-        y={3}
-        width={18}
-        height={18}
-        rx={5}
-        ry={5}
-        stroke="currentColor"
-        strokeWidth={1.4}
-      />
+      <rect x={3} y={3} width={18} height={18} rx={5} ry={5} stroke="currentColor" strokeWidth={1.4} />
       <circle cx={12} cy={12} r={4} stroke="currentColor" strokeWidth={1.4} />
       <circle cx={17} cy={7} r={1.1} fill="currentColor" />
     </svg>

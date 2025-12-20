@@ -25,7 +25,19 @@ export default function FloatingActions({
       : "Hi SoftoDev, I want a consultation about a project.",
   )}`;
 
-  const emailHref = `mailto:info@softodev.net`;
+  // ✅ بدل mailto (Lighthouse يعتبره غير آمن) استخدم Gmail compose (HTTPS)
+  const subject = isRTL
+    ? "طلب تواصل سريع من موقع SoftoDev"
+    : "Quick inquiry from SoftoDev website";
+  const body = isRTL
+    ? "مرحباً SoftoDev، أريد استشارة بخصوص مشروع.\n\nالرجاء التواصل معي."
+    : "Hi SoftoDev, I want a consultation about a project.\n\nPlease contact me.";
+
+  const emailHref =
+    `https://mail.google.com/mail/?view=cm&fs=1` +
+    `&to=${encodeURIComponent("info@softodev.net")}` +
+    `&su=${encodeURIComponent(subject)}` +
+    `&body=${encodeURIComponent(body)}`;
 
   return (
     <div
@@ -57,6 +69,8 @@ export default function FloatingActions({
       {/* Gmail / Email icon button */}
       <Link
         href={emailHref}
+        target="_blank"
+        rel="noopener noreferrer"
         className={`
           inline-flex h-11 w-11 items-center justify-center
           rounded-full bg-white text-[#EA4335]
@@ -64,7 +78,9 @@ export default function FloatingActions({
           hover:bg-slate-50 hover:border-slate-300
           transition active:scale-[0.97]
         `}
-        aria-label={isRTL ? "إرسال بريد إلى SoftoDev" : "Send email to SoftoDev"}
+        aria-label={
+          isRTL ? "إرسال بريد إلى SoftoDev" : "Send email to SoftoDev"
+        }
       >
         <GmailIcon className="h-6 w-6" />
       </Link>
@@ -80,7 +96,8 @@ function WhatsAppIcon(props: React.SVGProps<SVGSVGElement>) {
         fill="currentColor"
       />
       <path
-        d="M9.7 8.7c-.2-.4-.3-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.2.3-1 1-1 2.4s1 2.8 1.1 3 2 3.1 4.8 4.2c2.4 1 2.9.9 3.4.8.5-.1 1.7-.7 1.9-1.4.2-.7.2-1.3.1-1.4-.1-.1-.2-.2-.5-.3s-1.7-.9-2-1- .5-.2-.7.2-.8 1-1 1.1-.4.2-.7.1a5.7 5.7 0 0 1-1.7-1.1 6.4 6.4 0 0 1-1.2-1.5c-.1-.2 0-.3.1-.4l.3-.3c.2-.2.3-.3.4-.5.1-.2 0-.4 0-.5-.1-.2-.7-1.8-.9-2.2Z"
+        // ✅ FIX: كان عندك "- .5" (خطأ SVG) صار "-.5"
+        d="M9.7 8.7c-.2-.4-.3-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.2.3-1 1-1 2.4s1 2.8 1.1 3 2 3.1 4.8 4.2c2.4 1 2.9.9 3.4.8.5-.1 1.7-.7 1.9-1.4.2-.7.2-1.3.1-1.4-.1-.1-.2-.2-.5-.3s-1.7-.9-2-1-.5-.2-.7.2-.8 1-1 1.1-.4.2-.7.1a5.7 5.7 0 0 1-1.7-1.1 6.4 6.4 0 0 1-1.2-1.5c-.1-.2 0-.3.1-.4l.3-.3c.2-.2.3-.3.4-.5.1-.2 0-.4 0-.5-.1-.2-.7-1.8-.9-2.2Z"
         fill="#F9FAFB"
       />
     </svg>

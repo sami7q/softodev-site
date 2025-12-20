@@ -42,6 +42,18 @@ export default async function ContactPage({
   const isArabic = locale === "ar";
   const align = isArabic ? "text-right" : "text-left";
 
+  const emailTo = "info@softodev.net";
+  const emailSubject = isArabic
+    ? "طلب تواصل من موقع SoftoDev"
+    : "Contact request from SoftoDev";
+  const emailBody = isArabic
+    ? "مرحباً SoftoDev، أريد استشارة بخصوص مشروع.\n\nتفاصيل إضافية:"
+    : "Hi SoftoDev, I’d like a consultation about a project.\n\nMore details:";
+
+  const gmailComposeHref = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(
+    emailTo,
+  )}&su=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
+
   return (
     <section className="relative isolate pt-12 md:pt-16 pb-24 md:pb-28 bg-softodev-bg/70 overflow-hidden">
       {/* خلفية نفس الثيم */}
@@ -191,8 +203,10 @@ export default async function ContactPage({
                 <div>
                   {isArabic ? "البريد الإلكتروني:" : "Email:"}{" "}
                   <a
-                    href="mailto:sami22eng@gmail.com"
+                    href={gmailComposeHref}
                     className="font-bold text-softodev-primary hover:underline"
+                    target="_blank"
+                    rel="noopener noreferrer"
                   >
                     info@softodev.net
                   </a>
