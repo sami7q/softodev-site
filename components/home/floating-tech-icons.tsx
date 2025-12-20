@@ -1,6 +1,7 @@
 // components/home/floating-tech-icons.tsx
 "use client";
 
+import Image from "next/image";
 import { useEffect, useState } from "react";
 
 type Orbit = 1 | 2 | 3;
@@ -8,10 +9,8 @@ type Orbit = 1 | 2 | 3;
 type TechIcon = {
   src: string;
   alt: string;
-  // base position as percentage of hero width/height
   x: number;
   y: number;
-  // optional position tweak for mobile
   mobileX?: number;
   mobileY?: number;
   orbit: Orbit;
@@ -25,6 +24,13 @@ const SIZE_CLASSES: Record<NonNullable<TechIcon["size"]>, string> = {
   sm: "h-8 w-8 sm:h-9 sm:w-9",
   md: "h-9 w-9 sm:h-11 sm:w-11",
   lg: "h-10 w-10 sm:h-12 sm:w-12",
+};
+
+// ✅ sizes الصحيحة (بالبيكسل) حتى next/image يطلع نسخة صغيرة جدًا
+const SIZE_PX: Record<NonNullable<TechIcon["size"]>, number> = {
+  sm: 36,
+  md: 44,
+  lg: 48,
 };
 
 const techIcons: TechIcon[] = [
@@ -50,7 +56,7 @@ const techIcons: TechIcon[] = [
     orbit: 2,
     delay: "1.2s",
     size: "md",
-    hideOnMobile: true, // 👈 مخفي على الموبايل
+    hideOnMobile: true,
   },
   {
     src: "/stack/python.png",
@@ -73,7 +79,7 @@ const techIcons: TechIcon[] = [
     orbit: 1,
     delay: "3.6s",
     size: "md",
-    hideOnMobile: true, // 👈 مخفي على الموبايل
+    hideOnMobile: true,
   },
   {
     src: "/stack/django.png",
@@ -129,9 +135,8 @@ export function FloatingTechIcons() {
 
   const isMobile = viewport.width > 0 && viewport.width < 640;
 
-  // 👇 هروب أقل على الموبايل، أقوى على الديسكتوب
-  const REPULSION_RADIUS = isMobile ? 110 : 170; // px
-  const MAX_OFFSET = isMobile ? 28 : 52; // px
+  const REPULSION_RADIUS = isMobile ? 110 : 170;
+  const MAX_OFFSET = isMobile ? 28 : 52;
 
   return (
     <div
@@ -139,13 +144,12 @@ export function FloatingTechIcons() {
       className="pointer-events-none absolute inset-0 -z-10"
     >
       {techIcons.map((icon) => {
-        if (icon.hideOnMobile && isMobile) {
-          return null;
-        }
+        if (icon.hideOnMobile && isMobile) return null;
 
-        const sizeClass = SIZE_CLASSES[icon.size ?? "md"];
+        const sizeKey = icon.size ?? "md";
+        const sizeClass = SIZE_CLASSES[sizeKey];
+        const sizePx = SIZE_PX[sizeKey];
 
-        // استخدم mobileX/mobileY لو موجودة على الشاشات الصغيرة
         const baseX = isMobile && icon.mobileX != null ? icon.mobileX : icon.x;
         const baseY = isMobile && icon.mobileY != null ? icon.mobileY : icon.y;
 
@@ -153,7 +157,6 @@ export function FloatingTechIcons() {
         let offsetY = 0;
 
         if (!isMobile && viewport.width > 0 && viewport.height > 0) {
-          // تأثير الهروب من الماوس فقط على الديسكتوب
           const centerX = (baseX / 100) * viewport.width;
           const centerY = (baseY / 100) * viewport.height;
 
@@ -198,11 +201,15 @@ export function FloatingTechIcons() {
                   <div className="pointer-events-none absolute inset-0 rounded-2xl bg-softodev-primary/25 blur-xl" />
                 )}
 
-                <img
+                <Image
                   src={icon.src}
                   alt={icon.alt}
-                  loading="lazy"
+                  width={sizePx}
+                  height={sizePx}
                   className="pointer-events-none relative h-[65%] w-[65%] object-contain"
+                  loading="lazy"
+                  sizes={`${sizePx}px`}
+                  quality={75}
                 />
               </div>
             </div>

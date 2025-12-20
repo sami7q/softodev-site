@@ -19,11 +19,6 @@ type PortfolioCard = {
 export function HomeServicesSection({ locale }: HomeServicesSectionProps) {
   const isArabic = locale === "ar";
 
-  // ✅ Put these images in: public/services/
-  // - public/services/qr-menu.png
-  // - public/services/pos.png
-  // - public/services/marketing.png
-
   const cardsEn: PortfolioCard[] = [
     {
       id: "web-qr-menu",
@@ -67,7 +62,7 @@ export function HomeServicesSection({ locale }: HomeServicesSectionProps) {
     },
     {
       id: "marketing-design",
-      title: "تسويق و ادرة مواقع تواصل اجتماعي",
+      title: "تسويق و ادارة مواقع التواصل الاجتماعي",
       href: "/ar/contact",
       image: "/services/marketing.png",
       tag: "تسويق",
@@ -85,18 +80,17 @@ export function HomeServicesSection({ locale }: HomeServicesSectionProps) {
           dir={isArabic ? "rtl" : "ltr"}
         >
           <p className="text-[11px] sm:text-xs font-semibold tracking-[0.25em] uppercase text-softodev-muted">
-            {isArabic ? "خدماتنا" : ""}
+            {isArabic ? "خدماتنا" : "SERVICES"}
           </p>
 
           <h2 className="mt-2 text-xl sm:text-2xl lg:text-3xl font-semibold text-softodev-text">
-            {isArabic
-              ? "خدمات softodev الأساسية"
-              : "Our serveses "}
+            {isArabic ? "خدمات SoftoDev الأساسية" : "Our Core Services"}
           </h2>
 
           <p className="mt-3 text-sm sm:text-base text-softodev-muted">
             {isArabic
-}
+              ? "حلول عملية وسريعة للمطاعم والكافيهات: موقع + منيو QR، أنظمة POS، وتسويق وتصميم."
+              : "Fast, practical solutions for cafés & restaurants: QR menu websites, POS systems, and marketing & design."}
           </p>
         </div>
 
@@ -107,6 +101,9 @@ export function HomeServicesSection({ locale }: HomeServicesSectionProps) {
         >
           {cards.map((card) => {
             const isExternal = !!card.external || card.href.startsWith("http");
+
+            // ✅ اجعل صورة الـ LCP (qr-menu) هي الوحيدة priority
+            const isLcp = card.id === "web-qr-menu";
 
             return (
               <a
@@ -123,8 +120,13 @@ export function HomeServicesSection({ locale }: HomeServicesSectionProps) {
                     alt={card.title}
                     fill
                     className="object-cover"
-                    sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw"
-                    priority={false}
+                    // ✅ sizes أدق حسب grid: موبايل 100% / md عمودين / xl ثلاثة أعمدة
+                    sizes="(max-width: 767px) 100vw, (max-width: 1279px) 50vw, 33vw"
+                    // ✅ إصلاح LCP
+                    priority={isLcp}
+                    fetchPriority={isLcp ? "high" : "auto"}
+                    // اختيارياً: تخفيف بسيط للحجم بدون فرق كبير بالجودة
+                    quality={75}
                   />
 
                   {/* hover overlay */}

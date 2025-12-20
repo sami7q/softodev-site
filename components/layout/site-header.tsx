@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
@@ -51,10 +52,15 @@ export function SiteHeader({ locale }: { locale: Locale }) {
               aria-label="SoftoDev Home"
             >
               <div className="flex items-center h-11 sm:h-12">
-                <img
+                <Image
                   src="/logo/logo.png"
                   alt="SoftoDev logo"
+                  width={66}
+                  height={74}
                   className="h-10 sm:h-11 w-auto object-contain"
+                  priority
+                  fetchPriority="high"
+                  quality={75}
                 />
               </div>
 
@@ -177,7 +183,7 @@ function MobileMenu({
         dir={isRTL ? "rtl" : "ltr"}
         className={[
           "absolute top-0 bottom-0",
-          "w-[78%] max-w-[280px]", // 👈 هنا صغّرنا السايدبار
+          "w-[78%] max-w-[280px]",
           "bg-softodev-bg border-softodev-border shadow-2xl transition-transform border",
           isRTL ? "right-0" : "left-0",
           open
@@ -197,10 +203,15 @@ function MobileMenu({
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <div className="flex items-center h-8">
-                <img
+                <Image
                   src="/logo/logo.png"
                   alt="SoftoDev logo"
+                  width={44}
+                  height={44}
                   className="h-7 w-auto object-contain"
+                  loading="lazy"
+                  sizes="28px"
+                  quality={75}
                 />
               </div>
               <span className="text-sm font-extrabold text-softodev-text">
@@ -227,7 +238,7 @@ function MobileMenu({
                 key={item.href}
                 href={item.href}
                 className={[
-                  "block px-3 py-2.5 rounded-2xl text-sm font-semibold transition", // 👈 نصغّر الخط والـ padding
+                  "block px-3 py-2.5 rounded-2xl text-sm font-semibold transition",
                   active
                     ? "text-softodev-primary bg-softodev-surface border border-softodev-border shadow-soft"
                     : "text-softodev-text hover:bg-softodev-surface/70 hover:border-softodev-border border border-transparent",
